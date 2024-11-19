@@ -59,12 +59,11 @@ services:
     image: influxdb:2.7 # Образ InfluxDB версии 2.0
     container_name: container_influxdb
     environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=qwerty123
-      - DOCKER_INFLUXDB_INIT_ORG=myorg
-      - DOCKER_INFLUXDB_INIT_BUCKET=mybucket
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+      - DOCKER_INFLUXDB_INIT_USERNAME=${DOCKER_INFLUXDB_INIT_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${DOCKER_INFLUXDB_INIT_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${DOCKER_INFLUXDB_INIT_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${DOCKER_INFLUXDB_INIT_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN}
       - INFLUXDB_URL=${INFLUXDB_URL}
     volumes:
       - ./database/influxdb:/var/lib/influxdb2 # Сохраняем данные InfluxDB на локальном диске
@@ -83,7 +82,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana_data:/var/lib/grafana # Сохраняем данные Grafana в Docker volume
+      - ./database/grafana:/var/lib/grafana # Сохраняем данные Grafana на локальном диске
     networks:
       - botnet
     restart: unless-stopped
@@ -94,7 +93,5 @@ networks:
     driver: bridge # Используем драйвер bridge для создания сети
 
 volumes:
-  grafana_data:
-    driver: local # Используем локальный драйвер для хранения данных Grafana
   redis_data:
     driver: local # Используем локальный драйвер для хранения данных Redis

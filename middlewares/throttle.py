@@ -51,3 +51,4 @@ class ThrottleMiddleware(BaseMiddleware):
 
         except Exception as e:
             logger.exception("Ошибка в middleware ThrottleMiddleware: %s", str(e))
+            return await handler(event, data)

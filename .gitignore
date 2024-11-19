@@ -28,6 +28,8 @@ venv.bak/
 /database/postgres/*
 !/database/postgres/.gitkeep
 
+/database/grafana/*
+!/database/grafana/.gitkeep
 
 # Byte-compiled / optimized / compiled Python files
 __pycache__/
