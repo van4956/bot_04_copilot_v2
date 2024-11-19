@@ -1,6 +1,3 @@
-# ctrl + B                        -  запуск скрипта из любого файла проекта
-# ctrl + I                        -  варианты эмодзи
-
 import logging
 
 # Настраиваем базовую конфигурацию логирования
@@ -9,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 # Настраиваем логгер для SQLAlchemy
 sqlalchemy_logger = logging.getLogger('sqlalchemy.engine')
-sqlalchemy_logger.setLevel(logging.INFO)  # Устанавливаем нужный уровень (например, INFO)
+sqlalchemy_logger.setLevel(logging.INFO)
 sqlalchemy_logger.propagate = True  # Отключаем передачу сообщений основному логгеру, чтобы не задваивать их
 
 from icecream import ic
@@ -43,7 +40,6 @@ docker = 1
 
 # Загружаем конфиг в переменную config
 config: Config = load_config()
-# ic(config)
 
 # Инициализируем функцию для сбора аналитики, взаимодействуем с InfluxDB и Grafana
 async def analytics(user_id: int, command_name: str, category_name: str):
@@ -83,7 +79,7 @@ else: storage = MemoryStorage()  # данные хранятся в операт
 
 logger.info('Инициализируем бот и диспетчер')
 bot = Bot(token=config.tg_bot.token_2,
-          default=DefaultBotProperties(parse_mode=ParseMode.HTML, # это для html тегов в сообщениях
+          default=DefaultBotProperties(parse_mode=ParseMode.HTML, # для html тегов в сообщениях
                                        link_preview=None, # отключаем превью ссылок
                                        link_preview_is_disabled=None, # отключаем превью ссылок
                                        link_preview_prefer_large_media=None, # отключаем превью ссылок
@@ -99,7 +95,7 @@ bot.api_currency = config.tg_bot.api_currency
 
 
 dp = Dispatcher(fsm_strategy=FSMStrategy.USER_IN_CHAT, storage=storage)
-# USER_IN_CHAT  -  для каждого юзера, в каждом чате ведется своя запись состояний (по дефолту)
+# USER_IN_CHAT  -  для каждого юзера, в каждом чате ведется своя запись состояний (это по дефолту)
 # GLOBAL_USER  -  для каждого юзера везде ведется своё состояние
 
 # Создаем движок бд
@@ -125,7 +121,7 @@ i18n = I18n(path="locales", default_locale="ru", domain="bot_00_template")  # с
 dp.update.middleware(FSMI18nMiddleware(i18n=i18n))  # получяем язык на каждый апдейт, через обращение к FSMContext
 
 # dp.update.middleware(ConstI18nMiddleware(locale='ru', i18n=i18n))  # задаем локаль как принудительно устанавливаемую константу
-# dp.update.middleware(SimpleI18nMiddleware(i18n=i18n))  # сообщаем язык общения по значению поля "language_code" апдейта
+# dp.update.middleware(SimpleI18nMiddleware(i18n=i18n))  # задаем локаль по значению поля "language_code" апдейта
 
 # Подключаем роутеры
 dp.include_router(start.start_router)
@@ -164,8 +160,8 @@ async def main() -> None:
 
     # Удаление предыдущей версии базы, и создание новых таблиц заново
     async with engine.begin() as connection:
-        # await connection.run_sync(Base.metadata.drop_all)
-        await connection.run_sync(Base.metadata.create_all)
+        # await connection.run_sync(Base.metadata.drop_all) # удаляем все таблицы
+        await connection.run_sync(Base.metadata.create_all) # создаем все таблицы
 
     # Регистрируем функцию, которая будет вызвана автоматически при запуске/остановке бота
     dp.startup.register(on_startup)

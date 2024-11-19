@@ -5,7 +5,7 @@ services:
     build: . # Строим образ из текущей директории
     container_name: container_bot
     depends_on:
-      - db # Контейнер бота зависит от базы данных (db)
+      - db # Контейнер бота зависит от базы данных
       - redis # Контейнер бота зависит от Redis
       - influxdb # Контейнер бота зависит от InfluxDB
     deploy:
@@ -15,16 +15,16 @@ services:
         reservations:
           memory: 128M
     environment:
-      - API_GPT=${API_GPT} # API ключ для работы с OpenAI
-      - API_WEATHER=${API_WEATHER} # API ключ для работы с OpenWeather
-      - API_CURRENCY=${API_CURRENCY} # API ключ для работы с OpenExchangeRates
-      - DB_POST=${DB_POST}   # Параметры подключения к базе данных PostgreSQL
-      - REDIS_HOST=${REDIS_HOST} # Хост для подключения к Redis
-      - REDIS_PORT=${REDIS_PORT} # Порт для подключения к Redis
-      - INFLUXDB_URL=${INFLUXDB_URL} # URL для подключения к InfluxDB
-      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN} # Токен для доступа к InfluxDB
-      - INFLUXDB_ORG=${INFLUXDB_ORG} # Организация в InfluxDB
-      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET} # Бакет в InfluxDB
+      - API_GPT=${API_GPT}
+      - API_WEATHER=${API_WEATHER}
+      - API_CURRENCY=${API_CURRENCY}
+      - DB_POST=${DB_POST}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - INFLUXDB_URL=${INFLUXDB_URL}
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - INFLUXDB_ORG=${INFLUXDB_ORG}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
     networks:
       - botnet # Подключение к сети botnet
     restart: unless-stopped # Автоматический перезапуск контейнера, если он остановится
@@ -33,73 +33,60 @@ services:
     image: postgres:15 # Образ PostgreSQL версии 15
     container_name: container_db
     environment:
-      POSTGRES_DB: ${POSTGRES_DB} # Имя базы данных
-      POSTGRES_USER: ${POSTGRES_USER} # Пользователь базы данных PostgreSQL
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Пароль для пользователя базы данных
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./database/postgres/db:/var/lib/postgresql/data # Сохраняем данные базы данных на локальном диске
     ports:
-      - "5432:5432" # Публикуем порт 5432 для доступа к базе данных
+      - "5432:5432"
     networks:
-      - botnet # Подключение к сети botnet
-    restart: unless-stopped # Автоматический перезапуск контейнера, если он остановится
+      - botnet
+    restart: unless-stopped
 
   redis:
     image: redis:7.2-alpine # Образ Redis версии Alpine
-    container_name: container_redis # Имя контейнера для Redis
+    container_name: container_redis
     ports:
-      - "6379:6379" # Публикуем порт 6379 для доступа к Redis
+      - "6379:6379"
     volumes:
       - redis_data:/data # Сохраняем данные Redis как Docker volume
     networks:
-      - botnet # Подключение к сети botnet
-    restart: unless-stopped # Автоматический перезапуск контейнера, если он остановится
-
-  # pgadmin:
-  #   image: dpage/pgadmin4 # Образ pgAdmin для управления базой данных PostgreSQL
-  #   container_name: container_pgadmin
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL} # Адрес электронной почты по умолчанию для входа в pgAdmin
-  #     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD} # Пароль по умолчанию для входа в pgAdmin
-  #   ports:
-  #     - "5050:80" # Публикуем порт 5050 для доступа к pgAdmin через браузер
-  #   networks:
-  #     - botnet # Подключение к сети botnet
-  #   restart: unless-stopped # Автоматический перезапуск контейнера, если он остановится
+      - botnet
+    restart: unless-stopped
 
   influxdb:
     image: influxdb:2.7 # Образ InfluxDB версии 2.0
     container_name: container_influxdb
     environment:
-      # Переменные для первоначальной настройки
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
       - DOCKER_INFLUXDB_INIT_PASSWORD=qwerty123
       - DOCKER_INFLUXDB_INIT_ORG=myorg
-      - DOCKER_INFLUXDB_INIT_BUCKET=mybucket  # Рабочие переменные
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token  # Добавляем этот параметр
-      - INFLUXDB_URL=${INFLUXDB_URL} # URL для подключения к InfluxDB
+      - DOCKER_INFLUXDB_INIT_BUCKET=mybucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+      - INFLUXDB_URL=${INFLUXDB_URL}
     volumes:
       - ./database/influxdb:/var/lib/influxdb2 # Сохраняем данные InfluxDB на локальном диске
     ports:
-      - "8086:8086" # Публикуем порт 8086 для доступа к InfluxDB
+      - "8086:8086"
     networks:
-      - botnet # Подключение к сети botnet
-    restart: unless-stopped # Автоматический перезапуск контейнера, если он остановится
+      - botnet
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:10.2.0 # Образ Grafana для визуализации данных
     container_name: container_grafana
     environment:
-      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER} # Администратор Grafana
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD} # Пароль администратора Grafana
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
     ports:
-      - "3000:3000" # Публикуем порт 3000 для доступа к Grafana через браузер
+      - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana # Сохраняем данные Grafana в Docker volume
     networks:
-      - botnet # Подключение к сети botnet
-    restart: unless-stopped # Автоматический перезапуск контейнера, если он остановится
+      - botnet
+    restart: unless-stopped
 
 networks:
   botnet:
