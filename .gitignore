@@ -14,8 +14,6 @@ venv.bak/
 
 .mypy_cache/
 
-*.mo
-*.pot
 
 # Исключаем все файлы в папках баз данных, но оставляем сами папки
 /database/influxdb/*
@@ -87,7 +85,6 @@ coverage.xml
 
 # Django stuff:
 *.log
-*.pot
 *.pyc
 db.sqlite3
 media/
@@ -110,10 +107,6 @@ celerybeat.pid
 
 # Ignore database dumps
 *.db
-
-# Ignore compiled locales
-*.mo
-*.pot
 
 # Ansible
 *.retry
