@@ -89,9 +89,7 @@ docker-compose --version
 docker-compose up -d             - развернуть все контейнеры, указанные в docker-compose.yml, в фоновом режиме
 docker-compose up --build -d     - пересобрать и развернуть контейнеры, учитывая изменения
 
-docker-compose down
-docker-compose up --build -d
-docker-compose ps
+docker-compose down && docker image prune -f && docker-compose up --build -d && docker logs -f container_bot
 
 docker ps                        - список всех запущенных контейнеров (проверка)
 docker ps -s                     - информация о занимаемом месте запущенных контейнеров
