@@ -28,13 +28,15 @@
 
 ## Структура проекта
 ```
-bot_04_copilot_v2/  
-├── app.py                 # Точка входа  
-├── handlers/              # Обработчики команд  
-├── middlewares/           # Промежуточные обработчики  
-├── database/              # Работа с БД  
-├── common/                # Общие компоненты  
-└── locales/               # Файлы локализации  
+bot_04_copilot_v2/
+├── app.py                 # Точка входа
+├── handlers/              # Обработчики команд
+├── middlewares/           # Промежуточные обработчики
+├── database/              # Работа с БД
+├── common/                # Общие компоненты
+└── locales/               # Файлы локализации
 ```
 
 ## Аналитика
+
+![Analytics](common/images/image_anal.jpg)
