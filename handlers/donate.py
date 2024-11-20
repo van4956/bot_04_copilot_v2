@@ -182,7 +182,7 @@ async def on_successfull_payment(message: Message, state: FSMContext, workflow_d
         # 💩 какаха - 5046589136895476101
 
     await state.set_state(None)
-    await state.update_data(donate_amount=None)
+    await state.update_data(donate_amount=None, donate_info=None)
 
     analytics = workflow_data['analytics']
     await analytics(user_id=user_id,

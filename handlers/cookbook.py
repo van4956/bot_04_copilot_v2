@@ -11,7 +11,7 @@ from icecream import ic
 ic.configureOutput(includeContext=True, prefix=' >>> Debag >>> ')
 
 from aiogram import F, Router
-from aiogram.types import Message, CallbackQuery, InputMediaPhoto
+from aiogram.types import Message, CallbackQuery, InputMediaPhoto, FSInputFile
 from sqlalchemy.ext.asyncio import AsyncSession
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
@@ -51,13 +51,13 @@ async def process_cookbook_command(message: Message, state: FSMContext, session:
             text = text[:1021] + "..."
 
         await message.answer_photo(photo=photo,
-                                   caption=text,
-                                   reply_markup=keyboard.get_callback_btns(btns={' << ': 'backward',
-                                                                                f'{users_page}/{len_page}': 'curr_page',
-                                                                                ' >> ': 'forward',
-                                                                                _("Назад на главную ↩️"):'cookbook_back'},
-                                                                            sizes=(3,1,)),
-                                                                            )
+                                    caption=text,
+                                    reply_markup=keyboard.get_callback_btns(btns={' << ': 'backward',
+                                                                                    f'{users_page}/{len_page}': 'curr_page',
+                                                                                    ' >> ': 'forward',
+                                                                                    _("Назад на главную ↩️"):'cookbook_back'},
+                                                                                sizes=(3,1,)),
+                                                                                )
 
     except Exception as e:
         logger.error(f"Ошибка при выполнении команды /cookbook: {e}")

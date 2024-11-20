@@ -11,7 +11,7 @@ ic.configureOutput(includeContext=True, prefix=' >>> Debag >>> ')
 
 from aiogram import Router, F, Bot
 from aiogram.filters import Command, CommandStart, CommandObject, or_f, StateFilter
-from aiogram.types import Message, InlineKeyboardMarkup, CallbackQuery, ReplyKeyboardRemove
+from aiogram.types import Message, InlineKeyboardMarkup, CallbackQuery, ReplyKeyboardRemove, FSInputFile
 
 from filters.is_admin import IsAdminGroupFilter, IsAdminListFilter
 from filters.chat_type import ChatTypeFilter
@@ -91,7 +91,7 @@ async def get_users_info(message: Message, session: AsyncSession):
     cnt_users = 0
     for user in await orm_get_users(session):
         user_status = 1 if user.status == 'member' else 0
-        info = f"{user.user_id} - <code>{user.user_name}</code> - {user.locale} - {user_status} - {user.flag}"
+        info = f"{user.user_id:_>11} | {user_status} | {user.flag} | {user.locale} | <code>{user.user_name}</code>"
         all_info.append(info)
         cnt_users += 1
 
@@ -116,11 +116,18 @@ async def assortment_cookbook(message: Message, session: AsyncSession):
         # Обрезаем подпись, если она превышает 1024 символа
         if len(caption) > 1024:
             caption = caption[:1021] + "..."
-
-        await message.answer_photo(recipe.image,
-                                   caption=caption,
-                                   reply_markup=get_callback_btns(btns={"Удалить":f"delete_{recipe.recipe_id}",
-                                                                        "Изменить":f"change_{recipe.recipe_id}"}))
+        try:
+            await message.answer_photo(recipe.image,
+                                       caption=caption,
+                                       reply_markup=get_callback_btns(btns={"Удалить":f"delete_{recipe.recipe_id}",
+                                                                            "Изменить":f"change_{recipe.recipe_id}"}))
+        except Exception as e:
+            logger.error(f"Ошибка вывода рецепта: {e}")
+            photo = FSInputFile("common/images/image_cookbook.jpg")
+            await message.answer_photo(photo=FSInputFile("common/images/image_cookbook.jpg"),
+                            caption=caption,
+                            reply_markup=get_callback_btns(btns={"Удалить":f"delete_{recipe.recipe_id}",
+                                                                "Изменить":f"change_{recipe.recipe_id}"}))
     await message.answer("ОК, вот весь список рецептов ⏫", reply_markup=ADMIN_KB)
 
 @admin_router.callback_query(F.data.startswith('delete_'))
@@ -139,7 +146,7 @@ async def delete_recipe_callback(callback: CallbackQuery, session: AsyncSession)
 async def change_product_callback(callback: CallbackQuery, state: FSMContext, session: AsyncSession):
     recipe_id = callback.data.split("_")[-1] # определяем id продукта
     product_for_change = await orm_get_recipe(session, int(recipe_id)) # получаем данные продукта
-    ic(product_for_change)
+    # ic(product_for_change)
     AddProduct.product_for_change = product_for_change # записываем их в атрибут объекта
 
     await callback.answer()

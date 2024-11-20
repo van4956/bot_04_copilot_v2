@@ -78,7 +78,7 @@ if docker == 1: storage = RedisStorage(redis=Redis(host=config.redis.host, port=
 else: storage = MemoryStorage()  # данные хранятся в оперативной памяти, при перезапуске всё стирается (для тестов и разработки)
 
 logger.info('Инициализируем бот и диспетчер')
-bot = Bot(token=config.tg_bot.token_2,
+bot = Bot(token=config.tg_bot.token,
           default=DefaultBotProperties(parse_mode=ParseMode.HTML, # для html тегов в сообщениях
                                        link_preview=None, # отключаем превью ссылок
                                        link_preview_is_disabled=None, # отключаем превью ссылок
