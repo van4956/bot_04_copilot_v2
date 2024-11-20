@@ -39,6 +39,6 @@ bot_04_copilot_v2/
 
 ## Аналитика
 
-*собираем аналитику с помощью InfluxDB и Grafana*
+*Собираем аналитику с помощью InfluxDB и Grafana*
 
 ![Analytics](common/images/image_anal.jpg)
