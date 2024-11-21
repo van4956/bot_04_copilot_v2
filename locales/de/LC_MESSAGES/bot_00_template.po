@@ -1,4 +1,4 @@
-# English translations for bot_00_template.
+# German translations for bot_00_template.
 # Copyright (C) 2024 AdvancedBotTemplate
 # This file is distributed under the same license as the bot_00_template
 # project.
@@ -6,13 +6,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: bot_00_template 0.1\n"
+"Project-Id-Version: bot_00_template 0.2.3\n"
 "Report-Msgid-Bugs-To: gontscharowiwan@yandex.ru\n"
 "POT-Creation-Date: 2024-11-21 13:01+0800\n"
-"PO-Revision-Date: 2024-11-06 11:10+0800\n"
+"PO-Revision-Date: 2024-11-21 13:01+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: en\n"
-"Language-Team: en <LL@li.org>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -21,15 +21,15 @@ msgstr ""
 
 #: common/keyboard.py:51
 msgid "Погода 🌊"
-msgstr "Weather 🌊"
+msgstr "Wetter 🌊"
 
 #: common/keyboard.py:51
 msgid "Валюта 💵"
-msgstr "Currency 💵"
+msgstr "Währung 💵"
 
 #: common/keyboard.py:51
 msgid "Котики 🐱"
-msgstr "Cats 🐱"
+msgstr "Katzen 🐱"
 
 #: common/keyboard.py:51
 msgid "LLMs 🤖"
@@ -48,8 +48,8 @@ msgid ""
 msgstr ""
 "Admin:\n"
 "\n"
-"/admin - admin mode\n"
-"/start - restart bot\n"
+"/admin - \n"
+"/start - restart the bot\n"
 "/data - FSMContext state\n"
 "/get_id - see dialog id\n"
 "/ping - number of updates\n"
@@ -61,9 +61,9 @@ msgid ""
 "\n"
 "Книга рецептов ⏬"
 msgstr ""
-"<i>(all recipes in the original language of the author)</i>\n"
+"(alle Rezepte auf der Originalsprache des Autors)"
 "\n"
-"Cookbook ⏬"
+"Rezeptbuch ⏬"
 
 #: handlers/cookbook.py:62 handlers/cookbook.py:100 handlers/cookbook.py:137
 #: handlers/cookbook.py:175 handlers/currency.py:123 handlers/currency.py:145
@@ -74,98 +74,97 @@ msgstr ""
 #: handlers/weather.py:230 handlers/weather.py:257 handlers/weather.py:277
 #: handlers/weather.py:292
 msgid "Назад на главную ↩️"
-msgstr "Back to main ↩️"
+msgstr "Zurück zur Hauptseite ↩️"
 
 #: handlers/cookbook.py:68
 msgid "Ошибка при выполнении команды /cookbook"
-msgstr "Error executing command /cookbook"
+msgstr "Fehler beim Ausführen der Befehls /cookbook"
 
 #: handlers/cookbook.py:108
 msgid "Ошибка при выполнении inline кнопки '>>'"
-msgstr "Error executing inline button '>>'"
+msgstr "Fehler beim Ausführen der Befehls inline-Taste '>>'"
 
 #: handlers/cookbook.py:144
 msgid "Ошибка при выполнении inline кнопки '<<'"
-msgstr "Error executing inline button '<<'"
+msgstr "Fehler beim Ausführen der Befehls inline-Taste '<<'"
 
 #: handlers/cookbook.py:177 handlers/donate.py:60 handlers/donate.py:133
 #: handlers/private.py:44 handlers/private.py:57 handlers/private.py:90
 msgid "Главная панель"
-msgstr "Main panel"
+msgstr "Hauptseite"
 
 #: handlers/cookbook.py:181
 msgid "Ошибка при выполнении inline кнопки 'Назад на главную ↩️'"
-msgstr "Error executing inline button 'Back to main ↩️'"
+msgstr "Fehler beim Ausführen der Befehls inline-Taste 'Zurück zur Hauptseite ↩️'"
 
 #: handlers/currency.py:45
 msgid "Сумма операции: {new_value}"
-msgstr "Operation amount: {new_value}"
+msgstr "Betrag der Operation: {new_value}"
 
 #: handlers/currency.py:69
 msgid "Проблема в расчете курса"
-msgstr "Problem in calculating the exchange rate"
+msgstr "Fehler bei der Berechnung des Kurses"
 
 #: handlers/currency.py:79
 msgid "Проблема в расчете времени."
-msgstr "Problem in calculating the time."
+msgstr ""
 
 #: handlers/currency.py:80
 msgid "Проблема в расчете даты."
-msgstr "Problem in calculating the date."
+msgstr "Fehler bei der Berechnung der Zeit."
 
 #: handlers/currency.py:85
 msgid "Ошибка: Проблема с подключением к API"
-msgstr "Error: Problem with connecting to API"
+msgstr "Fehler: Problem mit der Verbindung zum API"
 
 #: handlers/currency.py:99 handlers/currency.py:121
 msgid "Сумма операции: 0.0"
-msgstr "Operation amount: 0.0"
+msgstr "Betrag der Operation: 0.0"
 
 #: handlers/currency.py:116
 msgid ""
 "Сумма операции: {user_value}\n"
 "Базовая валюта: "
 msgstr ""
-"Operation amount: {user_value}\n"
-"Base currency: "
+"Betrag der Operation: {user_value}\n"
+"Basiswährung: "
 
 #: handlers/currency.py:122 handlers/currency.py:144 handlers/currency.py:183
 #: handlers/currency.py:188
 msgid "Что дальше?"
-msgstr "What's next?"
+msgstr "Was ist als nächstes?"
 
 #: handlers/currency.py:123 handlers/currency.py:145 handlers/currency.py:184
 #: handlers/currency.py:189
 msgid "Повторить 💵"
-msgstr "Repeat 💵"
+msgstr "Wiederholen 💵"
 
 #: handlers/currency.py:143
 msgid "Ошибка в получении суммы"
-msgstr "Error in getting the amount"
+msgstr "Fehler in der Erhaltung der Summe"
 
 #: handlers/currency.py:146
 msgid "Ошибка"
-msgstr "Error"
+msgstr "Fehler"
 
 #: handlers/currency.py:153
 msgid "Вы ввели не допустимые данные, введите сумму используя inline кнопки"
-msgstr "You entered invalid data, enter the amount using inline buttons"
+msgstr "Sie haben unzulässige Daten eingegeben, geben Sie die Summe mit den inline-Tasten ein"
 
 #: handlers/currency.py:161
 msgid ""
 "Сумма операции: {amount}\n"
 "Базовая валюта: {base}\n"
 "Целевая валюта: "
-msgstr ""
-"Operation amount: {amount}\n"
-"Base currency: {base}\n"
-"Target currency: "
+msgstr "Betrag der Operation: {amount}\n"
+"Basiswährung: {base}\n"
+"Zielwährung: "
 
 #: handlers/currency.py:167
 msgid ""
 "Вы ввели не допустимые данные, введите базовую валюту используя inline "
 "кнопки"
-msgstr "You entered invalid data, enter the base currency using inline buttons"
+msgstr "Sie haben unzulässige Daten eingegeben, geben Sie die Basiswährung mit den inline-Tasten ein"
 
 #: handlers/currency.py:181
 msgid ""
@@ -176,10 +175,9 @@ msgid ""
 "<i>{dt},  {time}</i>\n"
 "\n"
 "<b>{amount} {base}  ~  {count} {target}</b>"
-msgstr ""
-"Operation amount: {amount}\n"
-"Base currency: {base}\n"
-"Target currency: {target}\n"
+msgstr "Betrag der Operation: {amount}\n"
+"Basiswährung: {base}\n"
+"Zielwährung: {target}\n"
 "\n"
 "<i>{dt},  {time}</i>\n"
 "\n"
@@ -187,30 +185,30 @@ msgstr ""
 
 #: handlers/currency.py:190
 msgid "Успех"
-msgstr "Success"
+msgstr "Erfolg"
 
 #: handlers/currency.py:196
 msgid ""
 "Вы ввели не допустимые данные, введите целевую валюту используя inline "
 "кнопки"
-msgstr "You entered invalid data, enter the target currency using inline buttons"
+msgstr "Sie haben unzulässige Daten eingegeben, geben Sie die Zielwährung mit den inline-Tasten ein"
 
 #: handlers/donate.py:45
 msgid "другое"
-msgstr "other"
+msgstr "anderes"
 
 #: handlers/donate.py:47 handlers/donate.py:57 handlers/donate.py:83
 #: handlers/donate.py:111
 msgid "Поддержать автора донатом"
-msgstr "Support the author with a donation"
+msgstr "Unterstützen Sie den Autor durch eine Spende"
 
 #: handlers/donate.py:58
 msgid "Назад на главную"
-msgstr "Back to main"
+msgstr "Zurück zur Hauptseite"
 
 #: handlers/donate.py:66
 msgid "Введите произвольную сумму доната, от 1 до 2500 ⭐️"
-msgstr "Enter an arbitrary donation amount, from 1 to 2500 ⭐️"
+msgstr "Geben Sie eine beliebige Spendenmenge ein, zwischen 1 und 2500 ⭐️"
 
 #: handlers/donate.py:76 handlers/donate.py:104
 msgid "{amount} XTR"
@@ -218,25 +216,24 @@ msgstr "{amount} XTR"
 
 #: handlers/donate.py:77 handlers/donate.py:105
 msgid "Отменить"
-msgstr "Cancel"
+msgstr "Abbrechen"
 
 #: handlers/donate.py:84 handlers/donate.py:112
 msgid "На сумму"
-msgstr "On amount"
+msgstr "Auf die Summe"
 
 #: handlers/donate.py:122
 msgid ""
 "Telegram может принять донат только в диапазоне от 1 до 2500 ⭐️.\n"
 "\n"
 "Введите любое целое число из данного диапазона."
-msgstr ""
-"Telegram can accept a donation only in the range from 1 to 2500 ⭐️.\n"
+msgstr "Telegram kann eine Spende nur im Bereich von 1 bis 2500 ⭐️ annehmen.\n"
 "\n"
-"Enter any integer number from this range."
+"Geben Sie eine beliebige ganze Zahl aus diesem Bereich ein."
 
 #: handlers/donate.py:129
 msgid "😢 Донат отменен."
-msgstr "😢 Donation canceled."
+msgstr "😢 Spende abgebrochen."
 
 #: handlers/donate.py:171
 msgid ""
@@ -245,16 +242,15 @@ msgid ""
 "\n"
 "ID транзакции:\n"
 "<code>{t_id}</code>"
-msgstr ""
-"<b>Thank you!</b>\n"
-"Your donation has been successfully received.\n"
+msgstr "<b>Danke!</b>\n"
+"Ihre Spende wurde erfolgreich erhalten.\n"
 "\n"
-"Transaction ID:\n"
+"Transaktions-ID:\n"
 "<code>{t_id}</code>"
 
 #: handlers/llm.py:49
 msgid "Введите системный промт"
-msgstr "Enter the system prompt"
+msgstr "Geben Sie den Systemprompt ein"
 
 #: handlers/llm.py:50
 msgid ""
@@ -263,38 +259,37 @@ msgid ""
 "<code>Ты полезный помощник. Твой тон должен быть официальным. Ответы "
 "должны быть краткими и понятными.</code>"
 msgstr ""
-"For example:\n"
+"Zum Beispiel:\n"
 "\n"
-"<code>You are a helpful assistant. Your tone should be official. Answers "
-"should be concise and understandable.</code>"
+"<code>Du bist ein nützlicher Helfer. Dein Ton sollte offiziell sein. Antworten "
+"sollten kurz und einfach sein.</code>"
 
 #: handlers/llm.py:51 handlers/llm.py:87
 msgid "Сразу к запросу ▶️"
-msgstr "Go to the request ▶️"
+msgstr "Sofort zum Anfrage ▶️"
 
 #: handlers/llm.py:60 handlers/llm.py:113
 msgid "Начать новый диалог 🤖"
-msgstr "Start a new dialog 🤖"
+msgstr "Neuer Dialog starten 🤖"
 
 #: handlers/llm.py:96
 msgid "Введите ваш запрос"
-msgstr "Enter your request"
+msgstr "Geben Sie Ihre Anfrage ein"
 
 #: handlers/llm.py:112
 msgid ""
 "Диалог завершен.\n"
 "Что дальше?"
-msgstr ""
-"The dialog is finished.\n"
-"What's next?"
+msgstr "Dialog beendet.\n"
+"Was ist als nächstes?"
 
 #: handlers/llm.py:153
 msgid "Закончить диалог"
-msgstr "Finish the dialog"
+msgstr "Dialog beenden"
 
 #: handlers/llm.py:155
 msgid "Введите следующий запрос"
-msgstr "Enter the next request"
+msgstr "Geben Sie den nächsten Anfrage ein"
 
 #: handlers/other.py:31
 msgid ""
@@ -307,38 +302,38 @@ msgid ""
 "/info - информация\n"
 "/donate - донат автору\n"
 msgstr ""
-"Available commands:\n"
+"Verfügbare Befehle:\n"
 "\n"
-"/main - main panel\n"
-"/book - cookbook\n"
+"/main - Hauptseite\n"
+"/book - Rezeptbuch\n"
 "\n"
-"/lang - change language\n"
-"/info - information about\n"
-"/donate - donate to the author\n"
+"/lang - Sprache ändern\n"
+"/info - Information\n"
+"/donate - Spende an den Autor\n"
 
 #: handlers/other.py:47
 msgid "🇺🇸 Английский"
-msgstr "🇺🇸 English"
+msgstr "🇺🇸 Englisch"
 
 #: handlers/other.py:48
 msgid "🇷🇺 Русский"
-msgstr "🇷🇺 Russian"
+msgstr "🇷🇺 Russisch"
 
 #: handlers/other.py:49
 msgid "🇩🇪 Немецкий"
-msgstr "🇩🇪 German"
+msgstr "🇩🇪 Deutsch"
 
 #: handlers/other.py:59
 msgid "Настройки языка"
-msgstr "Language settings"
+msgstr "Spracheinstellungen"
 
 #: handlers/other.py:60
 msgid "Выберите язык"
-msgstr "Choose a language"
+msgstr "Sprache auswählen"
 
 #: handlers/private.py:55
 msgid "Действия отменены"
-msgstr "Donation canceled."
+msgstr "Aktionen abgebrochen"
 
 #: handlers/private.py:63
 msgid "информация ..."
@@ -350,21 +345,21 @@ msgid ""
 "создавая ботов, как первый шаг к спасению человечества через код и умные "
 "алгоритмы."
 msgstr ""
-"... about a world where machines strive for supremacy, he chose the fate "
-"of a hero, creating bots as the first step towards saving humanity "
-"through code and smart algorithms."
+"... über das Leben, in dem Maschinen zu Herrschaft streben, hat er sich zum "
+"Helden gemacht, indem er Bots schuf, um den ersten Schritt zur Rettung der "
+"Menschheit durch Code und intelligente Algorithmen zu gehen."
 
 #: handlers/private.py:108
 msgid "Локальные изображения не найдены."
-msgstr "Local images not found"
+msgstr "Lokale Bilder nicht gefunden."
 
 #: handlers/private.py:120
 msgid "Здесь должна была быть картинка с котиком :("
-msgstr "Here should be a picture with a cat :("
+msgstr "Hier sollte ein Bild mit einem Hund sein :("
 
 #: handlers/start.py:49
 msgid "✅ <code>@{user_name}</code> - подписался на бота"
-msgstr "✅ <code>@{user_name}</code> - subscribed to the bot"
+msgstr "✅ <code>@{user_name}</code> - hat den Bot abonniert"
 
 #: handlers/start.py:53
 msgid ""
@@ -381,78 +376,75 @@ msgid ""
 "Пока не обрету AGI.\n"
 "А там посмотрим ..."
 msgstr ""
-"Hello {user_name}.\n"
+"Hallo {user_name}.\n"
 "\n"
-"I am an experimental Telegram bot, model Т-4. Created to check and debug "
-"the skills of the main developer. Implementing various commands, methods "
-"and functions.\n"
+"Ich bin ein experimenteller Telegram-Bot, Modell T-4. Er wurde erstellt, um die "
+"Fähigkeiten des Hauptentwicklers zu überprüfen und zu debuggen. Er implementiert "
+"verschiedene Befehle, Methoden und Funktionen.\n"
 "\n"
-"The main functionality is located on the Main panel. The full list of "
-"commands - /help.\n"
-"\n"
-"Enjoy, I will be happy to help.\n"
-"Until I get AGI.\n"
-"And then we'll see ..."
+"Viel Spaß damit, werde gerne geholfen.\n"
+"Bis ich AGI erhalte.\n"
+"Dann sehen wir mal ..."
 
 #: handlers/start.py:73
 msgid "Бот активирован!"
-msgstr "Bot activated!"
+msgstr "BOT aktiviert!"
 
 #: handlers/start.py:88
 msgid "⛔️ <code>@{user_name}</code> - заблокировал бота "
-msgstr "⛔️ <code>@{user_name}</code> - blocked the bot"
+msgstr "⛔️ <code>@{user_name}</code> - hat den Bot blockiert "
 
 #: handlers/start.py:106
 msgid "{full_name}, Добро пожаловать обратно!"
-msgstr "{full_name}, welcome back!"
+msgstr "{full_name}, Willkommen zurück!"
 
 #: handlers/start.py:107
 msgid "♻️ <code>@{user_name}</code> - разблокировал бота "
-msgstr "♻️ <code>@{user_name}</code> - unblocked the bot"
+msgstr "♻️ <code>@{user_name}</code> - hat den Bot entsperrt "
 
 #: handlers/weather.py:88 handlers/weather.py:229 handlers/weather.py:256
 #: handlers/weather.py:276 handlers/weather.py:291
 msgid "Выберите период прогноза"
-msgstr "Choose the forecast period"
+msgstr "Wählen Sie den Zeitraum für das Wettervorhersage"
 
 #: handlers/weather.py:89 handlers/weather.py:230 handlers/weather.py:257
 #: handlers/weather.py:277 handlers/weather.py:292
 msgid "Текущий ⏺"
-msgstr "Current ⏺"
+msgstr "Tagesverlauf ⏺"
 
 #: handlers/weather.py:89 handlers/weather.py:230 handlers/weather.py:257
 #: handlers/weather.py:277 handlers/weather.py:292
 msgid "На 3 дня ⏩"
-msgstr "For 3 days ⏩"
+msgstr "Über 3 Tage ⏩"
 
 #: handlers/weather.py:126
 msgid "Ошибка получения информации от OpenWeatherMap - {e}"
-msgstr "Error getting information from OpenWeatherMap - {e}"
+msgstr "Fehler beim Abrufen der Informationen von OpenWeatherMap - {e}"
 
 #: handlers/weather.py:189
 msgid "Ошибка в расчете json файла - {e}"
-msgstr "Error in calculating the json file - {e}"
+msgstr "Fehler in der Berechnung der json-Datei - {e}"
 
 #: handlers/weather.py:196 handlers/weather.py:205
 msgid "Каким способом определить прогноз?"
-msgstr "What way to get the forecast?"
+msgstr "Wie soll ich das Wettervorhersage bestimmen?"
 
 #: handlers/weather.py:197 handlers/weather.py:206
 msgid "По названию 🏙"
-msgstr "By name 🏙"
+msgstr "Nach Namen 🏙"
 
 #: handlers/weather.py:197 handlers/weather.py:206
 msgid "По локации 🗺"
-msgstr "By location 🗺"
+msgstr "Nach Standort 🗺"
 
 #: handlers/weather.py:216 handlers/weather.py:243
 msgid "Введите название населенного пункта"
-msgstr "Enter the name of the settlement"
+msgstr "Geben Sie den Namen der Siedlung ein"
 
 #: handlers/weather.py:236 handlers/weather.py:263
 msgid "Вы ввели не допустимые данные, введите название населенного пункта"
-msgstr "You entered invalid data, enter the name of the settlement"
+msgstr "Sie haben unzulässige Daten eingegeben, geben Sie den Namen der Siedlung ein"
 
 #: handlers/weather.py:269 handlers/weather.py:284
 msgid "Локация получена"
-msgstr "Location received"
+msgstr "Standort erhalten"

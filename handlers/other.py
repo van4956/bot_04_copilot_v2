@@ -30,10 +30,9 @@ async def process_help_command(message: Message, workflow_data: dict):
     await message.answer(
         text=_('Доступные команды:\n\n'
                '/main - главная панел\n'
-               '/cookbook - книга рецептов\n\n'
-               '/start - перезапуск бота\n'
-               '/language - сменить язык\n'
-               '/info - информация о\n'
+               '/book - книга рецептов\n\n'
+               '/lang - сменить язык\n'
+               '/info - информация\n'
                '/donate - донат автору\n'
                )
     )
@@ -47,15 +46,15 @@ async def process_help_command(message: Message, workflow_data: dict):
 def get_keyboard():
     button_1 = InlineKeyboardButton(text=_('🇺🇸 Английский'), callback_data='locale_en')
     button_2 = InlineKeyboardButton(text=_('🇷🇺 Русский'), callback_data='locale_ru')
-    # button_3 = InlineKeyboardButton(text=_('🇩🇪 Немецкий'), callback_data='locale_de')
+    button_3 = InlineKeyboardButton(text=_('🇩🇪 Немецкий'), callback_data='locale_de')
     # button_4 = InlineKeyboardButton(text=_('🇫🇷 Французский'), callback_data='locale_fr')
     # button_5 = InlineKeyboardButton(text=_('🇯🇵 Японский'), callback_data='locale_ja')
 
-    return InlineKeyboardMarkup(inline_keyboard=[[button_1], [button_2]])
+    return InlineKeyboardMarkup(inline_keyboard=[[button_1], [button_2], [button_3]])
 
 
 # Это хендлер будет срабатывать на команду locale
-@other_router.message(Command('language'))
+@other_router.message(Command('lang'))
 async def locale_cmd(message: Message):
     await message.answer(_("Настройки языка"), reply_markup=keyboard.del_kb)
     await message.answer(text=_('Выберите язык'),
@@ -82,14 +81,13 @@ async def update_locale_cmd(callback: CallbackQuery, session: AsyncSession, stat
         await callback.message.answer("Текущий язык \n\n 🇷🇺 Русский", # Отправляем новое сообщение
                                       reply_markup=keyboard.get_keyboard("Погода 🌊", "Валюта 💵", "Котики 🐱", "LLMs 🤖", sizes=(2, 2, ), placeholder='⬇️'))
 
-
-
     elif callback.data == 'locale_de':
         await orm_update_locale(session, user_id, 'de')  # Обновляем локаль в бд
+        await state.update_data(locale='de')  # Обновляем локаль в контексте
         await callback.message.edit_text('Wählen Sie eine Sprache ', reply_markup=None)  # type: ignore # Редактируем сообщение,скрываем клавиатуру
         await callback.answer("Ausgewählt 🇩🇪 Deutsch")  # Отправляем всплывашку
-        await callback.message.answer("Aktuelle Sprache \n\n 🇩🇪 Deutsch", reply_markup=keyboard.start_keyboard())  # Отправляем новое сообщение
-        await state.update_data(locale='de')  # Обновляем локаль в контексте
+        await callback.message.answer("Aktuelle Sprache \n\n 🇩🇪 Deutsch",   # Отправляем новое сообщение
+                                      reply_markup=keyboard.get_keyboard("Wetter 🌊", "Währung 💵", "Katzen 🐱", "LLMs 🤖", sizes=(2, 2, ), placeholder='⬇️'))
 
     analytics = workflow_data['analytics']
     await analytics(user_id=user_id,

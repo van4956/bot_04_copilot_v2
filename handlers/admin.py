@@ -91,7 +91,7 @@ async def get_users_info(message: Message, session: AsyncSession):
     cnt_users = 0
     for user in await orm_get_users(session):
         user_status = 1 if user.status == 'member' else 0
-        info = f"{user.user_id:_>11} | {user_status} | {user.flag} | {user.locale} | <code>{user.user_name}</code>"
+        info = f"<code>{user.user_id: <11}</code> | {user_status} | <b>{user.flag}</b> | {user.locale} | <code>{user.user_name}</code>"
         all_info.append(info)
         cnt_users += 1
 
@@ -283,16 +283,17 @@ async def add_image(message: Message, state: FSMContext, session: AsyncSession):
             await orm_update_recipe(session, recipe_id=AddProduct.product_for_change.recipe_id, data=data)
             await message.answer('Рецепт изменен', reply_markup=ADMIN_KB)
             await state.set_state(None)
+            await state.update_data(recipe_name=None, author=None, description=None, price=None, image=None)
         else:
             await orm_add_recipe(session, data) # иначе просто добаляем данные в бд
             await message.answer("Рецепт добавлен", reply_markup=ADMIN_KB) # отправляем ответ, возвращаем клавиатуру
-            # await state.clear() # очищаем состояние пользователя, удаляем все данные
             await state.set_state(None)
+            await state.update_data(recipe_name=None, author=None, description=None, price=None, image=None)
     except Exception as e: # если ловим ошибку
         await message.answer(f"Ошибка: {str(e)}\nОбратись к администратору!",
                              reply_markup=ADMIN_KB,)
-        # await state.clear()
         await state.set_state(None)
+        await state.update_data(recipe_name=None, author=None, description=None, price=None, image=None)
 
     AddProduct.product_for_change = None
 

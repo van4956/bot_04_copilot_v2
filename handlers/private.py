@@ -60,7 +60,7 @@ async def cancel_handler(message: Message, state: FSMContext, session: AsyncSess
 # команда /info
 @private_router.message(Command("info"))
 async def about_cmd(message: Message, workflow_data: dict):
-    await message.answer(_("Информация ..."), reply_markup=keyboard.del_kb)
+    await message.answer(_("информация ..."), reply_markup=keyboard.del_kb)
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="Telegram",url="tg://user?id=459148628"))
     builder.row(InlineKeyboardButton(text="Linkedin",url="https://www.linkedin.com/in/ivan-goncharov-8a1982212/"))
