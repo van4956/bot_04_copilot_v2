@@ -86,6 +86,7 @@ services:
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
     volumes:
       - ./database/influxdb:/var/lib/influxdb2 # Сохраняем данные InfluxDB на локальном диске
+    command: influxd run --bolt-path /var/lib/influxdb2/influxd.bolt --engine-path /var/lib/influxdb2/engine --store bolt
     ports:
       - "8086:8086"
     networks:
@@ -106,8 +107,9 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
     ports:
       - "3000:3000"
+    user: "472:472"  # Используем UID и GID для grafana
     volumes:
-      - ./database/grafana:/var/lib/grafana # Сохраняем данные Grafana на локальном диске
+      - ./database/grafana:/var/lib/grafana:rw # Сохраняем данные Grafana на локальном диске
     networks:
       - botnet
     restart: unless-stopped

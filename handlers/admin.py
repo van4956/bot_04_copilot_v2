@@ -90,8 +90,8 @@ async def get_users_info(message: Message, session: AsyncSession):
     all_info = ['Информация зарегистрированных пользователей:\n']
     cnt_users = 0
     for user in await orm_get_users(session):
-        user_status = 1 if user.status == 'member' else 0
-        info = f"<code>{user.user_id: <11}</code> | {user_status} | <b>{user.flag}</b> | {user.locale} | <code>{user.user_name}</code>"
+        user_status = 'm' if user.status == 'member' else 'k'
+        info = f"<code>{user.user_id: <11}</code> | {user_status} | {user.flag} | {user.locale} | <code>{user.user_name}</code>"
         all_info.append(info)
         cnt_users += 1
 
