@@ -90,7 +90,8 @@ docker-compose up -d                  - развернуть все контей
 docker-compose up --build -d          - пересобрать и развернуть контейнеры, учитывая изменения
 docker-compose down                   - остановить все контейнеры
 
-docker-compose down && docker image prune -f && docker system prune && docker-compose up --build -d && docker logs -f container_bot
+docker-compose down && docker image prune -f && docker system prune && docker system df
+docker-compose up --build -d && docker logs -f container_bot
 
 docker ps                             - список всех запущенных контейнеров (проверка)
 docker ps -s                          - информация о занимаемом месте запущенных контейнеров

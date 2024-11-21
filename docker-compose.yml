@@ -7,7 +7,8 @@ services:
     depends_on:
       - db # Контейнер бота зависит от базы данных
       - redis # Контейнер бота зависит от Redis
-      - influxdb # Контейнер бота зависит от InfluxDB
+      - influxdb: # Контейнер бота зависит от InfluxDB
+          condition: service_healthy
     deploy:
       resources: # Ограничения ресурсов
         limits:
@@ -74,6 +75,14 @@ services:
     image: influxdb:2.7 # Образ InfluxDB версии 2.0
     container_name: container_influxdb
     environment:
+      # Параметры инициализации InfluxDB
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_ADMIN_USER}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_ADMIN_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
+      # Параметры доступа к InfluxDB
       - INFLUXDB_URL=${INFLUXDB_URL}
       - INFLUXDB_ADMIN_USER=${INFLUXDB_ADMIN_USER}
       - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_ADMIN_PASSWORD}
@@ -87,6 +96,12 @@ services:
     networks:
       - botnet
     restart: unless-stopped
+    healthcheck: # Проверка состояния InfluxDB
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   grafana:
     image: grafana/grafana:10.2.0 # Образ Grafana для визуализации данных
