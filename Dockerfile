@@ -1,5 +1,5 @@
 # Используем официальный Python образ на базе Alpine Linux для меньшего размера
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 # Устанавливаем необходимые зависимости для сборки
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -32,7 +32,7 @@ COPY . .
 
 # Устанавливаем переменные окружения
 ENV PATH="/opt/venv/bin:$PATH"
-ENV PYTHONPATH="/app:$PYTHONPATH"
+ENV PYTHONPATH="/app"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
