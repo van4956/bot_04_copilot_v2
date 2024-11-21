@@ -5,6 +5,7 @@ FROM python:3.11-slim as builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libc6-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Устанавливаем рабочую директорию в контейнере

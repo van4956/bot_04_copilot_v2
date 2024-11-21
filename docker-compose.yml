@@ -5,10 +5,12 @@ services:
     build: . # Строим образ из текущей директории
     container_name: container_bot
     depends_on:
-      - db # Контейнер бота зависит от базы данных
-      - redis # Контейнер бота зависит от Redis
+      - db: # Контейнер бота зависит от базы данных
+        condition: service_started
+      - redis: # Контейнер бота зависит от Redis
+        condition: service_started
       - influxdb: # Контейнер бота зависит от InfluxDB
-          condition: service_healthy
+        condition: service_started
     deploy:
       resources: # Ограничения ресурсов
         limits:
@@ -82,13 +84,6 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
-      # Параметры доступа к InfluxDB
-      - INFLUXDB_URL=${INFLUXDB_URL}
-      - INFLUXDB_ADMIN_USER=${INFLUXDB_ADMIN_USER}
-      - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_ADMIN_PASSWORD}
-      - INFLUXDB_ORG=${INFLUXDB_ORG}
-      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
-      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
     volumes:
       - ./database/influxdb:/var/lib/influxdb2 # Сохраняем данные InfluxDB на локальном диске
     ports:
