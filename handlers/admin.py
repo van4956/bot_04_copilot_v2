@@ -17,8 +17,8 @@ from filters.is_admin import IsAdminGroupFilter, IsAdminListFilter
 from filters.chat_type import ChatTypeFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
-from sqlalchemy.ext.asyncio import AsyncSession
 from aiogram.utils.i18n import gettext as _
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.orm_cookbook import orm_add_recipe, orm_delete_recipe, orm_get_recipe, orm_get_recipes, orm_update_recipe
 from database.orm_users import orm_get_users
@@ -62,26 +62,20 @@ class AddProduct(StatesGroup):
 @admin_router.message(Command("admin"))
 async def cmd_admin(message: Message, bot: Bot):
     if message.from_user.id in bot.admin_list:
-        await message.answer(text=_('Админка:\n\n'
+        await message.answer(text=('Админка:\n\n'
                                     '/admin - режим адменистратора\n'
                                     '/start - перезапустить бота\n'
                                     '/data - состояние FSMContext\n'
                                     '/get_id - посмотреть id диалога\n'
                                     '/ping - количество апдейтов\n'
-                                    '/users - информация о пользователях\n'),
+                                    '/users - пользователи\n'),
                             reply_markup=ADMIN_KB
                             )
 
 # Here is some example !ping command ...
 @admin_router.message(IsAdminListFilter(is_admin=True), Command(commands=["ping"]),)
 async def cmd_ping_bot(message: Message, counter):
-    await message.reply(f"ping-msg-{counter}")
-
-
-# Этот хендлер показывает ID чата в котором запущена команда
-@admin_router.message(Command("get_id"))
-async def get_chat_id_cmd(message: Message):
-    await message.answer(f"ID: <code>{message.chat.id}</code>")
+    await message.reply(f"ping-{counter}")
 
 
 # команда /users, показывает полную информацию всех зарегистрированных пользователей
@@ -122,12 +116,12 @@ async def assortment_cookbook(message: Message, session: AsyncSession):
                                        reply_markup=get_callback_btns(btns={"Удалить":f"delete_{recipe.recipe_id}",
                                                                             "Изменить":f"change_{recipe.recipe_id}"}))
         except Exception as e:
-            logger.error(f"Ошибка вывода рецепта: {e}")
+            logger.error("Ошибка вывода рецепта: %s", e)
             photo = FSInputFile("common/images/image_cookbook.jpg")
-            await message.answer_photo(photo=FSInputFile("common/images/image_cookbook.jpg"),
-                            caption=caption,
-                            reply_markup=get_callback_btns(btns={"Удалить":f"delete_{recipe.recipe_id}",
-                                                                "Изменить":f"change_{recipe.recipe_id}"}))
+            await message.answer_photo(photo=photo,
+                                       caption=caption,
+                                       reply_markup=get_callback_btns(btns={"Удалить":f"delete_{recipe.recipe_id}",
+                                                                            "Изменить":f"change_{recipe.recipe_id}"}))
     await message.answer("ОК, вот весь список рецептов ⏫", reply_markup=ADMIN_KB)
 
 @admin_router.callback_query(F.data.startswith('delete_'))
@@ -300,6 +294,3 @@ async def add_image(message: Message, state: FSMContext, session: AsyncSession):
 @admin_router.message(AddProduct.image)
 async def add_image2(message: Message):
     await message.answer("Отправьте фото блюда")
-
-
-# ========================< Код для машины состояний (FSM) AddProduct >===================================

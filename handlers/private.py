@@ -46,7 +46,7 @@ async def cancel_cmd(message: Message, state: FSMContext):
 # символ точка - ОТМЕНА, сброс любого состояния;
 # ловим любое состояние пользователя, и если введен текст "."
 @private_router.message(StateFilter("*"), F.text.casefold() == ".")
-async def cancel_handler(message: Message, state: FSMContext, session: AsyncSession) -> None:
+async def cancel_handler(message: Message, state: FSMContext) -> None:
     current_state = await state.get_state() # получаем текущее состояние
     if current_state is None: # если состояния пустое, то ни чего не делаем
         return
@@ -57,10 +57,10 @@ async def cancel_handler(message: Message, state: FSMContext, session: AsyncSess
     await message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())
 
 
-# команда /info
-@private_router.message(Command("info"))
+# команда /help
+@private_router.message(Command("help"))
 async def about_cmd(message: Message, workflow_data: dict):
-    await message.answer(_("информация ..."), reply_markup=keyboard.del_kb)
+    await message.answer(_("помощь ..."), reply_markup=keyboard.del_kb)
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="Telegram",url="tg://user?id=459148628"))
     builder.row(InlineKeyboardButton(text="Linkedin",url="https://www.linkedin.com/in/ivan-goncharov-8a1982212/"))
@@ -70,14 +70,14 @@ async def about_cmd(message: Message, workflow_data: dict):
     image_from_pc = FSInputFile("common/images/image_about.jpg")
     await asyncio.sleep(1)
     await message.answer_photo(image_from_pc,
-                               caption=_('... о мире, где машины стремятся к господству, он выбрал судьбу героя, '
+                               caption=_('... в мире, где машины стремятся к господству, он выбрал судьбу героя, '
                                          'создавая ботов, как первый шаг к спасению человечества через код и умные алгоритмы.'),
                                 reply_markup=builder.adjust(2,2,1,).as_markup())
 
     analytics = workflow_data['analytics']
     await analytics(user_id=message.from_user.id,
                     category_name="/options",
-                    command_name="/info")
+                    command_name="/help")
 
 # callback "назад на главную"
 @private_router.callback_query(F.data == 'about_back_to_main')
@@ -91,7 +91,7 @@ async def callback_about(callback: CallbackQuery):
 
 # кнопка "Котики"
 @private_router.message(F.text == CATS)
-async def cat_cmd(message: Message, session: AsyncSession, workflow_data: dict):
+async def cat_cmd(message: Message, workflow_data: dict):
     user_id = message.from_user.id
 
     # вероятность 20% для выбора локального изображения с Кет

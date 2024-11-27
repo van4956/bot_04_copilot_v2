@@ -19,24 +19,24 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.strategy import FSMStrategy
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
-from redis.asyncio.client import Redis
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import ConstI18nMiddleware, I18n, SimpleI18nMiddleware, FSMI18nMiddleware
+from redis.asyncio.client import Redis
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from influxdb_client import InfluxDBClient, Point # type: ignore
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 from config_data.config import Config, load_config
 
-from handlers import other, admin, group, start, owner, donate, private, weather, currency, llm, cookbook
+from handlers import other, admin, group, start, owner, donate, private, weather, currency, llm, cookbook, miniapp
 from common.comands import private_command, admin_command
 from database.models import Base
 from middlewares import counter, db, locale, throttle
 
 
 # Режим запуска: docker == 1 - запуск в docker, docker == 0 - запуск локально
-docker = 1
+docker = 0
 
 # Загружаем конфиг в переменную config
 config: Config = load_config()
@@ -66,7 +66,7 @@ async def analytics(user_id: int, command_name: str, category_name: str):
             write_api.write(bucket=config.influx.bucket, org=config.influx.org, record=point)
 
         except Exception as e:
-            logging.error(f"InfluxDB write error: {str(e)}")
+            logging.error("InfluxDB write error: %s", e)
         finally:
             client.close()
     else: # если docker == 0
@@ -74,11 +74,16 @@ async def analytics(user_id: int, command_name: str, category_name: str):
 
 
 # Инициализируем объект хранилища
-if docker == 1: storage = RedisStorage(redis=Redis(host=config.redis.host, port=config.redis.port))  # данные хранятся на отдельном сервере Redis
-else: storage = MemoryStorage()  # данные хранятся в оперативной памяти, при перезапуске всё стирается (для тестов и разработки)
+if docker == 1: # данные хранятся на отдельном сервере Redis
+    storage = RedisStorage(
+        redis=Redis(
+            host=config.redis.host,
+            port=config.redis.port))
+else: # данные хранятся в оперативной памяти, при перезапуске всё стирается (для тестов и разработки)
+    storage = MemoryStorage()
 
 logger.info('Инициализируем бот и диспетчер')
-bot = Bot(token=config.tg_bot.token,
+bot = Bot(token=config.tg_bot.token_test,
           default=DefaultBotProperties(parse_mode=ParseMode.HTML, # для html тегов в сообщениях
                                        link_preview=None, # отключаем превью ссылок
                                        link_preview_is_disabled=None, # отключаем превью ссылок
@@ -99,8 +104,10 @@ dp = Dispatcher(fsm_strategy=FSMStrategy.USER_IN_CHAT, storage=storage)
 # GLOBAL_USER  -  для каждого юзера везде ведется своё состояние
 
 # Создаем движок бд
-if docker == 1: engine = create_async_engine(config.db.db_post, echo=False)  # PostgreSQL
-else: engine = create_async_engine(config.db.db_lite, echo=False)  # SQLite (для тестов и разработки)
+if docker == 1: # PostgreSQL
+    engine = create_async_engine(config.db.db_post, echo=False)
+else: # SQLite (для тестов и разработки)
+    engine = create_async_engine(config.db.db_lite, echo=False)
 
 # Создаем ассинхроную сессию
 session_maker = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
@@ -132,6 +139,7 @@ dp.include_router(weather.weather_router)
 dp.include_router(currency.currency_router)
 dp.include_router(cookbook.cookbook_router)
 dp.include_router(llm.llm_router)
+dp.include_router(miniapp.miniapp_router)
 dp.include_router(donate.donate_router)
 dp.include_router(group.group_router)
 dp.include_router(other.other_router)
@@ -145,13 +153,13 @@ ALLOWED_UPDATES = dp.resolve_used_update_types()  # Отбираем тольк�
 async def on_startup():
     bot_info = await bot.get_me()
     bot_username = bot_info.username
-    await bot.send_message(chat_id = bot.home_group[0], text = f"🤖  <code>@{bot_username}</code>  -  запущен!")
+    await bot.send_message(chat_id = bot.home_group[0], text = f"🤖 @{bot_username}  -  запущен!")
 
 # Функция сработает при остановке работы бота
 async def on_shutdown():
     bot_info = await bot.get_me()
     bot_username = bot_info.username
-    await bot.send_message(chat_id = bot.home_group[0], text = f"☠️  <code>@{bot_username}</code>  -  деактивирован!")
+    await bot.send_message(chat_id = bot.home_group[0], text = f"☠️ @{bot_username}  -  деактивирован!")
 
 
 

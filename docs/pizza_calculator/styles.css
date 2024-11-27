@@ -71,7 +71,12 @@ button:hover {
     font-size: 18px;
 }
 
-#price-per-cm {
+.result p {
+    margin: 10px 0;
+}
+
+#price-per-cm,
+#price-per-pizza {
     font-weight: bold;
     color: var(--tg-theme-button-color);
 }

@@ -24,22 +24,22 @@ from common import keyboard
 other_router = Router()
 
 
-# Этот хэндлер срабатывает на команду /help
-@other_router.message(Command('help'))
+# Этот хэндлер срабатывает на команду /info
+@other_router.message(Command('info'))
 async def process_help_command(message: Message, workflow_data: dict):
     await message.answer(
         text=_('Доступные команды:\n\n'
-               '/main - главная панел\n'
-               '/book - книга рецептов\n\n'
+               '/book - книга рецептов\n'
+               '/mini - мини приложения\n'
                '/lang - сменить язык\n'
-               '/info - информация\n'
+               '/help - помощь\n'
                '/donate - донат автору\n'
                )
     )
     analytics = workflow_data['analytics']
     await analytics(user_id=message.from_user.id,
                     category_name="/options",
-                    command_name="/help")
+                    command_name="/info")
 
 
 # Клавиатура выбора языка

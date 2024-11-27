@@ -11,7 +11,7 @@ from aiogram import Bot
 
 class IsAdminGroupFilter(BaseFilter):
     """
-    Фильтр, проверяющий наличие прав администратора в группах
+    Фильтр, проверяет наличие прав администратора в группе, у пользователя отправившего сообщение
     """
     def __init__(self, is_admin: bool):
         self.is_admin = is_admin
@@ -22,11 +22,10 @@ class IsAdminGroupFilter(BaseFilter):
 
 class IsAdminListFilter(BaseFilter):
     """
-    Фильтр, проверяющий наличие прав администратора из составленного списка администраторов
+    Фильтр, проверяет находится ли ID пользователя, отправившего сообщение, в нашем списке администраторов
     """
     def __init__(self, is_admin: bool):
         self.is_admin = is_admin
 
     async def __call__(self, message: Message, bot: Bot) -> bool:
-        # Проверяем, находится ли ID пользователя, отправившего сообщение, в списке администраторов
         return (message.from_user.id in bot.admin_list) & self.is_admin
