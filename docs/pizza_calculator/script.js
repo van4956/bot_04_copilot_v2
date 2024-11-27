@@ -9,7 +9,6 @@ document.documentElement.style.setProperty('--tg-theme-button-color', webapp.but
 document.documentElement.style.setProperty('--tg-theme-button-text-color', webapp.buttonTextColor);
 
 // Получаем элементы
-const calculateButton = document.getElementById('calculate');
 const diameterInput = document.getElementById('diameter');
 const quantityInput = document.getElementById('quantity');
 const priceInput = document.getElementById('price');
@@ -35,8 +34,6 @@ function calculatePricePerCm() {
     }
 }
 
-// Обработчики событий
-calculateButton.addEventListener('click', calculatePricePerCm);
 
 // Добавляем автоматический расчет при изменении любого поля
 diameterInput.addEventListener('input', calculatePricePerCm);
