@@ -13,7 +13,6 @@ class SnakeGame {
         this.tileSize = this.canvas.width / this.gridSize;  // размер одной клетки
 
         // Начальное состояние змейки - массив координат сегментов
-        // Каждый сегмент это объект с координатами x и y
         this.snake = [
             {x: 7, y: 7}, // Голова змейки
             {x: 6, y: 7}, // Тело
@@ -29,7 +28,8 @@ class SnakeGame {
         // Текущий счет игрока
         this.score = 0;
 
-        // Состояние игры
+        // Начальное состояние
+        this.isStarted = false;
         this.isPaused = false;
         this.gameOver = false;
 
@@ -43,9 +43,10 @@ class SnakeGame {
             gameOverText: '#F5F5F5'    // Нежно-белый для текста
         };
 
-        // Кнопка паузы
+        // Кнопка управления игрой
         this.pauseButton = document.getElementById('pauseButton');
-        this.pauseButton.addEventListener('click', () => this.togglePause());
+        this.pauseButton.textContent = 'Начать';
+        this.pauseButton.addEventListener('click', () => this.toggleGameState());
 
         // Запускаем инициализацию игры
         this.init();
@@ -55,15 +56,44 @@ class SnakeGame {
     init() {
         this.bindControls();  // Привязываем управление
         this.createFood();    // Создаем первую еду
-        this.gameLoop();      // Запускаем игровой цикл
+        this.draw();         // Отрисовываем начальное состояние
     }
 
-    // Метод для переключения паузы
-    togglePause() {
-        this.isPaused = !this.isPaused;
-        this.pauseButton.textContent = this.isPaused ? 'Продолжить' : 'Пауза';
-        if (!this.isPaused) {
+    // Метод сброса игры
+    reset() {
+        this.snake = [
+            {x: 7, y: 7},
+            {x: 6, y: 7},
+            {x: 5, y: 7}
+        ];
+        this.direction = 'right';
+        this.score = 0;
+        this.gameOver = false;
+        this.isPaused = false;
+        document.getElementById('score').textContent = '0';
+        this.createFood();
+    }
+
+    // Метод для управления состоянием игры
+    toggleGameState() {
+        if (this.gameOver) {
+            // Перезапуск игры
+            this.reset();
+            this.pauseButton.textContent = 'Пауза';
+            this.isStarted = true;
             this.gameLoop();
+        } else if (!this.isStarted) {
+            // Первый запуск
+            this.isStarted = true;
+            this.pauseButton.textContent = 'Пауза';
+            this.gameLoop();
+        } else {
+            // Переключение паузы
+            this.isPaused = !this.isPaused;
+            this.pauseButton.textContent = this.isPaused ? 'Продолжить' : 'Пауза';
+            if (!this.isPaused) {
+                this.gameLoop();
+            }
         }
     }
 
@@ -71,7 +101,7 @@ class SnakeGame {
     bindControls() {
         // Обработчик нажатий клавиш на клавиатуре
         document.addEventListener('keydown', (e) => {
-            if (this.isPaused) return; // Игнорируем управление на паузе
+            if (this.isPaused || !this.isStarted) return; // Игнорируем управление на паузе или до старта
 
             switch(e.key) {
                 case 'ArrowUp':    // Если нажата стрелка вверх
@@ -91,50 +121,46 @@ class SnakeGame {
 
         // Обработчики нажатий экранных кнопок
         document.getElementById('upButton').addEventListener('click', () => {
-            if (!this.isPaused && this.direction !== 'down') this.direction = 'up';
+            if (!this.isPaused && this.isStarted && this.direction !== 'down') this.direction = 'up';
         });
         document.getElementById('downButton').addEventListener('click', () => {
-            if (!this.isPaused && this.direction !== 'up') this.direction = 'down';
+            if (!this.isPaused && this.isStarted && this.direction !== 'up') this.direction = 'down';
         });
         document.getElementById('leftButton').addEventListener('click', () => {
-            if (!this.isPaused && this.direction !== 'right') this.direction = 'left';
+            if (!this.isPaused && this.isStarted && this.direction !== 'right') this.direction = 'left';
         });
         document.getElementById('rightButton').addEventListener('click', () => {
-            if (!this.isPaused && this.direction !== 'left') this.direction = 'right';
+            if (!this.isPaused && this.isStarted && this.direction !== 'left') this.direction = 'right';
         });
     }
 
     // Метод создания новой еды
     createFood() {
         do {
-            // Генерируем случайные координаты в пределах игрового поля
             this.food = {
                 x: Math.floor(Math.random() * this.gridSize),
                 y: Math.floor(Math.random() * this.gridSize)
             };
-        // Проверяем, не появилась ли еда внутри змейки
         } while (this.snake.some(segment =>
             segment.x === this.food.x && segment.y === this.food.y));
     }
 
     // Основной игровой цикл
     gameLoop() {
-        if (this.gameOver || this.isPaused) return;  // Прерываем цикл если игра окончена или на паузе
+        if (this.gameOver || this.isPaused || !this.isStarted) return;
 
-        // Планируем следующее обновление через this.speed миллисекунд
         setTimeout(() => {
-            this.update();  // Обновляем состояние игры
-            this.draw();    // Отрисовываем новое состояние
-            this.gameLoop(); // Запускаем следующий цикл
+            this.update();
+            this.draw();
+            this.gameLoop();
         }, this.speed);
     }
 
     // Метод обновления состояния игры
     update() {
-        // Создаем новую голову змейки на основе текущей
         const head = {x: this.snake[0].x, y: this.snake[0].y};
 
-        // Обновляем позицию головы в зависимости от направления
+        // Обновляем позицию головы
         switch(this.direction) {
             case 'up': head.y--; break;
             case 'down': head.y++; break;
@@ -142,16 +168,14 @@ class SnakeGame {
             case 'right': head.x++; break;
         }
 
-        // Проверяем столкновение со стеной
-        if (head.x < 0 || head.x >= this.gridSize ||
-            head.y < 0 || head.y >= this.gridSize) {
-            this.gameOver = true;
-            return;
-        }
+        // Обработка перехода через границы
+        head.x = (head.x + this.gridSize) % this.gridSize;
+        head.y = (head.y + this.gridSize) % this.gridSize;
 
         // Проверяем столкновение с собой
         if (this.snake.some(segment => segment.x === head.x && segment.y === head.y)) {
             this.gameOver = true;
+            this.pauseButton.textContent = 'Начать';
             return;
         }
 
@@ -160,13 +184,10 @@ class SnakeGame {
 
         // Проверяем, съела ли змейка еду
         if (head.x === this.food.x && head.y === this.food.y) {
-            // Увеличиваем счет
             this.score += 10;
             document.getElementById('score').textContent = this.score;
-            // Создаем новую еду
             this.createFood();
         } else {
-            // Если еду не съели, удаляем последний сегмент змейки
             this.snake.pop();
         }
     }
@@ -209,11 +230,10 @@ class SnakeGame {
             this.ctx.font = '20px Arial';
             this.ctx.textAlign = 'center';
             this.ctx.fillText(
-                'Игра окончена! Счёт: ' + this.score,
+                'Игра окончена',
                 this.canvas.width/2,
                 this.canvas.height/2
             );
         }
     }
 }
-

@@ -8,6 +8,12 @@ document.documentElement.style.setProperty('--tg-theme-text-color', webapp.textC
 document.documentElement.style.setProperty('--tg-theme-button-color', webapp.buttonColor);
 document.documentElement.style.setProperty('--tg-theme-button-text-color', webapp.buttonTextColor);
 
+// Отправляем данные о запуске игры
+webapp.sendData(JSON.stringify({
+    action: 'game_start',
+    game: 'snake'
+}));
+
 // Инициализируем игру после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
     const game = new SnakeGame();
