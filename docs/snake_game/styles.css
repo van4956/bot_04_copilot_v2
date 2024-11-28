@@ -24,47 +24,66 @@ body {
     align-items: center;
     gap: 20px;
     width: 100%;
-    max-width: 400px; /* Ограничиваем максимальную ширину контейнера */
+    max-width: 400px;
     margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .score {
     font-size: 24px;
     font-weight: bold;
+    color: var(--tg-theme-text-color);
     transition: transform 0.2s;
 }
 
 #gameCanvas {
     width: 300px;
     height: 300px;
-    border: 2px solid var(--tg-theme-button-color);
-    border-radius: 8px;
-    background-color: #1A1B2E;
+    border: 3px solid var(--tg-theme-button-color);
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .controls {
     position: relative;
-    width: 180px;  /* Фиксированная ширина для контейнера кнопок */
-    height: 180px; /* Фиксированная высота для контейнера кнопок */
+    width: 180px;
+    height: 180px;
     margin: 20px 0;
+    background-color: rgba(255,255,255,0.9);
+    border-radius: 90px;
+    padding: 10px;
 }
 
-/* Общие стили для всех кнопок управления */
 .controls button {
     position: absolute;
     width: 50px;
     height: 50px;
-    border: none;
+    border: 2px solid var(--tg-theme-button-color);
     border-radius: 50%;
-    background-color: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
+    background-color: #fff;
+    color: var(--tg-theme-button-color);
     font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.1s, opacity 0.2s;
+    transition: all 0.2s ease;
     -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.controls button:hover {
+    background-color: var(--tg-theme-button-color);
+    color: #fff;
+}
+
+.controls button:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 /* Позиционирование кнопок */
@@ -92,14 +111,7 @@ body {
     transform: translateY(-50%);
 }
 
-.controls button:active {
-    transform: scale(0.95);
-    opacity: 0.8;
-}
-
 .pause-button {
-    width: auto !important;
-    height: auto !important;
     padding: 12px 24px !important;
     border-radius: 8px !important;
     font-size: 16px !important;
@@ -107,10 +119,19 @@ body {
     color: var(--tg-theme-button-text-color);
     border: none;
     cursor: pointer;
+    transition: all 0.2s ease;
     -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Медиа-запрос для мобильных устройств */
+.pause-button:hover {
+    opacity: 0.9;
+}
+
+.pause-button:active {
+    transform: scale(0.98);
+}
+
 @media (max-width: 480px) {
     body {
         padding: 10px;
@@ -118,6 +139,7 @@ body {
 
     .container {
         gap: 15px;
+        padding: 15px;
     }
 
     #gameCanvas {
