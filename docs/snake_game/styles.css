@@ -46,12 +46,12 @@ body {
     align-items: center;
     gap: 5px; /* Уменьшаем вертикальный отступ */
     width: 100%;
-    max-width: 240px; /* Увеличиваем максимальную ширину */
+    max-width: 280px; /* Увеличиваем максимальную ширину */
 }
 
 .horizontal-controls {
     display: flex;
-    gap: 40px; /* Увеличиваем горизонтальный отступ */
+    gap: 80px; /* Увеличиваем горизонтальный отступ */
     width: 100%;
     justify-content: center;
 }

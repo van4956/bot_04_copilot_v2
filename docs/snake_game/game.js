@@ -23,10 +23,13 @@ class SnakeGame {
         this.direction = 'right';
 
         // Скорость обновления игры в миллисекундах
-        this.speed = 150; // чем меньше число, тем быстрее движение
+        this.speed = 130; // чем меньше число, тем быстрее движение
 
         // Текущий счет игрока
         this.score = 0;
+
+        // Массив для хранения фруктов
+        this.foods = [];
 
         // Начальное состояние
         this.isStarted = false;
@@ -54,9 +57,11 @@ class SnakeGame {
 
     // Метод инициализации игры
     init() {
-        this.bindControls();  // Привязываем управление
-        this.createFood();    // Создаем первую еду
-        this.draw();         // Отрисовываем начальное состояние
+        this.bindControls();
+        // Создаем два фрукта при инициализации
+        this.createFood();
+        this.createFood();
+        this.draw();
     }
 
     // Метод сброса игры
@@ -71,6 +76,9 @@ class SnakeGame {
         this.gameOver = false;
         this.isPaused = false;
         document.getElementById('score').textContent = '0';
+        // Очищаем массив фруктов и создаем два новых
+        this.foods = [];
+        this.createFood();
         this.createFood();
     }
 
@@ -136,13 +144,19 @@ class SnakeGame {
 
     // Метод создания новой еды
     createFood() {
-        do {
-            this.food = {
-                x: Math.floor(Math.random() * this.gridSize),
-                y: Math.floor(Math.random() * this.gridSize)
-            };
-        } while (this.snake.some(segment =>
-            segment.x === this.food.x && segment.y === this.food.y));
+        if (this.foods.length < 2) {
+            let newFood;
+            do {
+                newFood = {
+                    x: Math.floor(Math.random() * this.gridSize),
+                    y: Math.floor(Math.random() * this.gridSize)
+                };
+            } while (
+                this.snake.some(segment => segment.x === newFood.x && segment.y === newFood.y) ||
+                this.foods.some(food => food.x === newFood.x && food.y === newFood.y)
+            );
+            this.foods.push(newFood);
+        }
     }
 
     // Основной игровой цикл
@@ -182,10 +196,17 @@ class SnakeGame {
         // Добавляем новую голову в начало массива
         this.snake.unshift(head);
 
-        // Проверяем, съела ли змейка еду
-        if (head.x === this.food.x && head.y === this.food.y) {
+        // Проверяем, съела ли змейка один из фруктов
+        const eatenFoodIndex = this.foods.findIndex(food =>
+            food.x === head.x && food.y === head.y
+        );
+
+        if (eatenFoodIndex !== -1) {
+            // Удаляем съеденный фрукт
+            this.foods.splice(eatenFoodIndex, 1);
             this.score += 10;
             document.getElementById('score').textContent = this.score;
+            // Создаем новый фрукт
             this.createFood();
         } else {
             this.snake.pop();
@@ -209,17 +230,19 @@ class SnakeGame {
             );
         });
 
-        // Рисуем еду
-        this.ctx.fillStyle = this.colors.food;
-        this.ctx.beginPath();
-        this.ctx.arc(
-            this.food.x * this.tileSize + this.tileSize/2,
-            this.food.y * this.tileSize + this.tileSize/2,
-            this.tileSize/2 - 1,
-            0,
-            Math.PI * 2
-        );
-        this.ctx.fill();
+        // Рисуем фрукты
+        this.foods.forEach(food => {
+            this.ctx.fillStyle = this.colors.food;
+            this.ctx.beginPath();
+            this.ctx.arc(
+                food.x * this.tileSize + this.tileSize/2,
+                food.y * this.tileSize + this.tileSize/2,
+                this.tileSize/2 - 1,
+                0,
+                Math.PI * 2
+            );
+            this.ctx.fill();
+        });
 
         // Если игра окончена, показываем сообщение
         if (this.gameOver) {
