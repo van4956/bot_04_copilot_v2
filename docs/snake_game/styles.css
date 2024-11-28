@@ -83,3 +83,30 @@ button:active {
     border-radius: 8px;
     font-size: 16px;
 }
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        gap: 15px;
+    }
+
+    #gameCanvas {
+        width: 280px;
+        height: 280px;
+    }
+
+    .controls {
+        width: 160px;
+        height: 160px;
+    }
+
+    .controls button {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+}
