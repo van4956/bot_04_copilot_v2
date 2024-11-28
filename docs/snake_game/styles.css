@@ -15,6 +15,7 @@ body {
     background-color: var(--tg-theme-bg-color);
     color: var(--tg-theme-text-color);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
 }
 
 .container {
@@ -22,6 +23,9 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 100%;
+    max-width: 400px; /* Ограничиваем максимальную ширину контейнера */
+    margin: 0 auto;
 }
 
 .score {
@@ -30,58 +34,78 @@ body {
     transition: transform 0.2s;
 }
 
-.score.updated {
-    transform: scale(1.2);
-}
-
 #gameCanvas {
+    width: 300px;
+    height: 300px;
     border: 2px solid var(--tg-theme-button-color);
     border-radius: 8px;
-    transition: border-color 0.3s;
+    background-color: #1A1B2E;
 }
 
 .controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px; /* Уменьшаем вертикальный отступ */
-    width: 100%;
-    max-width: 280px; /* Увеличиваем максимальную ширину */
+    position: relative;
+    width: 180px;  /* Фиксированная ширина для контейнера кнопок */
+    height: 180px; /* Фиксированная высота для контейнера кнопок */
+    margin: 20px 0;
 }
 
-.horizontal-controls {
-    display: flex;
-    gap: 80px; /* Увеличиваем горизонтальный отступ */
-    width: 100%;
-    justify-content: center;
-}
-
-button {
-    width: 60px;
-    height: 60px;
+/* Общие стили для всех кнопок управления */
+.controls button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
     border: none;
     border-radius: 50%;
     background-color: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color);
     font-size: 24px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     transition: transform 0.1s, opacity 0.2s;
 }
 
-button:active {
+/* Позиционирование кнопок */
+#upButton {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#downButton {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#leftButton {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#rightButton {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.controls button:active {
     transform: scale(0.95);
     opacity: 0.8;
 }
 
 .pause-button {
-    width: auto;
-    height: auto;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
+    width: auto !important;
+    height: auto !important;
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    background-color: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    border: none;
+    cursor: pointer;
 }
 
 /* Медиа-запрос для мобильных устройств */
