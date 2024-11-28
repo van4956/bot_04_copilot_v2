@@ -64,6 +64,7 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: transform 0.1s, opacity 0.2s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Позиционирование кнопок */
@@ -106,6 +107,7 @@ body {
     color: var(--tg-theme-button-text-color);
     border: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Медиа-запрос для мобильных устройств */
