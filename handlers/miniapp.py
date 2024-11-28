@@ -23,8 +23,7 @@ miniapp_router = Router()
 # URL веб-приложения
 WEBAPP_URL_PIZZA = "https://van4956.github.io/bot_04_copilot_v2/pizza_calculator/"
 WEBAPP_URL_RANDOM = "https://van4956.github.io/bot_04_copilot_v2/random_generator/"
-WEBAPP_URL_TETRIS = "https://van4956.github.io/bot_04_copilot_v2/pizza_calculator/"
-WEBAPP_URL_SNAKE = "https://van4956.github.io/bot_04_copilot_v2/random_generator/"
+WEBAPP_URL_SNAKE = "https://van4956.github.io/bot_04_copilot_v2/snake_game/"
 
 @miniapp_router.message(Command("mini"))
 async def cmd_miniapp(message: types.Message, workflow_data: dict):
