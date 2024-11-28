@@ -12,7 +12,9 @@ ic.configureOutput(includeContext=True, prefix=' >>> Debag >>> ')
 
 from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery, InputMediaPhoto, FSInputFile
+from aiogram.exceptions import TelegramAPIError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import SQLAlchemyError
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
@@ -62,7 +64,7 @@ async def process_cookbook_command(message: Message, state: FSMContext, session:
                                                                                 sizes=(3,1,)),
                                                                                 )
 
-    except Exception as e:
+    except (SQLAlchemyError, ValueError) as e:
         logger.error("Ошибка при выполнении команды /cookbook: %s", e)
         await message.answer(_("Ошибка при выполнении команды /cookbook"), reply_markup=keyboard.start_keyboard())
 
@@ -102,8 +104,8 @@ async def process_forward_press(callback: CallbackQuery, state: FSMContext, sess
 
         await callback.answer()
 
-    except Exception as e:
-        logger.error(f"Ошибка при выполнении inline кнопки '>>': {e}")
+    except (SQLAlchemyError, TelegramAPIError) as e:
+        logger.error("Ошибка при выполнении inline кнопки '>>': %s", e)
         await callback.answer(_("Ошибка при выполнении inline кнопки '>>'"), reply_markup=keyboard.start_keyboard())
 
 
@@ -138,20 +140,20 @@ async def process_backward_press(callback: CallbackQuery, state: FSMContext, ses
 
         await callback.answer()
 
-    except Exception as e:
-        logger.error(f"Ошибка при выполнении inline кнопки '<<': {e}")
+    except (SQLAlchemyError, TelegramAPIError) as e:
+        logger.error("Ошибка при выполнении inline кнопки '<<': %s", e)
         await callback.answer(_("Ошибка при выполнении inline кнопки '<<'"), reply_markup=keyboard.start_keyboard())
 
 # Этот хэндлер будет срабатывать на нажатие инлайн-кнопки "текущая страница"
 # во время взаимодействия пользователя с сообщением-книгой
 @cookbook_router.callback_query(F.data == 'curr_page')
 async def process_curr_page_press(callback: CallbackQuery):
-    message_effect = {"🔥": "5104841245755180586",
-                                        "👍": "5107584321108051014",
-                                        "👎": "5104858069142078462",
-                                        "❤️": "5159385139981059251",
-                                        "🎉": "5046509860389126442",
-                                        "💩": "5046589136895476101"}
+    # message_effect = {"🔥": "5104841245755180586",
+    #                                     "👍": "5107584321108051014",
+    #                                     "👎": "5104858069142078462",
+    #                                     "❤️": "5159385139981059251",
+    #                                     "🎉": "5046509860389126442",
+    #                                     "💩": "5046589136895476101"}
     # random_emoji, random_effect = random.choice(list(message_effect.items()))
     # emoji_message = await callback.message.answer(text="🔥",message_effect_id='5104841245755180586')
     # await asyncio.sleep(2)
@@ -175,7 +177,7 @@ async def process_cookbook_back_press(callback: CallbackQuery, state: FSMContext
         await asyncio.sleep(1)
         await callback.message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())
 
-    except Exception as e:
-        logger.error(f"Ошибка при выполнении inline кнопки 'Назад на главную ↩️': {e}")
+    except (SQLAlchemyError, TelegramAPIError) as e:
+        logger.error("Ошибка при выполнении inline кнопки 'Назад на главную ↩️': %s", e)
         await callback.message.answer(_("Ошибка при выполнении inline кнопки 'Назад на главную ↩️'"), reply_markup=keyboard.start_keyboard())
         await state.set_state(None)

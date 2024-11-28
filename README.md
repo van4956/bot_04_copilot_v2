@@ -20,6 +20,7 @@
 - Redis
 - InfluxDB + Grafana
 - Docker
+- JavaScript + HTML5 + CSS3
 
 ## Установка и запуск
 
@@ -36,7 +37,7 @@ bot_04_copilot_v2/
 ├── database/              # Работа с БД
 ├── common/                # Общие компоненты
 ├── locales/               # Файлы локализации
-└── docs/                  # Мини приложения
+└── docs/                  # Веб-приложения
 ```
 
 ## Аналитика

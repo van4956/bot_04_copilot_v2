@@ -15,14 +15,13 @@ import random as r
 import os
 
 from aiogram import F, Router
-from aiogram.filters import Command
-from sqlalchemy.ext.asyncio import AsyncSession
 from aiogram.types import InlineKeyboardButton, FSInputFile, Message, CallbackQuery
 from aiogram.filters import Command, StateFilter, or_f
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.i18n import lazy_gettext as __
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from common import keyboard
 from filters.chat_type import ChatTypeFilter
