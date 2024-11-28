@@ -12,28 +12,34 @@ document.documentElement.style.setProperty('--tg-theme-button-text-color', webap
 const minInput = document.getElementById('min');
 const maxInput = document.getElementById('max');
 const resultDisplay = document.getElementById('result');
+const generateBtn = document.getElementById('generateBtn');
 
 // Функция анимации чисел
-function animateNumber(from, to, duration = 1000) {
+function animateNumber(from, to, duration = 2000) { // Увеличили длительность с 1000 до 2000
     const start = performance.now();
     const range = to - from;
+    let lastNumber = from;
 
     function update(currentTime) {
         const elapsed = currentTime - start;
         const progress = Math.min(elapsed / duration, 1);
 
-        // Добавляем эффект замедления в конце
+        // Добавляем эффект замедления
         const easeOut = 1 - Math.pow(1 - progress, 3);
 
-        // Генерируем промежуточные случайные числа для эффекта "барабана"
         if (progress < 1) {
-            const randomValue = Math.floor(Math.random() * range + from);
-            resultDisplay.textContent = randomValue;
+            // Замедляем частоту обновления чисел
+            if (Math.random() < 0.3) { // Уменьшаем вероятность обновления
+                const randomValue = Math.floor(Math.random() * range + from);
+                if (randomValue !== lastNumber) {
+                    lastNumber = randomValue;
+                    resultDisplay.textContent = randomValue;
+                }
+            }
             requestAnimationFrame(update);
         } else {
             resultDisplay.textContent = to;
             resultDisplay.classList.add('animate');
-            // Вибрация, если доступна
             if (window.navigator.vibrate) {
                 window.navigator.vibrate(100);
             }
@@ -49,7 +55,6 @@ function generateNumber() {
     const min = parseInt(minInput.value) || 1;
     const max = parseInt(maxInput.value) || 100;
 
-    // Проверяем и корректируем значения
     const validMin = Math.min(min, max);
     const validMax = Math.max(min, max);
 
@@ -60,14 +65,28 @@ function generateNumber() {
     animateNumber(validMin, result);
 }
 
-// Обработчики событий
+// Обновляем обработчики событий
+// Убираем автоматическую генерацию при вводе
 minInput.addEventListener('input', () => {
-    if (minInput.value !== '') generateNumber();
+    // Только валидация
+    const min = parseInt(minInput.value) || 1;
+    const max = parseInt(maxInput.value) || 100;
+    if (min > max) {
+        maxInput.value = min;
+    }
 });
 
 maxInput.addEventListener('input', () => {
-    if (maxInput.value !== '') generateNumber();
+    // Только валидация
+    const min = parseInt(minInput.value) || 1;
+    const max = parseInt(maxInput.value) || 100;
+    if (max < min) {
+        minInput.value = max;
+    }
 });
+
+// Добавляем обработчик для кнопки
+generateBtn.addEventListener('click', generateNumber);
 
 // Генерируем первое число при загрузке
 generateNumber();
