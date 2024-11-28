@@ -91,4 +91,5 @@ input::-webkit-inner-spin-button {
 /* Скрываем стрелки для Firefox */
 input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }

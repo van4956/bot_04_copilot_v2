@@ -26,6 +26,7 @@ from redis.asyncio.client import Redis
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from influxdb_client import InfluxDBClient, Point # type: ignore
 from influxdb_client.client.write_api import SYNCHRONOUS
+from influxdb_client.rest import ApiException
 
 from config_data.config import Config, load_config
 
@@ -35,7 +36,9 @@ from database.models import Base
 from middlewares import counter, db, locale, throttle
 
 
-# Режим запуска: docker == 1 - запуск в docker, docker == 0 - запуск локально
+# Режим запуска:
+# docker == 1 - запуск в docker,
+# docker == 0 - запуск локально
 docker = 0
 
 # Загружаем конфиг в переменную config
@@ -65,7 +68,7 @@ async def analytics(user_id: int, command_name: str, category_name: str):
             # Записываем point в InfluxDB
             write_api.write(bucket=config.influx.bucket, org=config.influx.org, record=point)
 
-        except Exception as e:
+        except (ConnectionError, TimeoutError, ApiException) as e:
             logging.error("InfluxDB write error: %s", e)
         finally:
             client.close()
