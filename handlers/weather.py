@@ -73,6 +73,101 @@ dict_weather_descriptions = {
     "торнадо": "🌪"
 }
 
+dict_weather_icon = {
+    # Группа 800: Ясно
+    "01d": "☀️",  # ясно (день)
+    "01n": "🌙",  # ясно (ночь)
+
+    # Группа 80x: Облачность
+    "02d": "🌤",  # малооблачно (день)
+    "02n": "🌤",  # малооблачно (ночь)
+    "03d": "⛅️", # облачно (день)
+    "03n": "⛅️", # облачно (ночь)
+    "04d": "☁️",  # пасмурно (день)
+    "04n": "☁️",  # пасмурно (ночь)
+
+    # Группа 3xx: Морось
+    "09d": "🌧",  # морось/ливень (день)
+    "09n": "🌧",  # морось/ливень (ночь)
+
+    # Группа 5xx: Дождь
+    "10d": "🌦",  # дождь (день)
+    "10n": "🌦",  # дождь (ночь)
+
+    # Группа 2xx: Гроза
+    "11d": "⛈",   # гроза (день)
+    "11n": "⛈",   # гроза (ночь)
+
+    # Группа 6xx: Снег
+    "13d": "🌨",  # снег (день)
+    "13n": "🌨",  # снег (ночь)
+
+    # Группа 7xx: Атмосферные явления
+    "50d": "🌫",  # туман/мгла/пыль/песок/дым (день)
+    "50n": "🌫",  # туман/мгла/пыль/песок/дым (ночь)
+
+    # Детальные коды погодных условий
+    # Группа 2xx: Гроза
+    "200": "⛈",  # гроза со слабым дождем
+    "201": "⛈",  # гроза с дождем
+    "202": "⛈",  # гроза с сильным дождем
+    "210": "🌩",  # легкая гроза
+    "211": "🌩",  # гроза
+    "212": "🌩",  # сильная гроза
+    "221": "🌩",  # прерывистая гроза
+    "230": "⛈",  # гроза с легкой моросью
+    "231": "⛈",  # гроза с моросью
+    "232": "⛈",  # гроза с сильной моросью
+
+    # Группа 3xx: Морось
+    "300": "🌦",  # легкая морось
+    "301": "🌦",  # морось
+    "302": "🌧",  # сильная морось
+    "310": "🌦",  # легкий моросящий дождь
+    "311": "🌧",  # моросящий дождь
+    "312": "🌧",  # сильный моросящий дождь
+    "313": "🌧",  # дождь и морось
+    "314": "🌧",  # сильный дождь и морось
+    "321": "🌧",  # ливневая морось
+
+    # Группа 5xx: Дождь
+    "500": "🌦",  # легкий дождь
+    "501": "🌧",  # умеренный дождь
+    "502": "🌧",  # сильный дождь
+    "503": "🌧",  # очень сильный дождь
+    "504": "🌧",  # экстремальный дождь
+    "511": "🌨",  # ледяной дождь
+    "520": "🌧",  # легкий ливень
+    "521": "🌧",  # ливень
+    "522": "🌧",  # сильный ливень
+    "531": "🌧",  # прерывистый ливень
+
+    # Группа 6xx: Снег
+    "600": "🌨",  # легкий снег
+    "601": "❄️",  # снег
+    "602": "❄️",  # сильный снег
+    "611": "🌨",  # мокрый снег
+    "612": "🌨",  # легкий мокрый снег
+    "613": "🌨",  # ливневый мокрый снег
+    "615": "🌨",  # легкий дождь со снегом
+    "616": "🌨",  # дождь со снегом
+    "620": "🌨",  # легкий снегопад
+    "621": "🌨",  # снегопад
+    "622": "🌨",  # сильный снегопад
+
+    # Группа 7xx: Атмосферные явления
+    "701": "🌫",  # мгла
+    "711": "🌫",  # дым
+    "721": "🌫",  # дымка
+    "731": "🌪",  # песчаные/пыльные вихри
+    "741": "🌫",  # туман
+    "751": "🌪",  # песок
+    "761": "🌫",  # пыль
+    "762": "🌋",  # вулканический пепел
+    "771": "💨",  # шквалы
+    "781": "🌪",  # торнадо
+}
+
 # Создаем константы для текстов, которые используются в декораторах
 WATER = __("Погода 🌊")
 CURRENT = __("Текущий ⏺")
@@ -103,6 +198,8 @@ def parse_weather_data(type_forecast, city, lat, lon, locale='ru'):
        city - название города, lat - широта, lon - долгота;
        locale - локаль, по умолчанию 'ru' """
 
+    url = "Ошибка: неверные параметры запроса"
+
     # moment weather
     if type_forecast == 1:
         if city:
@@ -121,7 +218,7 @@ def parse_weather_data(type_forecast, city, lat, lon, locale='ru'):
         req = requests.get(url, timeout=10)
         data = req.json()
 
-    except Exception as e:
+    except (requests.RequestException, requests.JSONDecodeError) as e:
         logger.error("Ошибка: %s", str(e))
         text = _("Ошибка получения информации от OpenWeatherMap - {e}").format(e=str(e))
         return text
@@ -131,6 +228,7 @@ def parse_weather_data(type_forecast, city, lat, lon, locale='ru'):
             temp = data['main']['temp'] # Температура
             humidity = data['main']['humidity'] # Влажность, %
             wind = data['wind']['speed'] # Скорость ветра, метр/сек
+            pressure = data['main']['pressure'] # Давление, мм.рт.ст.
             dt = data['dt'] # Время расчета данных, unix, UTC
             timezone = data['timezone'] #Сдвиг в секундах от UTC
             dt_object = datetime.datetime.fromtimestamp(dt + timezone, tz=datetime.timezone.utc) # Конвертация в читаемый формат
@@ -138,11 +236,13 @@ def parse_weather_data(type_forecast, city, lat, lon, locale='ru'):
             name = data['name'] # Название города
             lon = data['coord']['lon']
             lat = data['coord']['lat']
-            description = data['weather'][0]['description']
-            emoji = dict_weather_descriptions.get(description, description)
+            # description = data['weather'][0]['description']
+            icon = data['weather'][0]['icon']
+            # emoji = dict_weather_descriptions.get(description, description)
+            emoji = dict_weather_icon.get(icon, "❓")
 
             result = (f"<code>{name}</code>\n<code>{lat}° {lon}°</code>\n\n"
-                            f"<code>{str(round(temp,1))}°C\n{str(humidity)} %\n{str(round(wind,1))} 𝑣</code>\n<code>{emoji}</code>\n\n"
+                            f"<code>{str(round(temp,1))}°C | {str(humidity)}% | {str(round(wind,1))}𝑣 | {str(pressure)}</code>\n{emoji}\n\n"
                             f"<code>{time}</code>")
 
             return result
@@ -164,14 +264,17 @@ def parse_weather_data(type_forecast, city, lat, lon, locale='ru'):
                 dt = dt_obj.strftime('%d.%m %H:%M')
                 temp_celsius = round(entry['main']['temp'],1)
                 humidity = entry['main']['humidity']
-                description = entry['weather'][0]['description']
-                emoji = dict_weather_descriptions.get(description, 'None')
+                # description = entry['weather'][0]['description']
+                icon = entry['weather'][0]['icon']
+                # emoji = dict_weather_descriptions.get(description, description)
+                emoji = dict_weather_icon.get(icon, "❓")
                 wind_speed = round(entry['wind']['speed'],1)
-                text = f"{dt} | {temp_celsius}° | {humidity}% | {wind_speed}𝑣 | {emoji}"
+                pressure = entry['main']['pressure']
+                text = f"{dt[6:]} | {temp_celsius}° | {humidity}% | {wind_speed}𝑣 | {str(pressure)} | {emoji}"
 
                 if day != int(dt[:2]):
                     day = int(dt[:2])
-                    text = '\n' + text
+                    text = '\n' + str(dt[:5]) + '\n' + text
                     cnt_day += 1
 
                 # оставляем только 4 дня в отчете
@@ -184,7 +287,7 @@ def parse_weather_data(type_forecast, city, lat, lon, locale='ru'):
 
             return result
 
-    except Exception as e:
+    except (KeyError, TypeError, ValueError) as e:
         logger.error("Ошибка: %s", str(e))
         text = _("Ошибка в расчете json файла - {e}").format(e=str(e))
         return text
@@ -244,7 +347,7 @@ async def city_message_period(message: Message, state: FSMContext):
     await state.set_state(City.city_name_period)
 
 @weather_router.message(City.city_name_period, F.text)
-async def process_city_period(message: Message, state: FSMContext, bot: Bot):
+async def process_city_period(message: Message, state: FSMContext):
     await state.update_data(city_name_period=message.text)
     city_name_period = message.text
     data_state = await state.get_data()

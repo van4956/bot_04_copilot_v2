@@ -85,7 +85,7 @@ async def get_users_info(message: Message, session: AsyncSession):
     cnt_users = 0
     for user in await orm_get_users(session):
         user_status = 'm' if user.status == 'member' else 'k'
-        info = f"<code>{user.user_id: <11}</code> | {user_status} | {user.flag} | {user.locale} | <code>{user.user_name}</code>"
+        info = f"<code>{user.user_id: <11}</code> | <code>{user_status}</code> | {user.flag} | {user.locale} | <code>{user.user_name}</code>"
         all_info.append(info)
         cnt_users += 1
 

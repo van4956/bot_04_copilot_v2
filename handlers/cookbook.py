@@ -37,7 +37,7 @@ BACK_TO_MAIN = __("Назад на главную ↩️")
 @cookbook_router.message(Command(commands='book'))
 async def process_cookbook_command(message: Message, state: FSMContext, session: AsyncSession, workflow_data: dict):
     # photo = FSInputFile("common/images/image_cook.jpg")
-    await message.answer(text=_("<i>(все рецепты на оригенальном языке автора)</i>\n\nКнига рецептов ⏬"),
+    await message.answer(text=_("<i>(все рецепты на оригенальном языке автора)</i>\n\nКнига рецептов"),
                          reply_markup=keyboard.del_kb)
     user_id = message.from_user.id
     await asyncio.sleep(2)
@@ -165,13 +165,14 @@ async def process_curr_page_press(callback: CallbackQuery):
 @cookbook_router.callback_query(F.data == 'cookbook_back')
 async def process_cookbook_back_press(callback: CallbackQuery, state: FSMContext, session: AsyncSession):
     try:
-        book = await orm_get_recipes(session)
-        state_data = await state.get_data()
-        users_page = state_data.get('page', 1)
-        caption = [(f"<b>{rec.recipe_name}</b>\n<i>Автор: {rec.author}</i>\n\n{rec.description}", rec.image) for rec in book if rec.recipe_id == users_page]
-        text = caption[0][0]
-        photo = caption[0][1]
-        await callback.message.edit_media(media=InputMediaPhoto(media=photo, caption=text), reply_markup=None)
+        # book = await orm_get_recipes(session)
+        # state_data = await state.get_data()
+        # users_page = state_data.get('page', 1)
+        # caption = [(f"<b>{rec.recipe_name}</b>\n<i>Автор: {rec.author}</i>\n\n{rec.description}", rec.image) for rec in book if rec.recipe_id == users_page]
+        # text = caption[0][0]
+        # photo = caption[0][1]
+        # await callback.message.edit_media(media=InputMediaPhoto(media=photo, caption=text), reply_markup=None)
+        await callback.message.delete()
         await state.set_state(None)
         await callback.answer(_("Назад на главную ↩️"))
         await asyncio.sleep(1)
