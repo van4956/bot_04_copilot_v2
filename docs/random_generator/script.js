@@ -1,85 +1,78 @@
 // Инициализация Telegram WebApp
-const webapp = window.Telegram.WebApp;
-webapp.ready();
+const webapp = window.Telegram.WebApp; // Создаем экземпляр веб-приложения Telegram
+webapp.ready(); // Сообщаем Telegram, что приложение готово к работе
 
-// Подстраиваем тему под настройки пользователя
-document.documentElement.style.setProperty('--tg-theme-bg-color', webapp.backgroundColor);
-document.documentElement.style.setProperty('--tg-theme-text-color', webapp.textColor);
-document.documentElement.style.setProperty('--tg-theme-button-color', webapp.buttonColor);
-document.documentElement.style.setProperty('--tg-theme-button-text-color', webapp.buttonTextColor);
+// Получаем элементы со страницы по их ID
+const minInput = document.getElementById('min'); // Поле ввода минимального значения
+const maxInput = document.getElementById('max'); // Поле ввода максимального значения
+const resultDisplay = document.getElementById('result'); // Элемент для отображения результата
+const generateBtn = document.getElementById('generateBtn'); // Кнопка генерации
 
-// Получаем элементы
-const minInput = document.getElementById('min');
-const maxInput = document.getElementById('max');
-const resultDisplay = document.getElementById('result');
-const generateBtn = document.getElementById('generateBtn');
+// Функция анимации чисел - создает эффект "прокрутки" чисел
+function animateNumber(from, to, duration = 2000) { // from - начальное число, to - конечное, duration - длительность анимации
+    const start = performance.now(); // Засекаем время начала анимации
+    const range = to - from; // Вычисляем диапазон чисел
+    let lastNumber = from; // Храним последнее показанное число
 
-// Функция анимации чисел
-function animateNumber(from, to, duration = 2000) {
-    const start = performance.now();
-    const range = to - from;
-    let lastNumber = from;
+    function update(currentTime) { // Функция обновления анимации
+        const elapsed = currentTime - start; // Вычисляем прошедшее время
+        const progress = Math.min(elapsed / duration, 1); // Вычисляем прогресс анимации (от 0 до 1)
 
-    function update(currentTime) {
-        const elapsed = currentTime - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-
-        if (progress < 1) {
-            if (Math.random() < 0.3) {
-                const randomValue = Math.floor(Math.random() * range + from);
-                if (randomValue !== lastNumber) {
-                    lastNumber = randomValue;
-                    resultDisplay.textContent = randomValue;
+        if (progress < 1) { // Если анимация еще не завершена
+            if (Math.random() < 0.3) { // С вероятностью 30% обновляем число
+                const randomValue = Math.floor(Math.random() * range + from); // Генерируем случайное число в диапазоне
+                if (randomValue !== lastNumber) { // Если новое число отличается от предыдущего
+                    lastNumber = randomValue; // Обновляем последнее число
+                    resultDisplay.textContent = randomValue; // Отображаем новое число
                 }
             }
-            requestAnimationFrame(update);
-        } else {
-            resultDisplay.textContent = to;
-            resultDisplay.classList.add('animate');
-            if (window.navigator.vibrate) {
-                window.navigator.vibrate(100);
+            requestAnimationFrame(update); // Запрашиваем следующий кадр анимации
+        } else { // Если анимация завершена
+            resultDisplay.textContent = to; // Показываем конечное число
+            resultDisplay.classList.add('animate'); // Добавляем класс для анимации
+            if (window.navigator.vibrate) { // Если устройство поддерживает вибрацию
+                window.navigator.vibrate(100); // Вибрируем 100мс
             }
-            setTimeout(() => resultDisplay.classList.remove('animate'), 300);
+            setTimeout(() => resultDisplay.classList.remove('animate'), 300); // Убираем класс анимации через 300мс
         }
     }
 
-    requestAnimationFrame(update);
+    requestAnimationFrame(update); // Запускаем анимацию
 }
 
 // Функция генерации случайного числа
 function generateNumber() {
-    const min = parseInt(minInput.value) || 1;
-    const max = parseInt(maxInput.value) || 100;
+    const min = parseInt(minInput.value) || 1; // Получаем минимальное значение (или 1, если ввод некорректный)
+    const max = parseInt(maxInput.value) || 100; // Получаем максимальное значение (или 100, если ввод некорректный)
 
-    const validMin = Math.min(min, max);
-    const validMax = Math.max(min, max);
+    const validMin = Math.min(min, max); // Определяем правильное минимальное значение
+    const validMax = Math.max(min, max); // Определяем правильное максимальное значение
 
-    minInput.value = validMin;
-    maxInput.value = validMax;
+    minInput.value = validMin; // Обновляем поле минимального значения
+    maxInput.value = validMax; // Обновляем поле максимального значения
 
-    const result = Math.floor(Math.random() * (validMax - validMin + 1)) + validMin;
-    animateNumber(validMin, result);
+    const result = Math.floor(Math.random() * (validMax - validMin + 1)) + validMin; // Генерируем случайное число
+    animateNumber(validMin, result); // Запускаем анимацию от минимального до сгенерированного числа
 }
 
-// Обработчики событий
-minInput.addEventListener('input', () => {
+// Обработчики событий при вводе значений
+minInput.addEventListener('input', () => { // При изменении минимального значения
     const min = parseInt(minInput.value) || 1;
     const max = parseInt(maxInput.value) || 100;
-    if (min > max) {
-        maxInput.value = min;
+    if (min > max) { // Если минимальное больше максимального
+        maxInput.value = min; // Устанавливаем максимальное равным минимальному
     }
 });
 
-maxInput.addEventListener('input', () => {
+maxInput.addEventListener('input', () => { // При изменении максимального значения
     const min = parseInt(minInput.value) || 1;
     const max = parseInt(maxInput.value) || 100;
-    if (max < min) {
-        minInput.value = max;
+    if (max < min) { // Если максимальное меньше минимального
+        minInput.value = max; // Устанавливаем минимальное равным максимальному
     }
 });
 
-generateBtn.addEventListener('click', generateNumber);
+generateBtn.addEventListener('click', generateNumber); // Добавляем обработчик клика на кнопку
 
-// Инициализация
+// Инициализация - генерируем первое число при загрузке
 generateNumber();

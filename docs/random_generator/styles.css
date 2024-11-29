@@ -1,148 +1,144 @@
-:root {
-    --tg-theme-bg-color: #fff;
-    --tg-theme-text-color: #000;
-    --tg-theme-button-color: #2481cc;
-    --tg-theme-button-text-color: #fff;
+body { /* тело страницы */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Установка системных шрифтов */
+    margin: 0; /* Убираем внешние отступы */
+    padding: 20px; /* Внутренний отступ от краев экрана */
+    min-height: 100vh; /* Минимальная высота на весь экран */
+    display: flex; /* Включаем флекс-контейнер */
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    background-color: rgb(23, 33, 43); /* Цвет фона страницы */
+    color: #F5F5F5; /* Цвет текста */
+    box-sizing: border-box; /* Включаем box-model */
+    -webkit-font-smoothing: antialiased; /* Сглаживание шрифтов для WebKit */
+    -moz-osx-font-smoothing: grayscale; /* Сглаживание шрифтов для Firefox */
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--tg-theme-bg-color);
-    color: var(--tg-theme-text-color);
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+.container { /* контейнер - это блок, в котором находится вся информация */
+    display: flex; /* Включаем флекс-контейнер */
+    flex-direction: column; /* Вертикальное расположение элементов */
+    align-items: center; /* Центрирование содержимого */
+    gap: 20px; /* Отступ между элементами */
+    width: 100%; /* Полная ширина */
+    max-width: 400px; /* Максимальная ширина контейнера */
+    margin: 0 auto; /* Центрирование контейнера */
+    padding: 20px; /* Внутренние отступы */
+    background-color: rgb(47, 56, 65); /* Цвет фона контейнера */
+    border-radius: 12px; /* Скругление углов */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3); /* Тень контейнера */
 }
 
-.container {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 24px;
-    font-weight: 600;
+h1 { /* Заголовок */
+    text-align: center; /* Центрирование заголовка */
+    margin-bottom: 30px; /* Отступ снизу */
+    font-size: 24px; /* Размер шрифта */
+    font-weight: 600; /* Жирность шрифта */
 }
 
 .input-group {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    margin-bottom: 30px;
+    display: flex; /* Включаем флекс-контейнер */
+    justify-content: space-between; /* Распределение пространства между элементами */
+    gap: 20px; /* Отступ между полями ввода */
+    margin-bottom: 30px; /* Отступ снизу */
 }
 
-.range-input {
-    flex: 1;
+.range-input { /* поле ввода */
+    flex: 1; /* Растягивание на доступное пространство */
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: 500;
+label { /* лейбл - это текст, который описывает поле ввода */
+    display: block; /* Блочное отображение */
+    margin-bottom: 8px; /* Отступ снизу */
+    font-size: 16px; /* Размер шрифта */
+    font-weight: 500; /* Жирность шрифта */
 }
 
-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    background-color: var(--tg-theme-bg-color);
-    color: var(--tg-theme-text-color);
-    transition: border-color 0.3s;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-    appearance: textfield;
+input { /* поле ввода - это поле, в котором пользователь может вводить данные */
+    width: 100%; /* Полная ширина */
+    padding: 8px; /* Внутренние отступы */
+    border: 1px solid #ddd; /* Граница поля ввода */
+    border-radius: 6px; /* Скругление углов */
+    font-size: 16px; /* Размер шрифта */
+    background-color: rgb(14, 22, 33); /* Цвет фона поля ввода */
+    color: #F5F5F5; /* Цвет текста */
+    transition: border-color 0.3s; /* Анимация изменения цвета границы */
+    box-sizing: border-box; /* Включаем box-model */
 }
 
-input:focus {
-    outline: none;
-    border-color: var(--tg-theme-button-color);
+input:focus { /* поле ввода при фокусе */
+    outline: none; /* Убираем стандартное выделение */
+    border-color: rgb(157, 157, 158); /* Цвет границы при фокусе */
 }
 
+.result-container { /* контейнер для результата - это блок, в котором находится результат */
+    text-align: center; /* Центрирование содержимого */
+    padding: 30px; /* Внутренние отступы */
+    margin-top: 20px; /* Отступ сверху */
+}
+
+.result { /* результат - это число, которое генерируется */
+    font-size: 72px; /* Размер шрифта результата */
+    font-weight: bold; /* Жирный шрифт */
+    color: #F5F5F5; /* Цвет числа */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Тень текста */
+    transition: transform 0.3s; /* Анимация трансформации */
+}
+
+.generate-button { /* кнопка для генерации числа */
+    display: block; /* Блочное отображение */
+    width: 80%; /* Ширина кнопки */
+    margin: 20px auto; /* Центрирование кнопки */
+    padding: 15px 30px; /* Внутренние отступы */
+    font-size: 18px; /* Размер шрифта */
+    font-weight: 500; /* Жирность шрифта */
+    color: rgb(14, 22, 33); /* Цвет текста кнопки */
+    background-color: #F5F5F5; /* Цвет фона кнопки */
+    border: none; /* Убираем границу */
+    border-radius: 8px; /* Скругление углов */
+    cursor: pointer; /* Курсор-указатель */
+    transition: transform 0.2s, opacity 0.2s; /* Анимация при нажатии */
+}
+
+.generate-button:active {
+    transform: scale(0.98); /* Уменьшение размера при нажатии */
+    opacity: 0.9; /* Прозрачность при нажатии */
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px; /* Уменьшенный отступ для мобильных */
+    }
+
+    .container {
+        padding: 15px; /* Уменьшенный отступ контейнера */
+    }
+
+    .input-group {
+        gap: 15px; /* Уменьшенный отступ между полями */
+    }
+
+    h1 {
+        font-size: 22px; /* Уменьшенный размер заголовка */
+    }
+
+    .result {
+        font-size: 64px; /* Уменьшенный размер результата */
+    }
+
+    .generate-button {
+        width: 90%; /* Увеличенная ширина кнопки */
+        padding: 12px 24px; /* Уменьшенные отступы */
+        font-size: 16px; /* Уменьшенный размер текста */
+    }
+}
+
+/* Убираем стрелки для Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.result-container {
-    text-align: center;
-    padding: 30px;
-    margin-top: 20px;
-}
-
-.result {
-    font-size: 72px;
-    font-weight: bold;
-    color: var(--tg-theme-button-color);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-    -webkit-font-smoothing: antialiased;
-}
-
-.result.animate {
-    transform: scale(1.1);
-}
-
-.generate-button {
-    display: block;
-    width: 80%;
-    margin: 20px auto;
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--tg-theme-button-text-color);
-    background-color: var(--tg-theme-button-color);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s, opacity 0.2s;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.generate-button:active {
-    transform: scale(0.98);
-    opacity: 0.9;
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-
-    .container {
-        padding: 15px;
-    }
-
-    .input-group {
-        gap: 20px;
-    }
-
-    h1 {
-        font-size: 22px;
-    }
-
-    .result {
-        font-size: 64px;
-    }
-
-    .generate-button {
-        width: 90%;
-        padding: 12px 24px;
-        font-size: 16px;
-    }
+/* Убираем стрелки для Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
