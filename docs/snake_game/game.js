@@ -178,13 +178,30 @@ class SnakeGame {
 
     // Добавьте этот метод в место, где игра заканчивается (где gameOver = true)
     sendScore() {
+        console.log('Sending score:', this.score);
         if (window.Telegram.WebApp) {
-            const gameData = {
-                action: 'game_end',
-                game: 'snake',
-                score: this.score
-            };
-            window.Telegram.WebApp.sendData(JSON.stringify(gameData));
+            try {
+                // Сначала пробуем использовать MainButton
+                window.Telegram.WebApp.MainButton.setText('Игра окончена!');
+                window.Telegram.WebApp.MainButton.show();
+
+                const gameData = {
+                    action: 'game_end',
+                    game: 'snake',
+                    score: this.score
+                };
+
+                // Используем postEvent вместо sendData
+                window.Telegram.WebApp.postEvent('mainButtonClicked', gameData);
+
+                // Или используем BackButton для отправки данных
+                window.Telegram.WebApp.BackButton.show();
+                window.Telegram.WebApp.onEvent('backButtonClicked', () => {
+                    window.Telegram.WebApp.sendData(JSON.stringify(gameData));
+                });
+            } catch (e) {
+                console.error('Error sending score:', e);
+            }
         }
     }
 
@@ -219,7 +236,7 @@ class SnakeGame {
         if (this.snake.some(segment => segment.x === head.x && segment.y === head.y)) {
             this.gameOver = true;
             this.pauseButton.textContent = 'Начать';
-            this.sendScore(); // Добавьте эту строку
+            this.sendScore();
             return;
         }
 

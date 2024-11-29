@@ -1,6 +1,18 @@
 // Инициализация Telegram WebApp
 const webapp = window.Telegram.WebApp;
 webapp.ready();
+webapp.expand();
+
+// Настраиваем обработчики событий
+webapp.onEvent('mainButtonClicked', function() {
+    // Данные будут отправлены при клике на главную кнопку
+    const gameData = {
+        action: 'game_end',
+        game: 'snake',
+        score: window.game ? window.game.score : 0
+    };
+    webapp.sendData(JSON.stringify(gameData));
+});
 
 // Подстраиваем тему под настройки пользователя
 document.documentElement.style.setProperty('--tg-theme-bg-color', webapp.backgroundColor);
