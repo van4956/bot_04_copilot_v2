@@ -26,7 +26,7 @@ class Users(Base):
     status: Mapped[str] = mapped_column(String(150), nullable=False)
     flag: Mapped[int] = mapped_column(Integer, nullable=False)  # возможность для тротлинга
 
-# class Product соответствует таблице product в базе данных (это книга рецептов, влом менять нейминг)
+# class Cookbook соответствует таблице cookbook в базе данных
 class Cookbook(Base):
     '''class Cookbook соответствует таблице cookbook в базе данных'''
     __tablename__ = "cookbook"
@@ -38,5 +38,13 @@ class Cookbook(Base):
     price: Mapped[float] = mapped_column(Float(asdecimal=True), nullable=False)
     image: Mapped[str] = mapped_column(String(150))
 
-# class
-    
+# class Games соответствует таблице games в базе данных
+class Games(Base):
+    '''class Games соответствует таблице games в базе данных'''
+    __tablename__ = "games"
+
+    game_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    game_name: Mapped[str] = mapped_column(String(150), nullable=False)
+    user_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    user_name: Mapped[str] = mapped_column(String(150), nullable=False)
+    score: Mapped[int] = mapped_column(Integer, nullable=False)

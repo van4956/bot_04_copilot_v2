@@ -25,6 +25,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from common import keyboard
 from filters.chat_type import ChatTypeFilter
+from database.orm_games import get_top_scores
 
 
 # Инициализируем роутер уровня модуля
@@ -128,3 +129,17 @@ async def cat_cmd(message: Message, workflow_data: dict):
     await analytics(user_id=user_id,
                     category_name="/service",
                     command_name="/cat")
+
+@private_router.message(Command("stats"))
+async def show_stats(message: Message, session: AsyncSession):
+    top_players = await get_top_scores(session, 'snake')
+
+    if not top_players:
+        await message.answer("Пока нет результатов игр!")
+        return
+
+    text = "🏆 Топ игроков в Snake:\n\n"
+    for i, game in enumerate(top_players, 1):
+        text += f"{i}. {game.user_name:<15}    {game.score:>4}\n"
+
+    await message.answer(text)

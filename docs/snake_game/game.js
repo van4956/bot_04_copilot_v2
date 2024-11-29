@@ -176,6 +176,18 @@ class SnakeGame {
         }
     }
 
+    // Добавьте этот метод в место, где игра заканчивается (где gameOver = true)
+    sendScore() {
+        if (window.Telegram.WebApp) {
+            const gameData = {
+                action: 'game_end',
+                game: 'snake',
+                score: this.score
+            };
+            window.Telegram.WebApp.sendData(JSON.stringify(gameData));
+        }
+    }
+
     // Основной игровой цикл
     gameLoop() {
         if (this.gameOver || this.isPaused || !this.isStarted) return;
@@ -207,6 +219,7 @@ class SnakeGame {
         if (this.snake.some(segment => segment.x === head.x && segment.y === head.y)) {
             this.gameOver = true;
             this.pauseButton.textContent = 'Начать';
+            this.sendScore(); // Добавьте эту строку
             return;
         }
 
