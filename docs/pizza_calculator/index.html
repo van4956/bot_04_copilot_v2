@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор пиццы</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8"> <!-- Кодировка страницы -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <!-- Настройки отображения для мобильных устройств -->
+    <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Для корректной работы на iOS -->
+    <meta name="mobile-web-app-capable" content="yes"> <!-- Для корректной работы на Android -->
+    <title>Калькулятор пиццы</title> <!-- Заголовок страницы -->
+    <link rel="stylesheet" href="styles.css"> <!-- Подключение стилей -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Подключение Telegram WebApp -->
 </head>
 <body>
-    <div class="container">
-        <h1>Калькулятор пиццы</h1>
+    <div class="container"> <!-- Основной контейнер -->
+        <h1>Калькулятор пиццы</h1> <!-- Заголовок приложения -->
 
-        <div class="calculator">
-            <div class="input-group">
+        <div class="calculator"> <!-- Контейнер калькулятора -->
+            <div class="input-group"> <!-- Группа ввода для диаметра -->
                 <label for="diameter">Диаметр (см):</label>
-                <input type="number" id="diameter" min="1" max="100" placeholder="30">
+                <input type="number" id="diameter" min="1" max="100" placeholder="32" autocomplete="off">
             </div>
 
-            <div class="input-group">
+            <div class="input-group"> <!-- Группа ввода для количества -->
                 <label for="quantity">Количество пицц (шт):</label>
-                <input type="number" id="quantity" min="1" placeholder="1">
+                <input type="number" id="quantity" min="1" placeholder="1" autocomplete="off">
             </div>
 
-            <div class="input-group">
+            <div class="input-group"> <!-- Группа ввода для цены -->
                 <label for="price">Общая цена (y.e.):</label>
-                <input type="number" id="price" min="1" placeholder="500">
+                <input type="number" id="price" min="1" placeholder="990" autocomplete="off">
             </div>
 
-            <div id="result" class="result">
-                <p>Стоимость за см²: <span id="price-per-cm">0.00</span> y.e.</p>
-                <p>Стоимость 1 пиццы: <span id="price-per-pizza">0.00</span> y.e.</p>
+            <div id="result" class="result"> <!-- Блок с результатами -->
+                <p>Стоимость за см²: <span id="price-per-cm">0.00</span> y.e.</p> <!-- Вывод стоимости за см² -->
+                <p>Стоимость 1 пиццы: <span id="price-per-pizza">0.00</span> y.e.</p> <!-- Вывод стоимости за пиццу -->
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js"></script> <!-- Подключение скрипта -->
 </body>
 </html>
