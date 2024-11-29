@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #1A1B2E; /* Глубокий индиго-черный */
+    background-color: rgb(23, 33, 43); /* сине-серый темный - задний фон */
     color: #F5F5F5; /* Нежно-белый */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     box-sizing: border-box;
@@ -27,7 +27,7 @@ body {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #232442; /* Чуть более светлый оттенок синего */
+    background-color: rgb(47, 56, 65); /* сине-серый - фон приложения */
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
@@ -44,7 +44,7 @@ body {
     height: 300px;
     border: 3px solid #A9A9A9; /* Металлический серый */
     border-radius: 12px;
-    background-color: #1A1B2E; /* Глубокий индиго-черный */
+    background-color: rgb(14, 22, 33); /* сине-серый глубокий темный - поле игры */
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
@@ -53,7 +53,7 @@ body {
     width: 180px;
     height: 180px;
     margin: 20px 0;
-    background-color: rgba(35, 36, 66, 0.9); /* Полупрозрачный светлый синий */
+    background-color: rgb(47, 56, 65); /* Полупрозрачный светлый синий */
     border-radius: 90px;
     padding: 10px;
 }
@@ -64,7 +64,7 @@ body {
     height: 50px;
     border: 2px solid #A9A9A9; /* Металлический серый */
     border-radius: 50%;
-    background-color: #232442; /* Чуть более светлый оттенок синего */
+    background-color: rgb(47, 56, 65);
     color: #F5F5F5; /* Нежно-белый */
     font-size: 24px;
     display: flex;
@@ -78,7 +78,7 @@ body {
 
 .controls button:hover {
     background-color: #A9A9A9; /* Металлический серый */
-    color: #1A1B2E; /* Глубокий индиго-черный */
+    color: rgb(47, 56, 65); /* Глубокий индиго-черный */
 }
 
 .controls button:active {

@@ -15,7 +15,7 @@ const resultDisplay = document.getElementById('result');
 const generateBtn = document.getElementById('generateBtn');
 
 // Функция анимации чисел
-function animateNumber(from, to, duration = 2000) { // Увеличили длительность с 1000 до 2000
+function animateNumber(from, to, duration = 2000) {
     const start = performance.now();
     const range = to - from;
     let lastNumber = from;
@@ -23,13 +23,10 @@ function animateNumber(from, to, duration = 2000) { // Увеличили дли
     function update(currentTime) {
         const elapsed = currentTime - start;
         const progress = Math.min(elapsed / duration, 1);
-
-        // Добавляем эффект замедления
         const easeOut = 1 - Math.pow(1 - progress, 3);
 
         if (progress < 1) {
-            // Замедляем частоту обновления чисел
-            if (Math.random() < 0.3) { // Уменьшаем вероятность обновления
+            if (Math.random() < 0.3) {
                 const randomValue = Math.floor(Math.random() * range + from);
                 if (randomValue !== lastNumber) {
                     lastNumber = randomValue;
@@ -65,10 +62,8 @@ function generateNumber() {
     animateNumber(validMin, result);
 }
 
-// Обновляем обработчики событий
-// Убираем автоматическую генерацию при вводе
+// Обработчики событий
 minInput.addEventListener('input', () => {
-    // Только валидация
     const min = parseInt(minInput.value) || 1;
     const max = parseInt(maxInput.value) || 100;
     if (min > max) {
@@ -77,7 +72,6 @@ minInput.addEventListener('input', () => {
 });
 
 maxInput.addEventListener('input', () => {
-    // Только валидация
     const min = parseInt(minInput.value) || 1;
     const max = parseInt(maxInput.value) || 100;
     if (max < min) {
@@ -85,8 +79,7 @@ maxInput.addEventListener('input', () => {
     }
 });
 
-// Добавляем обработчик для кнопки
 generateBtn.addEventListener('click', generateNumber);
 
-// Генерируем первое число при загрузке
+// Инициализация
 generateNumber();
