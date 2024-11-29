@@ -30,7 +30,8 @@ async def process_help_command(message: Message, workflow_data: dict):
     await message.answer(
         text=_('Доступные команды:\n\n'
                '/book - книга рецептов\n'
-               '/mini - мини приложения\n\n'
+               '/mini - мини приложения\n'
+               '/stats - статистика игр\n\n'
                '/lang - сменить язык\n'
                '/help - помощь\n'
                '/donate - донат автору\n'

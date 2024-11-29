@@ -37,7 +37,7 @@ BACK_TO_MAIN = __("Назад на главную ↩️")
 @cookbook_router.message(Command(commands='book'))
 async def process_cookbook_command(message: Message, state: FSMContext, session: AsyncSession, workflow_data: dict):
     # photo = FSInputFile("common/images/image_cook.jpg")
-    await message.answer(text=_("<i>(все рецепты на оригенальном языке автора)</i>\n\nКнига рецептов"),
+    await message.answer(text=_("Книга рецептов"),
                          reply_markup=keyboard.del_kb)
     user_id = message.from_user.id
     await asyncio.sleep(2)

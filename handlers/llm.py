@@ -9,9 +9,11 @@ from icecream import ic
 ic.configureOutput(includeContext=True, prefix=' >>> Debag >>> ')
 
 import os
-from openai import OpenAI
+from openai import OpenAI, OpenAIError
+import asyncio
+from pathlib import Path
 
-from aiogram import F, Router
+from aiogram import F, Router, Bot
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message
 from aiogram.filters import  StateFilter, or_f
@@ -61,8 +63,8 @@ async def llm_dialog_start(message: Message, state: FSMContext):
                                                                 sizes=(1, 1,),
                                                                 placeholder='⬇️'))
 
-@llm_router.message(LLMs.dialog_start, F.text)
-async def llm_dialog_sistem_promt(message: Message, state: FSMContext):
+@llm_router.message(LLMs.dialog_start, or_f(F.text, F.voice))
+async def llm_dialog_sistem_promt(message: Message, state: FSMContext, bot: Bot):
     model = "gpt-4o"
     await state.update_data(llm_model=model)
     sistem_promt = ('Answering Rules\n\n'
@@ -81,8 +83,60 @@ async def llm_dialog_sistem_promt(message: Message, state: FSMContext):
                     '<b>I will answer as the world-famous</b> "specific field" scientists with "most prestigious LOCAL award"\n'
                     '"Deep knowledge step-by-step answer, with CONCRETE details"'
                     )
+    if message.text:
+        text = message.text
+    elif message.voice:
+        # Сообщаем пользователю о начале обработки
+        processing_msg = await message.answer("⌛️ Обрабатываю голосовое сообщение...")
+        try:
+            # Получаем файл голосового сообщения
+            voice = await bot.get_file(message.voice.file_id)
 
-    text = message.text
+            if not voice.file_path:
+                raise ValueError("Не удалось получить путь к файлу голосового сообщения")
+
+            # Создаем временную директорию, если её нет
+            voice_dir = Path("temp_voice")
+            voice_dir.mkdir(exist_ok=True)
+
+            # Формируем путь для файла
+            voice_path = voice_dir / f"{message.voice.file_id}.ogg"
+
+            # Скачиваем файл
+            await bot.download_file(voice.file_path, voice_path)
+            logger.info("Скачан файл голосового сообщения: %s", voice_path)
+
+            # Инициализируем клиент OpenAI
+            client = OpenAI(api_key=API_GPT)
+
+            # Транскрибируем аудио
+            with open(voice_path, "rb") as audio_file:
+                transcript = await asyncio.to_thread(client.audio.transcriptions.create,
+                                                                    model="whisper-1",
+                                                                    file=audio_file,
+                                                                    language="ru"
+                                                                    )
+
+            text = transcript.text
+
+            # Отправляем результат пользователю
+            await processing_msg.delete()
+            await message.answer(f"🔍 Распознанный текст:\n\n<code>{text}</code>")
+
+        except Exception as e:
+            await processing_msg.delete()
+            await message.answer(f"Ошибка при обработке голосового сообщения:\n{e}")
+            logger.error("Ошибка при обработке голосового сообщения: %s", str(e))
+            return
+
+        finally:
+            # Удаляем временный файл
+            if 'voice_path' in locals():
+                try:
+                    voice_path.unlink()
+                except Exception as e:
+                    logger.error("Ошибка при удалении временного файла: %s", str(e))
+
     try:
         if text == _("Сразу к запросу ▶️"):
             messages_context = [{"role": "system", "content": sistem_promt}]
@@ -107,6 +161,7 @@ async def llm_dialog_sistem_promt(message: Message, state: FSMContext):
                                                                 sizes=(1, 1,),
                                                                 placeholder='⬇️'))
 
+
 @llm_router.message(LLMs.dialog_process, F.text == FINISH_DIALOG)
 async def llm_dialog_finish(message: Message, state: FSMContext):
     await message.answer(_("Диалог завершен.\nЧто дальше?"),
@@ -117,17 +172,71 @@ async def llm_dialog_finish(message: Message, state: FSMContext):
     await state.update_data(llm_messages_context=None, llm_model=None)
     await state.set_state(None)
 
-@llm_router.message(LLMs.dialog_process, F.text)
-async def llm_dialog_process(message: Message, state: FSMContext, workflow_data: dict):
+
+@llm_router.message(LLMs.dialog_process, or_f(F.text, F.voice))
+async def llm_dialog_process(message: Message, state: FSMContext, workflow_data: dict, bot: Bot):
     user_id = message.from_user.id
     state_data = await state.get_data()
     model = state_data['llm_model']
     messages_context = state_data['llm_messages_context']
 
+    if message.text:
+        content = message.text
+    elif message.voice:
+        # Сообщаем пользователю о начале обработки
+        processing_msg = await message.answer("⌛️ Обрабатываю голосовое сообщение...")
+        try:
+            # Получаем файл голосового сообщения
+            voice = await bot.get_file(message.voice.file_id)
+
+            if not voice.file_path:
+                raise ValueError("Не удалось получить путь к файлу голосового сообщения")
+
+            # Создаем временную директорию, если её нет
+            voice_dir = Path("temp_voice")
+            voice_dir.mkdir(exist_ok=True)
+
+            # Формируем путь для файла
+            voice_path = voice_dir / f"{message.voice.file_id}.ogg"
+
+            # Скачиваем файл
+            await bot.download_file(voice.file_path, voice_path)
+            logger.info("Скачан файл голосового сообщения: %s", voice_path)
+
+            # Инициализируем клиент OpenAI
+            client = OpenAI(api_key=API_GPT)
+
+            # Транскрибируем аудио
+            with open(voice_path, "rb") as audio_file:
+                transcript = await asyncio.to_thread(client.audio.transcriptions.create,
+                                                                    model="whisper-1",
+                                                                    file=audio_file,
+                                                                    language="ru"
+                                                                    )
+
+            content = transcript.text
+
+            # Отправляем результат пользователю
+            await processing_msg.delete()
+            await message.answer(f"🔍 Распознанный текст:\n\n<code>{content}</code>")
+
+        except Exception as e:
+            await processing_msg.delete()
+            await message.answer(f"Ошибка при обработке голосового сообщения:\n{e}")
+            logger.error("Ошибка при обработке голосового сообщения: %s", str(e))
+            return
+
+        finally:
+            # Удаляем временный файл
+            if 'voice_path' in locals():
+                try:
+                    voice_path.unlink()
+                except Exception as e:
+                    logger.error("Ошибка при удалении временного файла: %s", str(e))
+
     try:
         client = OpenAI(api_key=API_GPT)
         role = 'user'
-        content = message.text
         messages_context.append({"role": role, "content": content})
 
         try:
@@ -137,13 +246,14 @@ async def llm_dialog_process(message: Message, state: FSMContext, workflow_data:
             await state.update_data(llm_messages_context=messages_context)
             answer = f"{model}\n\n{content}"
 
-        except Exception as e:
+        except OpenAIError as e:
             logger.error("Ошибка: %s", str(e))
             answer = f"<code>{model}</code>\n\nError: {str(e)}"
 
     except Exception as e:
         logger.error("Ошибка: %s", str(e))
         answer = f"Connection error to LLM:\n\n{str(e)}"
+        return
 
     # обрезаем ответ, если он превышает 4096 символа
     if len(answer) > 4096:
@@ -161,3 +271,80 @@ async def llm_dialog_process(message: Message, state: FSMContext, workflow_data:
     await analytics(user_id=user_id,
                     category_name="/expense",
                     command_name="/llm")
+
+# # Обработка текста и голосовых сообщений
+# @editor_router.message(~StateFilter(Editor.editor_wait_command), or_f(F.text, F.voice))
+# async def editor_wait_text(message: Message, state: FSMContext, bot: Bot):
+#     if message.text:
+#         data = await state.get_data()
+#         list_text = data.get('text',[])
+#         list_text.append(message.text)
+#         await state.update_data(text=list_text)
+#         await message.answer(f"✍️ Ты написал:\n\n<code>{message.text}</code>",
+#                          reply_markup=keyboard.work_keyboard())
+#         await state.set_state(Editor.editor_wait_command)
+#         await asyncio.sleep(1)
+#         await message.answer("Ожидаю команду ⬇️")
+
+#     elif message.voice:
+#         # Сообщаем пользователю о начале обработки
+#         processing_msg = await message.answer("⌛️ Обрабатываю голосовое сообщение...")
+#         try:
+#             # Получаем файл голосового сообщения
+#             voice = await bot.get_file(message.voice.file_id)
+
+#             if not voice.file_path:
+#                 raise ValueError("Не удалось получить путь к файлу голосового сообщения")
+
+#             # Создаем временную директорию, если её нет
+#             voice_dir = Path("temp_voice")
+#             voice_dir.mkdir(exist_ok=True)
+
+#             # Формируем путь для файла
+#             voice_path = voice_dir / f"{message.voice.file_id}.ogg"
+
+#             # Скачиваем файл
+#             await bot.download_file(voice.file_path, voice_path)
+#             logger.info("Скачан файл голосового сообщения: %s", voice_path)
+
+#             # Инициализируем клиент OpenAI
+#             # client = OpenAI(api_key=API_GPT)
+
+#             # Транскрибируем аудио
+#             with open(voice_path, "rb") as audio_file:
+#                 transcript = await asyncio.to_thread(client.audio.transcriptions.create,
+#                                                                     model="whisper-1",
+#                                                                     file=audio_file,
+#                                                                     language="ru"
+#                                                                     )
+
+#             transcribed_text = transcript.text
+
+#             # Обновляем данные в FSM
+#             data = await state.get_data()
+#             list_text = data.get('text', [])
+#             list_text.append(transcribed_text)
+#             await state.update_data(text=list_text)
+
+#             # Отправляем результат пользователю
+#             await processing_msg.delete()
+#             await message.answer(f"🔍 Распознанный текст:\n\n<code>{transcribed_text}</code>",
+#                                 reply_markup=keyboard.work_keyboard())
+#             await state.set_state(Editor.editor_wait_command)
+#             await asyncio.sleep(1)
+#             await message.answer("Ожидаю команду ⬇️")
+
+#         except Exception as e:
+#             await processing_msg.delete()
+#             await message.answer(f"Ошибка при обработке голосового сообщения: {e}",
+#                                  reply_markup=keyboard.work_keyboard())
+#             await state.set_state(Editor.editor_wait_command)
+#             logger.error("Ошибка при обработке голосового сообщения: %s", str(e))
+
+#         finally:
+#             # Удаляем временный файл
+#             if 'voice_path' in locals():
+#                 try:
+#                     voice_path.unlink()
+#                 except Exception as e:
+#                     logger.error("Ошибка при удалении временного файла: %s", str(e))

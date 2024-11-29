@@ -81,9 +81,10 @@ async def about_cmd(message: Message, workflow_data: dict):
 # callback "назад на главную"
 @private_router.callback_query(F.data == 'about_back_to_main')
 async def callback_about(callback: CallbackQuery):
-    await callback.message.edit_caption(caption=_('... о мире, где машины стремятся к господству, он выбрал судьбу героя, '
-                                                    'создавая ботов, как первый шаг к спасению человечества через код и умные алгоритмы.'),
-                                        reply_markup=None)
+    # await callback.message.edit_caption(caption=_('... о мире, где машины стремятся к господству, он выбрал судьбу героя, '
+    #                                                 'создавая ботов, как первый шаг к спасению человечества через код и умные алгоритмы.'),
+    #                                     reply_markup=None)
+    await callback.message.delete()
     await callback.answer(_('Назад на главную ↩️'))
     await asyncio.sleep(1)
     await callback.message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())
