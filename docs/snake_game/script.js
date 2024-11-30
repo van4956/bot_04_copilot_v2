@@ -21,7 +21,7 @@ document.documentElement.style.setProperty('--tg-theme-button-color', webapp.but
 document.documentElement.style.setProperty('--tg-theme-button-text-color', webapp.buttonTextColor);
 
 // Отправляем данные о запуске игры
-webapp.sendData(JSON.stringify({
+window.Telegram.WebApp.sendData(JSON.stringify({
     action: 'game_start',
     game: 'snake'
 }));

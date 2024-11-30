@@ -45,14 +45,6 @@ class SnakeGame {
             gameOverBg: 'rgba(14, 22, 33, 0.85)', // полупрозрачный фон с тем же цветом для окончания игры
             gameOverText: '#F5F5F5'    // Нежно-белый для текста
         };
-        // this.colors = {
-        //     background: '#ffffff',     // Белый фон
-        //     snake: '#2481cc',         // Цвет змейки как у кнопок
-        //     snakeHead: '#1a73e8',     // Чуть темнее для головы
-        //     food: '#ff4444',          // Красный для еды
-        //     gameOverBg: 'rgba(255, 255, 255, 0.9)', // Полупрозрачный белый
-        //     gameOverText: '#2481cc'   // Цвет текста как у кнопок
-        // };
 
         // Кнопка управления игрой
         this.pauseButton = document.getElementById('pauseButton');
@@ -176,33 +168,15 @@ class SnakeGame {
         }
     }
 
-    // Добавьте этот метод в место, где игра заканчивается (где gameOver = true)
+    // Этот метод отправляет счет игры в телеграм
     sendScore() {
         console.log('Sending score:', this.score);
-        if (window.Telegram.WebApp) {
-            try {
-                // Сначала пробуем использовать MainButton
-                window.Telegram.WebApp.MainButton.setText('Игра окончена!');
-                window.Telegram.WebApp.MainButton.show();
-
-                const gameData = {
-                    action: 'game_end',
-                    game: 'snake',
-                    score: this.score
-                };
-
-                // Используем postEvent вместо sendData
-                window.Telegram.WebApp.postEvent('mainButtonClicked', gameData);
-
-                // Или используем BackButton для отправки данных
-                window.Telegram.WebApp.BackButton.show();
-                window.Telegram.WebApp.onEvent('backButtonClicked', () => {
-                    window.Telegram.WebApp.sendData(JSON.stringify(gameData));
-                });
-            } catch (e) {
-                console.error('Error sending score:', e);
-            }
-        }
+        const gameData = {
+            action: 'game_end',
+            game: 'snake',
+            score: this.score
+        };
+        window.Telegram.WebApp.sendData(JSON.stringify(gameData));
     }
 
     // Основной игровой цикл

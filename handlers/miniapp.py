@@ -61,35 +61,45 @@ async def callback_about(callback: CallbackQuery):
 
 @miniapp_router.message(F.web_app_data)
 async def handle_web_app_data(message: Message,  session: AsyncSession, workflow_data: dict):
-    logger.info("handle_web_app_data")
+    logger.info("Веб-приложение отправляет данные: %s", message.web_app_data.data)
     try:
         analytics = workflow_data['analytics']
         data = json.loads(message.web_app_data.data)
-        ic(data)
+
+        # Проверка структуры данных
+        if not isinstance(data, dict):
+            logger.error("Invalid data format: not a dictionary")
+            return
+
+        score=data.get('score', 0)
 
         if data.get('action') == 'game_start' and data.get('game') == 'snake':
+            logger.info("Starting snake game for user %s", message.from_user.id)
             await analytics(user_id=message.from_user.id,
                             category_name="/game",
                             command_name="/snake")
 
         if data.get('action') == 'game_end' and data.get('game') == 'snake':
-            # Создаем новую запись в таблице Games
-            new_game = Games(
-                game_name='snake',
-                user_id=message.from_user.id,
-                user_name=message.from_user.username,
-                score=data.get('score', 0)
-            )
+            logger.info("Ending snake game for user %s with score %s", message.from_user.id, data.get('score', 0))
+            # добавляем данные игры в бд
+            data = {'game_name': 'snake',
+                                    'user_id': message.from_user.id,
+                                    'user_name': message.from_user.username,
+                                    'score': score}
 
-            # Сохраняем в БД
-            session.add(new_game)
-            await session.commit()
+            await orm_add_game(session=session, data=data)
 
             # Отправляем сообщение пользователю
             await message.answer(f"Игра окончена!\nВаш счет: {data.get('score', 0)}")
 
-
-    except json.JSONDecodeError:
-        logger.error("Failed to parse web app data")
+    except json.JSONDecodeError as e:
+        logger.error("Failed to parse web app data: %s", e)
     except (ValueError, KeyError, AttributeError) as e:
         logger.error("Error processing web app data: %s", e)
+
+# Обработка ошибок при работе с веб-приложением
+@miniapp_router.error()
+async def error_handler(update: types.Update, exception: Exception):
+    logger.error("Ошибка при работе с веб-приложением: %s", exception)
+    if isinstance(update.message, Message):
+        await update.message.answer("Произошла ошибка при запуске приложения. Попробуйте позже.")
