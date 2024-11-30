@@ -27,7 +27,10 @@ miniapp_router = Router()
 # URL веб-приложения
 WEBAPP_URL_PIZZA = "https://van4956.github.io/bot_04_copilot_v2/pizza_calculator/"
 WEBAPP_URL_RANDOM = "https://van4956.github.io/bot_04_copilot_v2/random_generator/"
+
 WEBAPP_URL_SNAKE = "https://van4956.github.io/bot_04_copilot_v2/snake_game/"
+WEBAPP_URL_SNAKE_V2 = "t.me/judge_dredd_v3_bot/snake_game"
+WEBAPP_URL_SNAKE_V3 = "http://t.me/judge_dredd_v3_bot/snake_game"
 
 @miniapp_router.message(Command("mini"))
 async def cmd_miniapp(message: types.Message, workflow_data: dict):
@@ -37,7 +40,7 @@ async def cmd_miniapp(message: types.Message, workflow_data: dict):
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="🍕 Калькулятор", web_app=WebAppInfo(url=WEBAPP_URL_PIZZA)))
     builder.row(InlineKeyboardButton(text="🎲 Рандомайзер", web_app=WebAppInfo(url=WEBAPP_URL_RANDOM)))
-    builder.row(InlineKeyboardButton(text="🐍 Змейка", web_app=WebAppInfo(url=WEBAPP_URL_SNAKE)))
+    builder.row(InlineKeyboardButton(text="🐍 Змейка", web_app=WebAppInfo(url=WEBAPP_URL_SNAKE_V3)))
     builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='mini_back_to_main'))
 
     photo = FSInputFile("common/images/image_miniapp.jpg")
