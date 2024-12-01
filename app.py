@@ -40,7 +40,7 @@ from middlewares import counter, db, locale, throttle
 # Режим запуска:
 # docker == 1 - запуск в docker,
 # docker == 0 - запуск локально
-docker = 0
+docker = 1
 
 # Загружаем конфиг в переменную config
 config: Config = load_config()
@@ -87,7 +87,7 @@ else: # данные хранятся в оперативной памяти, п
     storage = MemoryStorage()
 
 logger.info('Инициализируем бот и диспетчер')
-bot = Bot(token=config.tg_bot.token_test,
+bot = Bot(token=config.tg_bot.token,
           default=DefaultBotProperties(parse_mode=ParseMode.HTML, # для html тегов в сообщениях
                                        link_preview=None, # отключаем превью ссылок
                                        link_preview_is_disabled=None, # отключаем превью ссылок
