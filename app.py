@@ -16,6 +16,7 @@ import asyncio
 from datetime import datetime, timezone
 
 from aiogram import Bot, Dispatcher, types
+from aiogram.types import Update
 from aiogram.fsm.strategy import FSMStrategy
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
@@ -147,10 +148,14 @@ dp.include_router(donate.donate_router)
 dp.include_router(group.group_router)
 dp.include_router(other.other_router)
 
+# Логируем все необработанные апдейты
+@dp.update()
+async def log_all_updates(update: Update):
+    logger.info(f"Необработанный апдейт: {update}")
 
 # Типы апдейтов которые будем отлавливать ботом
-# ALLOWED_UPDATES = ['message', 'edited_message', 'callback_query',]  # Отбираем определенные типы апдейтов
-ALLOWED_UPDATES = dp.resolve_used_update_types()  # Отбираем только используемые события по роутерам
+ALLOWED_UPDATES = ['message', 'edited_message', 'callback_query', "web_app_data", "chat_member"]  # Отбираем определенные типы апдейтов
+# ALLOWED_UPDATES = dp.resolve_used_update_types()  # Отбираем только используемые события по роутерам
 
 # Функция сработает при запуске бота
 async def on_startup():

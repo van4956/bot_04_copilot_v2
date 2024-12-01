@@ -40,7 +40,7 @@ async def process_cookbook_command(message: Message, state: FSMContext, session:
     await message.answer(text=_("Книга рецептов"),
                          reply_markup=keyboard.del_kb)
     user_id = message.from_user.id
-    await asyncio.sleep(2)
+    await asyncio.sleep(1)
 
     try:
         book = await orm_get_recipes(session)

@@ -57,10 +57,10 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
     await message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())
 
 
-# команда /help
-@private_router.message(Command("help"))
+# команда /about
+@private_router.message(Command("about"))
 async def about_cmd(message: Message, workflow_data: dict):
-    await message.answer(_("помощь ..."), reply_markup=keyboard.del_kb)
+    await message.answer(_("информация о разработчике ..."), reply_markup=keyboard.del_kb)
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="Telegram",url="tg://user?id=459148628"))
     builder.row(InlineKeyboardButton(text="Linkedin",url="https://www.linkedin.com/in/ivan-goncharov-8a1982212/"))
@@ -82,9 +82,6 @@ async def about_cmd(message: Message, workflow_data: dict):
 # callback "назад на главную"
 @private_router.callback_query(F.data == 'about_back_to_main')
 async def callback_about(callback: CallbackQuery):
-    # await callback.message.edit_caption(caption=_('... о мире, где машины стремятся к господству, он выбрал судьбу героя, '
-    #                                                 'создавая ботов, как первый шаг к спасению человечества через код и умные алгоритмы.'),
-    #                                     reply_markup=None)
     await callback.message.delete()
     await callback.answer(_('Назад на главную ↩️'))
     await asyncio.sleep(1)
@@ -132,14 +129,22 @@ async def cat_cmd(message: Message, workflow_data: dict):
 
 @private_router.message(Command("stats"))
 async def show_stats(message: Message, session: AsyncSession):
-    top_players = await get_top_scores(session, 'snake')
+    # top_players = await get_top_scores(session, 'snake')
 
-    if not top_players:
-        await message.answer("Пока нет результатов игр!")
-        return
+    # if not top_players:
+    #     await message.answer("Пока нет результатов игр!")
+    #     return
 
-    text = "🏆 Топ игроков в Snake:\n\n"
-    for i, game in enumerate(top_players, 1):
-        text += f"{i}. {game.user_name:<15}    {game.score:>4}\n"
+    # text = "🏆 Топ игроков в Snake:\n\n"
+    # for i, game in enumerate(top_players, 1):
+    #     text += f"{i}. {game.user_name:<15}    {game.score:>4}\n"
 
-    await message.answer(text)
+    await message.answer(_("Статистика в разработке..."), reply_markup=keyboard.del_kb)
+    await asyncio.sleep(1)
+    await message.answer(_("На самом деле у программиста лапки 🙈"))
+    await asyncio.sleep(2)
+    await message.answer(_("Telegramm не отдает web_app_data: данные отправляются через sendData из WebApp (JavaScript), но не доходят до бота (Python). Передачу данных обрабатывает Telegram. Где-то тут происходит баг."))
+    await asyncio.sleep(3)
+    await message.answer(_("Если кто-то понял о чем речь, и знает как пофиксить, пожалуйста, напишите в личку."))
+    await asyncio.sleep(1)
+    await message.answer(_("Главная панель"), reply_markup=keyboard.start_keyboard())

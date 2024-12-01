@@ -167,7 +167,7 @@ class SnakeGame {
             this.foods.push(newFood);
         }
     }
-
+    // console.log("Данные, отправляемые через sendData:", gameData);
     // Этот метод отправляет счет игры в телеграм
     sendScore() {
         console.log('Sending score:', this.score);

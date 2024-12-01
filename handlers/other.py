@@ -33,7 +33,7 @@ async def process_help_command(message: Message, workflow_data: dict):
                '/mini - мини приложения\n'
                '/stats - статистика игр\n\n'
                '/lang - сменить язык\n'
-               '/help - помощь\n'
+               '/about - информация о\n'
                '/donate - донат автору\n'
                )
     )
