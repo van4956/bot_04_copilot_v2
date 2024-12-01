@@ -83,19 +83,19 @@ async def cmd_ping_bot(message: Message, counter):
 async def get_users_info(message: Message, session: AsyncSession):
     all_info = ['Информация зарегистрированных пользователей:\n']
     cnt_users = 0
+    len_text = len(all_info)
+
     for user in await orm_get_users(session):
         user_status = 'm' if user.status == 'member' else 'k'
-        info = f"<code>{user.user_id: <11}</code> | <code>{user_status}</code> | {user.flag} | {user.locale} | <code>{user.user_name}</code>"
-        all_info.append(info)
+        info = f"<code>{user.user_id: <11}</code> | <code>{user_status}</code> | {user.flag} | {user.locale} | <code>{user.user_name[:11]}</code>"
         cnt_users += 1
 
-    text = "\n".join(all_info)
+        # если длина текста больше 4000 символов, то пропускаем добавление новой строки в список
+        if len_text + len(info) > 4000:
+            continue
+        all_info.append(info)
 
-    # Обрезаем запись, если она превышает 1000 символов
-    if len(text) > 1000:
-        text = text[:995] + "..."
-
-    text = text + f"\n\nВсего {cnt_users} пользователей"
+    text = "\n".join(all_info) + f"\n\nВсего {cnt_users} пользователей"
 
     await message.answer(text)
 
