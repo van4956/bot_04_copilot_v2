@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot_00_template 0.1\n"
 "Report-Msgid-Bugs-To: gontscharowiwan@yandex.ru\n"
-"POT-Creation-Date: 2024-11-21 13:01+0800\n"
+"POT-Creation-Date: 2024-12-01 15:44+0800\n"
 "PO-Revision-Date: 2024-11-06 11:10+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -35,65 +35,41 @@ msgstr "Cats 🐱"
 msgid "LLMs 🤖"
 msgstr "LLMs 🤖"
 
-#: handlers/admin.py:65
-msgid ""
-"Админка:\n"
-"\n"
-"/admin - режим адменистратора\n"
-"/start - перезапустить бота\n"
-"/data - состояние FSMContext\n"
-"/get_id - посмотреть id диалога\n"
-"/ping - количество апдейтов\n"
-"/users - информация о пользователях\n"
-msgstr ""
-"Admin:\n"
-"\n"
-"/admin - admin mode\n"
-"/start - restart bot\n"
-"/data - FSMContext state\n"
-"/get_id - see dialog id\n"
-"/ping - number of updates\n"
-"/users - information about users\n"
+#: handlers/cookbook.py:40
+msgid "Книга рецептов"
+msgstr "Cookbook"
 
-#: handlers/cookbook.py:39
-msgid ""
-"<i>(все рецепты на оригенальном языке автора)</i>\n"
-"\n"
-"Книга рецептов ⏬"
-msgstr ""
-"<i>(all recipes in the original language of the author)</i>\n"
-"\n"
-"Cookbook ⏬"
-
-#: handlers/cookbook.py:62 handlers/cookbook.py:100 handlers/cookbook.py:137
-#: handlers/cookbook.py:175 handlers/currency.py:123 handlers/currency.py:145
+#: handlers/cookbook.py:63 handlers/cookbook.py:101 handlers/cookbook.py:138
+#: handlers/cookbook.py:177 handlers/currency.py:123 handlers/currency.py:145
 #: handlers/currency.py:184 handlers/currency.py:189 handlers/donate.py:46
-#: handlers/llm.py:51 handlers/llm.py:60 handlers/llm.py:97 handlers/llm.py:106
-#: handlers/llm.py:114 handlers/private.py:69 handlers/private.py:88
-#: handlers/weather.py:89 handlers/weather.py:197 handlers/weather.py:206
-#: handlers/weather.py:230 handlers/weather.py:257 handlers/weather.py:277
-#: handlers/weather.py:292
+#: handlers/llm.py:53 handlers/llm.py:62 handlers/llm.py:151
+#: handlers/llm.py:160 handlers/llm.py:169 handlers/miniapp.py:40
+#: handlers/miniapp.py:89 handlers/miniapp.py:97 handlers/private.py:69
+#: handlers/private.py:86 handlers/weather.py:184 handlers/weather.py:300
+#: handlers/weather.py:309 handlers/weather.py:333 handlers/weather.py:360
+#: handlers/weather.py:380 handlers/weather.py:395
 msgid "Назад на главную ↩️"
 msgstr "Back to main ↩️"
 
-#: handlers/cookbook.py:68
+#: handlers/cookbook.py:69
 msgid "Ошибка при выполнении команды /cookbook"
 msgstr "Error executing command /cookbook"
 
-#: handlers/cookbook.py:108
+#: handlers/cookbook.py:109
 msgid "Ошибка при выполнении inline кнопки '>>'"
 msgstr "Error executing inline button '>>'"
 
-#: handlers/cookbook.py:144
+#: handlers/cookbook.py:145
 msgid "Ошибка при выполнении inline кнопки '<<'"
 msgstr "Error executing inline button '<<'"
 
-#: handlers/cookbook.py:177 handlers/donate.py:60 handlers/donate.py:133
-#: handlers/private.py:44 handlers/private.py:57 handlers/private.py:90
+#: handlers/cookbook.py:179 handlers/donate.py:60 handlers/donate.py:133
+#: handlers/miniapp.py:99 handlers/private.py:44 handlers/private.py:57
+#: handlers/private.py:88 handlers/private.py:150
 msgid "Главная панель"
 msgstr "Main panel"
 
-#: handlers/cookbook.py:181
+#: handlers/cookbook.py:183
 msgid "Ошибка при выполнении inline кнопки 'Назад на главную ↩️'"
 msgstr "Error executing inline button 'Back to main ↩️'"
 
@@ -252,11 +228,11 @@ msgstr ""
 "Transaction ID:\n"
 "<code>{t_id}</code>"
 
-#: handlers/llm.py:49
+#: handlers/llm.py:51
 msgid "Введите системный промт"
 msgstr "Enter the system prompt"
 
-#: handlers/llm.py:50
+#: handlers/llm.py:52
 msgid ""
 "Например:\n"
 "\n"
@@ -268,19 +244,19 @@ msgstr ""
 "<code>You are a helpful assistant. Your tone should be official. Answers "
 "should be concise and understandable.</code>"
 
-#: handlers/llm.py:51 handlers/llm.py:87
+#: handlers/llm.py:53 handlers/llm.py:141
 msgid "Сразу к запросу ▶️"
 msgstr "Go to the request ▶️"
 
-#: handlers/llm.py:60 handlers/llm.py:113
+#: handlers/llm.py:62 handlers/llm.py:168
 msgid "Начать новый диалог 🤖"
 msgstr "Start a new dialog 🤖"
 
-#: handlers/llm.py:96
+#: handlers/llm.py:150
 msgid "Введите ваш запрос"
 msgstr "Enter your request"
 
-#: handlers/llm.py:112
+#: handlers/llm.py:167
 msgid ""
 "Диалог завершен.\n"
 "Что дальше?"
@@ -288,51 +264,69 @@ msgstr ""
 "The dialog is finished.\n"
 "What's next?"
 
-#: handlers/llm.py:153
+#: handlers/llm.py:263
 msgid "Закончить диалог"
 msgstr "Finish the dialog"
 
-#: handlers/llm.py:155
+#: handlers/llm.py:265
 msgid "Введите следующий запрос"
 msgstr "Enter the next request"
+
+#: handlers/miniapp.py:38 handlers/miniapp.py:87
+msgid "Сервисы"
+msgstr "Services"
+
+#: handlers/miniapp.py:39 handlers/miniapp.py:88
+msgid "Игры"
+msgstr "Games"
+
+#: handlers/miniapp.py:44
+msgid "Фабрика по производству мини-приложений:"
+msgstr "Factory of mini-applications:"
+
+#: handlers/miniapp.py:55 handlers/miniapp.py:72
+msgid "Назад"
+msgstr "Back"
 
 #: handlers/other.py:31
 msgid ""
 "Доступные команды:\n"
 "\n"
-"/main - главная панел\n"
 "/book - книга рецептов\n"
+"/mini - мини приложения\n"
+"/stats - статистика игр\n"
 "\n"
 "/lang - сменить язык\n"
-"/info - информация\n"
+"/about - информация о\n"
 "/donate - донат автору\n"
 msgstr ""
 "Available commands:\n"
 "\n"
-"/main - main panel\n"
-"/book - cookbook\n"
+"/book - my cookbook\n"
+"/mini - mini apps\n"
+"/stats - game statistics\n"
 "\n"
 "/lang - change language\n"
-"/info - information about\n"
+"/about - information about\n"
 "/donate - donate to the author\n"
 
-#: handlers/other.py:47
+#: handlers/other.py:48
 msgid "🇺🇸 Английский"
 msgstr "🇺🇸 English"
 
-#: handlers/other.py:48
+#: handlers/other.py:49
 msgid "🇷🇺 Русский"
 msgstr "🇷🇺 Russian"
 
-#: handlers/other.py:49
+#: handlers/other.py:50
 msgid "🇩🇪 Немецкий"
 msgstr "🇩🇪 German"
 
-#: handlers/other.py:59
+#: handlers/other.py:60
 msgid "Настройки языка"
 msgstr "Language settings"
 
-#: handlers/other.py:60
+#: handlers/other.py:61
 msgid "Выберите язык"
 msgstr "Choose a language"
 
@@ -341,26 +335,52 @@ msgid "Действия отменены"
 msgstr "Donation canceled."
 
 #: handlers/private.py:63
-msgid "информация ..."
-msgstr "information ..."
+msgid "информация о разработчике ..."
+msgstr "information about the developer ..."
 
-#: handlers/private.py:73 handlers/private.py:85
+#: handlers/private.py:73
 msgid ""
-"... о мире, где машины стремятся к господству, он выбрал судьбу героя, "
+"... в мире, где машины стремятся к господству, он выбрал судьбу героя, "
 "создавая ботов, как первый шаг к спасению человечества через код и умные "
 "алгоритмы."
 msgstr ""
-"... about a world where machines strive for supremacy, he chose the fate "
+"... in a world where machines strive for supremacy, he chose the fate "
 "of a hero, creating bots as the first step towards saving humanity "
 "through code and smart algorithms."
 
-#: handlers/private.py:108
+#: handlers/private.py:106
 msgid "Локальные изображения не найдены."
 msgstr "Local images not found"
 
-#: handlers/private.py:120
+#: handlers/private.py:118
 msgid "Здесь должна была быть картинка с котиком :("
 msgstr "Here should be a picture with a cat :("
+
+#: handlers/private.py:142
+msgid "Статистика в разработке..."
+msgstr "Statistics in development..."
+
+#: handlers/private.py:144
+msgid "На самом деле у программиста лапки 🙈"
+msgstr "In fact, the programmer has paws 🙈"
+
+#: handlers/private.py:146
+msgid ""
+"Telegramm не отдает web_app_data: данные отправляются через sendData из "
+"WebApp (JavaScript), но не доходят до бота (Python). Передачу данных "
+"обрабатывает Telegram. Где-то тут происходит баг."
+msgstr ""
+"Telegramm does not return web_app_data: data is sent via sendData from "
+"WebApp (JavaScript), but they do not reach the bot (Python). Telegram "
+"processes the transfer of data. Somewhere here is a bug."
+
+#: handlers/private.py:148
+msgid ""
+"Если кто-то понял о чем речь, и знает как пофиксить, пожалуйста, напишите"
+" в личку."
+msgstr ""
+"If someone understands what I'm talking about and knows how to fix it, "
+"please write to me."
 
 #: handlers/start.py:49
 msgid "✅ <code>@{user_name}</code> - подписался на бота"
@@ -410,49 +430,49 @@ msgstr "{full_name}, welcome back!"
 msgid "♻️ <code>@{user_name}</code> - разблокировал бота "
 msgstr "♻️ <code>@{user_name}</code> - unblocked the bot"
 
-#: handlers/weather.py:88 handlers/weather.py:229 handlers/weather.py:256
-#: handlers/weather.py:276 handlers/weather.py:291
+#: handlers/weather.py:183 handlers/weather.py:332 handlers/weather.py:359
+#: handlers/weather.py:379 handlers/weather.py:394
 msgid "Выберите период прогноза"
 msgstr "Choose the forecast period"
 
-#: handlers/weather.py:89 handlers/weather.py:230 handlers/weather.py:257
-#: handlers/weather.py:277 handlers/weather.py:292
+#: handlers/weather.py:184 handlers/weather.py:333 handlers/weather.py:360
+#: handlers/weather.py:380 handlers/weather.py:395
 msgid "Текущий ⏺"
 msgstr "Current ⏺"
 
-#: handlers/weather.py:89 handlers/weather.py:230 handlers/weather.py:257
-#: handlers/weather.py:277 handlers/weather.py:292
+#: handlers/weather.py:184 handlers/weather.py:333 handlers/weather.py:360
+#: handlers/weather.py:380 handlers/weather.py:395
 msgid "На 3 дня ⏩"
 msgstr "For 3 days ⏩"
 
-#: handlers/weather.py:126
+#: handlers/weather.py:223
 msgid "Ошибка получения информации от OpenWeatherMap - {e}"
 msgstr "Error getting information from OpenWeatherMap - {e}"
 
-#: handlers/weather.py:189
+#: handlers/weather.py:292
 msgid "Ошибка в расчете json файла - {e}"
 msgstr "Error in calculating the json file - {e}"
 
-#: handlers/weather.py:196 handlers/weather.py:205
+#: handlers/weather.py:299 handlers/weather.py:308
 msgid "Каким способом определить прогноз?"
 msgstr "What way to get the forecast?"
 
-#: handlers/weather.py:197 handlers/weather.py:206
+#: handlers/weather.py:300 handlers/weather.py:309
 msgid "По названию 🏙"
 msgstr "By name 🏙"
 
-#: handlers/weather.py:197 handlers/weather.py:206
+#: handlers/weather.py:300 handlers/weather.py:309
 msgid "По локации 🗺"
 msgstr "By location 🗺"
 
-#: handlers/weather.py:216 handlers/weather.py:243
+#: handlers/weather.py:319 handlers/weather.py:346
 msgid "Введите название населенного пункта"
 msgstr "Enter the name of the settlement"
 
-#: handlers/weather.py:236 handlers/weather.py:263
+#: handlers/weather.py:339 handlers/weather.py:366
 msgid "Вы ввели не допустимые данные, введите название населенного пункта"
 msgstr "You entered invalid data, enter the name of the settlement"
 
-#: handlers/weather.py:269 handlers/weather.py:284
+#: handlers/weather.py:372 handlers/weather.py:387
 msgid "Локация получена"
 msgstr "Location received"

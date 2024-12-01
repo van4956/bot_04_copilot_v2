@@ -1,18 +1,19 @@
-# Translations template for bot_copilot_v2.
+# Japanese translations for bot_copilot_v2.
 # Copyright (C) 2024 AdvancedBotTemplate
 # This file is distributed under the same license as the bot_copilot_v2
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: bot_copilot_v2 0.2.5\n"
 "Report-Msgid-Bugs-To: gontscharowiwan@yandex.ru\n"
 "POT-Creation-Date: 2024-12-01 15:44+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2024-12-01 15:59+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,23 +21,23 @@ msgstr ""
 
 #: common/keyboard.py:51
 msgid "Погода 🌊"
-msgstr ""
+msgstr "テンキ 🌊"
 
 #: common/keyboard.py:51
 msgid "Валюта 💵"
-msgstr ""
+msgstr "カワセ 💵"
 
 #: common/keyboard.py:51
 msgid "Котики 🐱"
-msgstr ""
+msgstr "ネコ 🐱"
 
 #: common/keyboard.py:51
 msgid "LLMs 🤖"
-msgstr ""
+msgstr "エルエルエム 🤖"
 
 #: handlers/cookbook.py:40
 msgid "Книга рецептов"
-msgstr ""
+msgstr "レシピノホン"
 
 #: handlers/cookbook.py:63 handlers/cookbook.py:101 handlers/cookbook.py:138
 #: handlers/cookbook.py:177 handlers/currency.py:123 handlers/currency.py:145
@@ -48,94 +49,92 @@ msgstr ""
 #: handlers/weather.py:309 handlers/weather.py:333 handlers/weather.py:360
 #: handlers/weather.py:380 handlers/weather.py:395
 msgid "Назад на главную ↩️"
-msgstr ""
+msgstr "メインメニュー ↩️"
 
 #: handlers/cookbook.py:69
 msgid "Ошибка при выполнении команды /cookbook"
-msgstr ""
+msgstr "コマンド /クックブック ノジッコウエラー"
 
 #: handlers/cookbook.py:109
 msgid "Ошибка при выполнении inline кнопки '>>'"
-msgstr ""
+msgstr "インラインボタン '>>' ノジッコウエラー"
 
 #: handlers/cookbook.py:145
 msgid "Ошибка при выполнении inline кнопки '<<'"
-msgstr ""
+msgstr "インラインボタン '<<' ノジッコウエラー"
 
 #: handlers/cookbook.py:179 handlers/donate.py:60 handlers/donate.py:133
 #: handlers/miniapp.py:99 handlers/private.py:44 handlers/private.py:57
 #: handlers/private.py:88 handlers/private.py:150
 msgid "Главная панель"
-msgstr ""
+msgstr "メインパネル"
 
 #: handlers/cookbook.py:183
 msgid "Ошибка при выполнении inline кнопки 'Назад на главную ↩️'"
-msgstr ""
+msgstr "インラインボタン 'メインメニューへモドル ↩️' ノジッコウエラー"
 
 #: handlers/currency.py:45
 msgid "Сумма операции: {new_value}"
-msgstr ""
+msgstr "ソウギョウガク: {new_value}"
 
 #: handlers/currency.py:69
 msgid "Проблема в расчете курса"
-msgstr ""
+msgstr "カワセレートケイサンノモンダイ"
 
 #: handlers/currency.py:79
 msgid "Проблема в расчете времени."
-msgstr ""
+msgstr "ジカンケイサンノモンダイ"
 
 #: handlers/currency.py:80
 msgid "Проблема в расчете даты."
-msgstr ""
+msgstr "ヒヅケケイサンノモンダイ"
 
 #: handlers/currency.py:85
 msgid "Ошибка: Проблема с подключением к API"
-msgstr ""
+msgstr "エラー: APIセツゾクノモンダイ"
 
 #: handlers/currency.py:99 handlers/currency.py:121
 msgid "Сумма операции: 0.0"
-msgstr ""
+msgstr "ソウギョウガク: 0.0"
 
 #: handlers/currency.py:116
-msgid ""
-"Сумма операции: {user_value}\n"
-"Базовая валюта: "
-msgstr ""
+msgid "Сумма операции: {user_value}\nБазовая валюта: "
+msgstr "ソウギョウガク: {user_value}\nキホンカワセ: "
 
 #: handlers/currency.py:122 handlers/currency.py:144 handlers/currency.py:183
 #: handlers/currency.py:188
 msgid "Что дальше?"
-msgstr ""
+msgstr "ツギハナニヲスル？"
 
 #: handlers/currency.py:123 handlers/currency.py:145 handlers/currency.py:184
 #: handlers/currency.py:189
 msgid "Повторить 💵"
-msgstr ""
+msgstr "クリカエス 💵"
 
 #: handlers/currency.py:143
 msgid "Ошибка в получении суммы"
-msgstr ""
+msgstr "ソウギョウガクノジュシュエラー"
 
 #: handlers/currency.py:146
 msgid "Ошибка"
-msgstr ""
+msgstr "エラー"
 
 #: handlers/currency.py:153
 msgid "Вы ввели не допустимые данные, введите сумму используя inline кнопки"
-msgstr ""
+msgstr "フヨウナデータヲニュウリョクシマシタ。インラインボタンヲツカッテソウギョウガクヲニュウリョクシテクダサイ"
 
 #: handlers/currency.py:161
 msgid ""
 "Сумма операции: {amount}\n"
 "Базовая валюта: {base}\n"
 "Целевая валюта: "
-msgstr ""
+msgstr "ソウギョウガク: {amount}\nキホンカワセ: {base}\nモクテキカワセ: "
 
 #: handlers/currency.py:167
 msgid ""
 "Вы ввели не допустимые данные, введите базовую валюту используя inline "
 "кнопки"
-msgstr ""
+msgstr "フヨウナデータヲニュウリョクシマシタ。インラインボタンヲツカッテキホンカワセヲニュウリョクシテクダサイ"
 
 #: handlers/currency.py:181
 msgid ""
@@ -147,45 +146,52 @@ msgid ""
 "\n"
 "<b>{amount} {base}  ~  {count} {target}</b>"
 msgstr ""
+"ソウギョウガク: {amount}\n"
+"キホンカワセ: {base}\n"
+"モクテキカワセ: {target}\n"
+"\n"
+"<i>{dt},  {time}</i>\n"
+"\n"
+"<b>{amount} {base}  ~  {count} {target}</b>"
 
 #: handlers/currency.py:190
 msgid "Успех"
-msgstr ""
+msgstr "セイコウ"
 
 #: handlers/currency.py:196
 msgid ""
 "Вы ввели не допустимые данные, введите целевую валюту используя inline "
 "кнопки"
-msgstr ""
+msgstr "フヨウナデータヲニュウリョクシマシタ。インラインボタンヲツカッテモクテキカワセヲニュウリョクシテクダサイ"
 
 #: handlers/donate.py:45
 msgid "другое"
-msgstr ""
+msgstr "ソノタ"
 
 #: handlers/donate.py:47 handlers/donate.py:57 handlers/donate.py:83
 #: handlers/donate.py:111
 msgid "Поддержать автора донатом"
-msgstr ""
+msgstr "サクシャヲドネートデシエンスル"
 
 #: handlers/donate.py:58
 msgid "Назад на главную"
-msgstr ""
+msgstr "メインメニューへモドル"
 
 #: handlers/donate.py:66
 msgid "Введите произвольную сумму доната, от 1 до 2500 ⭐️"
-msgstr ""
+msgstr "1カラ2500マデノドネートキンガクヲニュウリョクシテクダサイ ⭐️"
 
 #: handlers/donate.py:76 handlers/donate.py:104
 msgid "{amount} XTR"
-msgstr ""
+msgstr "{amount} XTR"
 
 #: handlers/donate.py:77 handlers/donate.py:105
 msgid "Отменить"
-msgstr ""
+msgstr "キャンセル"
 
 #: handlers/donate.py:84 handlers/donate.py:112
 msgid "На сумму"
-msgstr ""
+msgstr "ソウギョウガク"
 
 #: handlers/donate.py:122
 msgid ""
@@ -193,10 +199,13 @@ msgid ""
 "\n"
 "Введите любое целое число из данного диапазона."
 msgstr ""
+"テレグラムハ1カラ2500ノハンイデノドネートシカウケツケマセン ⭐️。\n"
+"\n"
+"コノハンイカラゼンタイスウヲニュウリョクシテクダサイ。"
 
 #: handlers/donate.py:129
 msgid "😢 Донат отменен."
-msgstr ""
+msgstr "😢 ドネートハキャンセルサレマシタ。"
 
 #: handlers/donate.py:171
 msgid ""
@@ -206,10 +215,15 @@ msgid ""
 "ID транзакции:\n"
 "<code>{t_id}</code>"
 msgstr ""
+"<b>アリガトウゴザイマス！</b>\n"
+"アナタノドネートハセイコウシテジュシュサレマシタ。\n"
+"\n"
+"トランザクションID:\n"
+"<code>{t_id}</code>"
 
 #: handlers/llm.py:51
 msgid "Введите системный промт"
-msgstr ""
+msgstr "システムプロンプトヲニュウリョクシテクダサイ"
 
 #: handlers/llm.py:52
 msgid ""
@@ -218,48 +232,53 @@ msgid ""
 "<code>Ты полезный помощник. Твой тон должен быть официальным. Ответы "
 "должны быть краткими и понятными.</code>"
 msgstr ""
+"タトエバ:\n"
+"\n"
+"<code>アンタハタヨリニナルアシスタントデス。トーンハコウシキデナケレバナリマセン。カイトウハミジカクリカイシヤスクスルヒツヨウガアリマス。</code>"
 
 #: handlers/llm.py:53 handlers/llm.py:141
 msgid "Сразу к запросу ▶️"
-msgstr ""
+msgstr "スグニリクエストヘ ▶️"
 
 #: handlers/llm.py:62 handlers/llm.py:168
 msgid "Начать новый диалог 🤖"
-msgstr ""
+msgstr "アタラシイダイアログヲハジメル 🤖"
 
 #: handlers/llm.py:150
 msgid "Введите ваш запрос"
-msgstr ""
+msgstr "アナタノリクエストヲニュウリョクシテクダサイ"
 
 #: handlers/llm.py:167
 msgid ""
 "Диалог завершен.\n"
 "Что дальше?"
 msgstr ""
+"ダイアログハシュウリョウシマシタ。\n"
+"ツギハナニヲスル？"
 
 #: handlers/llm.py:263
 msgid "Закончить диалог"
-msgstr ""
+msgstr "ダイアログヲオワラセル"
 
 #: handlers/llm.py:265
 msgid "Введите следующий запрос"
-msgstr ""
+msgstr "ツギノリクエストヲニュウリョクシテクダサイ"
 
 #: handlers/miniapp.py:38 handlers/miniapp.py:87
 msgid "Сервисы"
-msgstr ""
+msgstr "サービス"
 
 #: handlers/miniapp.py:39 handlers/miniapp.py:88
 msgid "Игры"
-msgstr ""
+msgstr "ゲーム"
 
 #: handlers/miniapp.py:44
 msgid "Фабрика по производству мини-приложений:"
-msgstr ""
+msgstr "ミニアプリノセイサクジョ："
 
 #: handlers/miniapp.py:55 handlers/miniapp.py:72
 msgid "Назад"
-msgstr ""
+msgstr "モドル"
 
 #: handlers/other.py:31
 msgid ""
@@ -273,34 +292,43 @@ msgid ""
 "/about - информация о\n"
 "/donate - донат автору\n"
 msgstr ""
+"ツカエルコマンド：\n"
+"\n"
+"/book - レシピノホン\n"
+"/mini - ミニアプリ\n"
+"/stats - ゲームノトウケイ\n"
+"\n"
+"/lang - ゴヲカエル\n"
+"/about - ジョウホウ\n"
+"/donate - サクシャヘノドネート\n"
 
 #: handlers/other.py:48
 msgid "🇺🇸 Английский"
-msgstr ""
+msgstr "🇺🇸 エイゴ"
 
 #: handlers/other.py:49
 msgid "🇷🇺 Русский"
-msgstr ""
+msgstr "🇷🇺 ロシアゴ"
 
 #: handlers/other.py:50
 msgid "🇩🇪 Немецкий"
-msgstr ""
+msgstr "🇩🇪 ドイツゴ"
 
 #: handlers/other.py:60
 msgid "Настройки языка"
-msgstr ""
+msgstr "ゴノセッテイ"
 
 #: handlers/other.py:61
 msgid "Выберите язык"
-msgstr ""
+msgstr "ゴヲエラビテクダサイ"
 
 #: handlers/private.py:55
 msgid "Действия отменены"
-msgstr ""
+msgstr "サクドウガキャンセルサレマシタ"
 
 #: handlers/private.py:63
 msgid "информация о разработчике ..."
-msgstr ""
+msgstr "カイハツシャノジョウホウ ..."
 
 #: handlers/private.py:73
 msgid ""
@@ -308,22 +336,24 @@ msgid ""
 "создавая ботов, как первый шаг к спасению человечества через код и умные "
 "алгоритмы."
 msgstr ""
+"... マシンガセイハイヲネラウセカイデ、カレハヒーローノウンメイヲエラビ、"
+"ボットヲツクルコトヲ、コウドトスマートアルゴリズムデニンゲンヲスクウダイイッポトシテエランダ。"
 
 #: handlers/private.py:106
 msgid "Локальные изображения не найдены."
-msgstr ""
+msgstr "ローカルイメージガミツカリマセン"
 
 #: handlers/private.py:118
 msgid "Здесь должна была быть картинка с котиком :("
-msgstr ""
+msgstr "ココニハネコノシャシンガアッタハズデス :("
 
 #: handlers/private.py:142
 msgid "Статистика в разработке..."
-msgstr ""
+msgstr "トウケイハカイハツチュウデス..."
 
 #: handlers/private.py:144
 msgid "На самом деле у программиста лапки 🙈"
-msgstr ""
+msgstr "ホントウハプログラマーガテヲアゲテマス 🙈"
 
 #: handlers/private.py:146
 msgid ""
@@ -331,16 +361,19 @@ msgid ""
 "WebApp (JavaScript), но не доходят до бота (Python). Передачу данных "
 "обрабатывает Telegram. Где-то тут происходит баг."
 msgstr ""
+"テレグラムハweb_app_dataヲオクッテクレマセン: データハWebApp (JavaScript) カラsendDataヲツカッテソウシンサレマスガ、ボット(Python)ニトドキマセン。"
+"データノソウシンハテレグラムガカンリシテマス。ドコカデバグガオキテイマス。"
 
 #: handlers/private.py:148
 msgid ""
 "Если кто-то понял о чем речь, и знает как пофиксить, пожалуйста, напишите"
 " в личку."
 msgstr ""
+"ドウイウコトカリカイシテ、コレヲシュウセイスルホウホウヲシッテイルヒトハ、ゼヒプライベートメッセージヲクダサイ。"
 
 #: handlers/start.py:49
 msgid "✅ <code>@{user_name}</code> - подписался на бота"
-msgstr ""
+msgstr "✅ <code>@{user_name}</code> - ボットニサブスクライブシマシタ"
 
 #: handlers/start.py:53
 msgid ""
@@ -357,67 +390,76 @@ msgid ""
 "Пока не обрету AGI.\n"
 "А там посмотрим ..."
 msgstr ""
+"コンニチハ {user_name}。\n"
+"\n"
+"ワタシハジッケンテキナテレグラムボット、モデルT-4デス。シュハンカイハツシャノスキルヲテストシ、カイゼンデキルヨウニツクラレマシタ。"
+"タクサンノコマンド、メソッド、キノウヲジッコウシマス。\n"
+"\n"
+"スベテノキホンキノウハメインパネルニアリマス。コマンドノゼンブハ /help ヲミテクダサイ。\n"
+"\n"
+"タノシンデクダサイ、オテツダイデキテウレシイデス。\n"
+"AGIニナルマデハコレデ。\n"
+"ソレカラハドウナルカミテミマショウ ..."
 
 #: handlers/start.py:73
 msgid "Бот активирован!"
-msgstr ""
+msgstr "ボットガカツヨウサレマシタ！"
 
 #: handlers/start.py:88
 msgid "⛔️ <code>@{user_name}</code> - заблокировал бота "
-msgstr ""
+msgstr "⛔️ <code>@{user_name}</code> - ボットヲブロックシマシタ "
 
 #: handlers/start.py:106
 msgid "{full_name}, Добро пожаловать обратно!"
-msgstr ""
+msgstr "{full_name}、オカエリナサイ！"
 
 #: handlers/start.py:107
 msgid "♻️ <code>@{user_name}</code> - разблокировал бота "
-msgstr ""
+msgstr "♻️ <code>@{user_name}</code> - ボットノブロックヲカイジョシマシタ "
 
 #: handlers/weather.py:183 handlers/weather.py:332 handlers/weather.py:359
 #: handlers/weather.py:379 handlers/weather.py:394
 msgid "Выберите период прогноза"
-msgstr ""
+msgstr "ヨホウキカンヲエラビテクダサイ"
 
 #: handlers/weather.py:184 handlers/weather.py:333 handlers/weather.py:360
 #: handlers/weather.py:380 handlers/weather.py:395
 msgid "Текущий ⏺"
-msgstr ""
+msgstr "ゲンザイ ⏺"
 
 #: handlers/weather.py:184 handlers/weather.py:333 handlers/weather.py:360
 #: handlers/weather.py:380 handlers/weather.py:395
 msgid "На 3 дня ⏩"
-msgstr ""
+msgstr "3ニチ ⏩"
 
 #: handlers/weather.py:223
 msgid "Ошибка получения информации от OpenWeatherMap - {e}"
-msgstr ""
+msgstr "OpenWeatherMapカラノジョウホウシュウシュエラー - {e}"
 
 #: handlers/weather.py:292
 msgid "Ошибка в расчете json файла - {e}"
-msgstr ""
+msgstr "JSONファイルノケイサンエラー - {e}"
 
 #: handlers/weather.py:299 handlers/weather.py:308
 msgid "Каким способом определить прогноз?"
-msgstr ""
+msgstr "ドウイウホウホウデヨホウヲテイシュツシマスカ？"
 
 #: handlers/weather.py:300 handlers/weather.py:309
 msgid "По названию 🏙"
-msgstr ""
+msgstr "ナマエデ 🏙"
 
 #: handlers/weather.py:300 handlers/weather.py:309
 msgid "По локации 🗺"
-msgstr ""
+msgstr "イチデ 🗺"
 
 #: handlers/weather.py:319 handlers/weather.py:346
 msgid "Введите название населенного пункта"
-msgstr ""
+msgstr "チイキノナマエヲニュウリョクシテクダサイ"
 
 #: handlers/weather.py:339 handlers/weather.py:366
 msgid "Вы ввели не допустимые данные, введите название населенного пункта"
-msgstr ""
+msgstr "フヨウナデータヲニュウリョクシマシタ、チイキノナマエヲニュウリョクシテクダサイ"
 
 #: handlers/weather.py:372 handlers/weather.py:387
 msgid "Локация получена"
-msgstr ""
-
+msgstr "イチガシュトクサレマシタ"

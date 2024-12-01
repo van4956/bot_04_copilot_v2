@@ -49,9 +49,9 @@ def get_keyboard():
     button_2 = InlineKeyboardButton(text=_('🇷🇺 Русский'), callback_data='locale_ru')
     button_3 = InlineKeyboardButton(text=_('🇩🇪 Немецкий'), callback_data='locale_de')
     # button_4 = InlineKeyboardButton(text=_('🇫🇷 Французский'), callback_data='locale_fr')
-    # button_5 = InlineKeyboardButton(text=_('🇯🇵 Японский'), callback_data='locale_ja')
+    button_5 = InlineKeyboardButton(text=_('🇯🇵 Японский'), callback_data='locale_ja')
 
-    return InlineKeyboardMarkup(inline_keyboard=[[button_1], [button_2], [button_3]])
+    return InlineKeyboardMarkup(inline_keyboard=[[button_1, button_2], [button_3, button_5]])
 
 
 # Это хендлер будет срабатывать на команду locale
@@ -89,6 +89,14 @@ async def update_locale_cmd(callback: CallbackQuery, session: AsyncSession, stat
         await callback.answer("Ausgewählt 🇩🇪 Deutsch")  # Отправляем всплывашку
         await callback.message.answer("Aktuelle Sprache \n\n 🇩🇪 Deutsch",   # Отправляем новое сообщение
                                       reply_markup=keyboard.get_keyboard("Wetter 🌊", "Währung 💵", "Katzen 🐱", "LLMs 🤖", sizes=(2, 2, ), placeholder='⬇️'))
+
+    elif callback.data == 'locale_ja':
+        await orm_update_locale(session, user_id, 'ja')  # Обновляем локаль в бд
+        await state.update_data(locale='ja')  # Обновляем локаль в контексте
+        await callback.message.edit_text('言語を選択してください ', reply_markup=None)  # type: ignore # Редактируем сообщение,скрываем клавиатуру
+        await callback.answer("選択された 🇯🇵 日本語")  # Отправляем всплывашку
+        await callback.message.answer("現在の言語 \n\n 🇯🇵 日本語",   # Отправляем новое сообщение
+                                      reply_markup=keyboard.get_keyboard("テンキ 🌊", "カワセ 💵", "ネコ 🐱", "エルエルエム 🤖", sizes=(2, 2, ), placeholder='⬇️'))
 
     analytics = workflow_data['analytics']
     await analytics(user_id=user_id,
