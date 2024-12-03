@@ -160,8 +160,14 @@ async def log_all_updates(update: Update):
     logger.info(f"Необработанный апдейт: {update}")
 
 # Типы апдейтов которые будем отлавливать ботом
-ALLOWED_UPDATES = ['message', 'edited_message', 'callback_query', "web_app_data", "chat_member"]  # Отбираем определенные типы апдейтов
-# ALLOWED_UPDATES = dp.resolve_used_update_types()  # Отбираем только используемые события по роутерам
+# ALLOWED_UPDATES = ['message',
+#                     'edited_message',
+#                     'callback_query',
+#                     "web_app_data",
+#                     "chat_member",
+#                     "pre_checkout_query",
+#                     "successful_payment"]  # Отбираем определенные типы апдейтов
+ALLOWED_UPDATES = dp.resolve_used_update_types()  # Отбираем только используемые события по роутерам
 
 # Функция сработает при запуске бота
 async def on_startup():
