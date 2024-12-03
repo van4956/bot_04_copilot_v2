@@ -86,8 +86,14 @@ if docker == 1: # данные хранятся на отдельном серв
 else: # данные хранятся в оперативной памяти, при перезапуске всё стирается (для тестов и разработки)
     storage = MemoryStorage()
 
+# формируем рабочий токен бота если docker == 1, иначе используем тестовый токен
+if docker == 1:
+    token = config.tg_bot.token
+else:
+    token = config.tg_bot.token_test
+
 logger.info('Инициализируем бот и диспетчер')
-bot = Bot(token=config.tg_bot.token,
+bot = Bot(token=token,
           default=DefaultBotProperties(parse_mode=ParseMode.HTML, # для html тегов в сообщениях
                                        link_preview=None, # отключаем превью ссылок
                                        link_preview_is_disabled=None, # отключаем превью ссылок

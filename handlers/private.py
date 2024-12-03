@@ -57,10 +57,10 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
     await message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())
 
 
-# команда /about
-@private_router.message(Command("about"))
-async def about_cmd(message: Message, workflow_data: dict):
-    await message.answer(_("информация о разработчике ..."), reply_markup=keyboard.del_kb)
+# команда /author
+@private_router.message(Command("author"))
+async def author_cmd(message: Message, workflow_data: dict):
+    await message.answer(_(" ... "), reply_markup=keyboard.del_kb)
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="Telegram",url="tg://user?id=459148628"))
     builder.row(InlineKeyboardButton(text="Linkedin",url="https://www.linkedin.com/in/ivan-goncharov-8a1982212/"))
