@@ -152,7 +152,7 @@ async def terms_cmd(callback: CallbackQuery, state: FSMContext):
             await callback.message.delete()
         except Exception as e:
             logger.error("Ошибка при удалении сообщения: %s", e)
-            
+
     await callback.message.answer(_("Условия использования"))
     text = _("Terms of use @Terminatorvan_bot:\n\n"
               "1. Этот бот создан для помощи и развлечения. Он не претендует на мировое господство (пока что).\n\n"

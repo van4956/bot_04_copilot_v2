@@ -1,0 +1,140 @@
+/* Корневые переменные для темы Telegram WebApp */
+:root {
+    --tg-theme-bg-color: #fff;
+    --tg-theme-text-color: #000;
+    --tg-theme-button-color: #2481cc;
+    --tg-theme-button-text-color: #fff;
+}
+
+/* Основные стили body - идентичны змейке */
+body {
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: rgb(23, 33, 43); /* сине-серый темный - задний фон */
+    color: #F5F5F5; /* Нежно-белый */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Контейнер игры - те же стили, что у змейки */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(47, 56, 65); /* сине-серый - фон приложения */
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Стили счета - идентичны змейке */
+.score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #F5F5F5; /* Нежно-белый */
+    transition: transform 0.2s;
+}
+
+/* Canvas с теми же размерами и стилями */
+#gameCanvas {
+    width: 300px;
+    height: 300px;
+    border: 3px solid #A9A9A9; /* Металлический серый */
+    border-radius: 12px;
+    background-color: rgb(14, 22, 33); /* сине-серый глубокий темный - поле игры */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Контейнер с кнопками управления */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+/* Стили кнопок управления - идентичны змейке */
+.controls button {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #A9A9A9; /* Металлический серый */
+    border-radius: 50%;
+    background-color: rgb(47, 56, 65);
+    color: #F5F5F5; /* Нежно-белый */
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Эффекты наведения на кнопки - как в змейке */
+.controls button:hover {
+    background-color: #A9A9A9; /* Металлический серый */
+    color: rgb(47, 56, 65); /* Глубокий индиго-черный */
+}
+
+/* Эффекты нажатия на кнопки - как в змейке */
+.controls button:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Стили кнопки паузы - идентичны змейке */
+.pause-button {
+    padding: 12px 24px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    background-color: #A9A9A9; /* Металлический серый */
+    color: #1A1B2E; /* Глубокий индиго-черный */
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Эффекты для кнопки паузы */
+.pause-button:hover {
+    opacity: 0.9;
+}
+
+.pause-button:active {
+    transform: scale(0.98);
+}
+
+/* Медиа-запрос для мобильных устройств - как в змейке */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        gap: 15px;
+        padding: 15px;
+    }
+
+    #gameCanvas {
+        width: 280px;
+        height: 280px;
+    }
+
+    .controls button {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+}

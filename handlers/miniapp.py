@@ -28,6 +28,7 @@ miniapp_router = Router()
 WEBAPP_URL_PIZZA = "https://van4956.github.io/bot_04_copilot_v2/pizza_calculator/"
 WEBAPP_URL_RANDOM = "https://van4956.github.io/bot_04_copilot_v2/random_generator/"
 WEBAPP_URL_SNAKE = "https://van4956.github.io/bot_04_copilot_v2/snake_game/"
+WEBAPP_URL_PLATFORM = "https://van4956.github.io/bot_04_copilot_v2/platform_game/"
 
 # команда /mini - "Мини-приложения"
 @miniapp_router.message(Command("mini"))
@@ -69,6 +70,7 @@ async def cmd_callback_game(callback: CallbackQuery, workflow_data: dict):
     user_id = callback.from_user.id
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="🐍 Змейка", web_app=WebAppInfo(url=WEBAPP_URL_SNAKE)))
+    builder.row(InlineKeyboardButton(text="🕹 Платформа", web_app=WebAppInfo(url=WEBAPP_URL_PLATFORM)))
     builder.row(InlineKeyboardButton(text=_("Назад"), callback_data="back_to_mini"))
     # builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='mini_back_to_main'))
     markup: InlineKeyboardMarkup = builder.adjust(1,1,1).as_markup() # type: ignore
@@ -100,17 +102,13 @@ async def cmd_callback_about_to_main(callback: CallbackQuery):
 
 # Обработка данных от веб-приложения
 @miniapp_router.message(F.web_app_data)
-async def handle_web_app_data(message: Message,  session: AsyncSession, workflow_data: dict):
-    logger.info("Веб-приложение отправляет данные: %s", message.web_app_data.data)
+async def handle_web_app_data(message: Message, session: AsyncSession, workflow_data: dict):
+    logger.info("Получены данные: %s", message.web_app_data)
+    logger.info("Raw data: %s", message.web_app_data.data)
     try:
-        analytics = workflow_data['analytics']
         data = json.loads(message.web_app_data.data)
-
-        # Проверка структуры данных
-        if not isinstance(data, dict):
-            logger.error("Invalid data format: not a dictionary")
-            return
-
+        logger.info("Parsed data: %s", data)
+        analytics = workflow_data['analytics']
         score=data.get('score', 0)
 
         if data.get('action') == 'game_start' and data.get('game') == 'snake':
@@ -132,10 +130,8 @@ async def handle_web_app_data(message: Message,  session: AsyncSession, workflow
             # Отправляем сообщение пользователю
             await message.answer(f"Игра окончена!\nВаш счет: {data.get('score', 0)}")
 
-    except json.JSONDecodeError as e:
-        logger.error("Failed to parse web app data: %s", e)
-    except (ValueError, KeyError, AttributeError) as e:
-        logger.error("Error processing web app data: %s", e)
+    except Exception as e:
+        logger.error("Error processing data: %s", e, exc_info=True)
 
 # Обработка ошибок при работе с веб-приложением
 @miniapp_router.error()

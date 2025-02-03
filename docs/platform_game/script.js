@@ -7,25 +7,26 @@ if (!window.Telegram || !window.Telegram.WebApp) {
 
 // Инициализация Telegram WebApp
 const webapp = window.Telegram.WebApp;
-webapp.ready();
-webapp.expand();
+webapp.ready(); // Сообщаем Telegram, что приложение готово
+webapp.expand(); // Раскрываем на весь экран
 
-// В начале файла после webapp.ready()
+// Настраиваем главную кнопку Telegram
 webapp.MainButton.setText('Завершить игру');
 webapp.MainButton.show();
 
-// Настраиваем обработчики событий
+// Обработчик нажатия на главную кнопку
 webapp.onEvent('mainButtonClicked', function() {
-    // Данные будут отправлены при клике на главную кнопку
+    // Формируем данные для отправки
     const gameData = {
         action: 'game_end',
-        game: 'snake',
+        game: 'platform',
         score: window.game ? window.game.score : 0
     };
+    // Отправляем данные в Telegram
     webapp.sendData(JSON.stringify(gameData));
 });
 
-// Подстраиваем тему под настройки пользователя
+// Подстраиваем тему под настройки пользователя Telegram
 document.documentElement.style.setProperty('--tg-theme-bg-color', webapp.backgroundColor);
 document.documentElement.style.setProperty('--tg-theme-text-color', webapp.textColor);
 document.documentElement.style.setProperty('--tg-theme-button-color', webapp.buttonColor);
@@ -34,11 +35,18 @@ document.documentElement.style.setProperty('--tg-theme-button-text-color', webap
 // Отправляем данные о запуске игры
 window.Telegram.WebApp.sendData(JSON.stringify({
     action: 'game_start',
-    game: 'snake'
+    game: 'platform'
 }));
 
 // Инициализируем игру после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
-    const game = new SnakeGame();
-    window.game = game; // Делаем игру доступной глобально
+    // Создаем экземпляр игры и сохраняем его глобально
+    const game = new PlatformGame();
+    window.game = game; // Делаем игру доступной глобально для доступа к счету
 });
+
+// Обработка ошибок
+window.onerror = function(msg, url, lineNo, columnNo, error) {
+    console.error('Ошибка: ', msg, 'Строка: ', lineNo, 'Столбец: ', columnNo);
+    return false;
+};
