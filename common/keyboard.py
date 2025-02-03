@@ -112,7 +112,8 @@ def markup_num():
                          InlineKeyboardButton(text=" 000 ", callback_data="num_000"),
                          InlineKeyboardButton(text=" . ", callback_data="num_com")],
                         [InlineKeyboardButton(text="◀️ delete", callback_data="num_del"),
-                        InlineKeyboardButton(text="enter ▶️", callback_data="num_enter")]
+                        InlineKeyboardButton(text="enter ▶️", callback_data="num_enter")],
+                        [InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='about_back_to_main')]
                     ]
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard

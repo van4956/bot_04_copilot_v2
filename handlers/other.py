@@ -24,18 +24,31 @@ from common import keyboard
 other_router = Router()
 
 
-# Этот хэндлер срабатывает на команду /sett
-@other_router.message(Command('sett'))
-async def process_help_command(message: Message, workflow_data: dict):
-    await message.answer(
-        text=_('Настройки бота:\n\n'
-               '/terms - условия использования\n'
-               '/lang - сменить язык бота\n'
-               '/stats - статистика игр\n'
-               '/author - автор бота\n'
-               '/donate - донат автору\n'
-               )
+# Этот хэндлер срабатывает на команду /info
+@other_router.message(Command('info'))
+async def process_help_command(message: Message, workflow_data: dict, state: FSMContext):
+    await message.answer(_('Информация'), reply_markup=keyboard.del_kb)
+
+    # Создаем инлайн кнопки
+    buttons = [
+        [InlineKeyboardButton(text=_('Условия использования'), callback_data='terms')],
+        [InlineKeyboardButton(text=_('Сменить язык'), callback_data='lang')],
+        [InlineKeyboardButton(text=_('Об авторе'), callback_data='author')],
+        [InlineKeyboardButton(text=_('Поддержать'), callback_data='donate')],
+        [InlineKeyboardButton(text=_('Назад на главную ↩️'), callback_data='about_back_to_main')]
+    ]
+    inline_kb = InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+    msg = await message.answer(
+        text=_("Настройки бота - @Terminatorvan_bot"),
+        reply_markup=inline_kb
     )
+
+    # Сохраняем message_id в FSMContext
+    await state.update_data(last_message_id=msg.message_id)
+
+    # Анализ использования команды
     analytics = workflow_data['analytics']
     await analytics(user_id=message.from_user.id,
                     category_name="/options",
@@ -47,19 +60,24 @@ def get_keyboard():
     button_1 = InlineKeyboardButton(text=_('🇺🇸 Английский'), callback_data='locale_en')
     button_2 = InlineKeyboardButton(text=_('🇷🇺 Русский'), callback_data='locale_ru')
     button_3 = InlineKeyboardButton(text=_('🇩🇪 Немецкий'), callback_data='locale_de')
-    # button_4 = InlineKeyboardButton(text=_('🇫🇷 Французский'), callback_data='locale_fr')
     button_5 = InlineKeyboardButton(text=_('🇯🇵 Японский'), callback_data='locale_ja')
     button_6 = InlineKeyboardButton(text=_('Назад на главную ↩️'), callback_data='about_back_to_main') # обработчик этой кнопки в private.py
 
     return InlineKeyboardMarkup(inline_keyboard=[[button_1, button_2], [button_3, button_5], [button_6]])
 
 
-# Это хендлер будет срабатывать на команду locale
-@other_router.message(Command('lang'))
-async def locale_cmd(message: Message):
-    await message.answer(_("Настройки языка"), reply_markup=keyboard.del_kb)
-    await message.answer(text=_('Выберите язык на котором будет работать бот'),
-                         reply_markup=get_keyboard())
+# Это хендлер будет срабатывать на нажатие inline кнопки "Сменить язык"
+@other_router.callback_query(F.data == "lang")
+async def locale_cmd(callback: CallbackQuery, state: FSMContext):
+    await callback.message.delete()
+    await callback.message.answer(_("Настройки языка"), reply_markup=keyboard.del_kb)
+    msg =await callback.message.answer(
+        text=_('Выберите язык на котором будет работать бот'),
+        reply_markup=get_keyboard()
+    )
+
+    # Сохраняем message_id в FSMContext
+    await state.update_data(last_message_id=msg.message_id)
 
 
 @other_router.callback_query(F.data.startswith("locale_"))
@@ -107,16 +125,36 @@ async def update_locale_cmd(callback: CallbackQuery, session: AsyncSession, stat
                     category_name="/options",
                     command_name="/language")
 
+
 # секретный хендлер, покажет содержимое data пользователя
 @other_router.message(Command("data"))
 async def data_cmd(message: Message, state: FSMContext):
     data = await state.get_data()
     await message.answer(str(data))
 
-# Этот хэндлер срабатывает на команду /terms
-@other_router.message(Command("terms"))
-async def terms_cmd(message: Message):
-    text = _("Условия использования:\n\n"
+
+# Этот хэндлер срабатывает на inline кнопку /terms
+@other_router.callback_query(F.data == "terms")
+async def terms_cmd(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+    data = await state.get_data()
+    last_message_id = data.get('last_message_id')
+
+    # Если есть предыдущее сообщение, удаляем его
+    if last_message_id:
+        try:
+            await callback.bot.delete_message(chat_id=user_id,
+                                                message_id=last_message_id)
+        except Exception as e:
+            logger.error("Ошибка при удалении last_message_id сообщения: %s", e)
+    else:
+        try:
+            await callback.message.delete()
+        except Exception as e:
+            logger.error("Ошибка при удалении сообщения: %s", e)
+            
+    await callback.message.answer(_("Условия использования"))
+    text = _("Terms of use @Terminatorvan_bot:\n\n"
               "1. Этот бот создан для помощи и развлечения. Он не претендует на мировое господство (пока что).\n\n"
               "2. Бот старается быть точным, но иногда может ошибаться. Он всё-таки не человек, а просто очень умная программа.\n\n"
               "3. Фотографии котиков безопасны и проходят строгий отбор на милоту.\n\n"
@@ -124,7 +162,12 @@ async def terms_cmd(message: Message):
               "5. Общение с ИИ (LLM) модулем может быть познавательным, но помните - это не замена реальному общению.\n\n"
               "6. Калькулятор пиццы поможет с расчётами, но окончательный выбор пиццы всегда за вами!\n\n"
               "7. Все донаты добровольные. Бот будет одинаково дружелюбен ко всем пользователям.\n\n"
-              "8. Мы заботимся о вашей приватности и храним только необходимый минимум данных.\n\n"
-              "9. В случае сбоев не переживайте - просто подождите немного или перезапустите бота.\n\n"
-              "10. Развлекайтесь, узнавайте новое и не забывайте - этот бот создан, чтобы делать ваш день чуточку лучше!")
-    await message.answer(text)
+              "8. В случае сбоев не переживайте - просто подождите немного или перезапустите бота.\n\n")
+
+    button = InlineKeyboardButton(text=_('Назад на главную ↩️'), callback_data='about_back_to_main') # обработчик этой кнопки в private.py
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[[button]])
+
+    msg = await callback.message.answer(text, reply_markup=keyboard)
+
+    # Сохраняем message_id в FSMContext
+    await state.update_data(last_message_id=msg.message_id)

@@ -44,8 +44,28 @@ async def cmd_donate(message: Message, state: FSMContext):
     builder.row(InlineKeyboardButton(text="100 ⭐️", callback_data="donate_100"))
     builder.row(InlineKeyboardButton(text=_("другое"),callback_data="donate_x"))
     builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='donate_back'))
-    await message.answer(text=_("Поддержать автора донатом"), reply_markup=builder.adjust(2,2,1).as_markup())
+    msg = await message.answer(text=_("Поддержать автора донатом"), reply_markup=builder.adjust(2,2,1).as_markup())
     await state.set_state(Donate.donate_input)
+
+    # Сохраняем message_id в FSMContext
+    await state.update_data(last_message_id=msg.message_id)
+
+
+# обработка инлайн кнопки "Поддержать"
+@donate_router.callback_query(F.data == "donate")
+async def callback_donate(callback: CallbackQuery, state: FSMContext):
+    await callback.message.delete()
+    builder = InlineKeyboardBuilder()
+    builder.row(InlineKeyboardButton(text="10 ⭐️",callback_data="donate_10"))
+    builder.row(InlineKeyboardButton(text="50 ⭐️",callback_data="donate_50"))
+    builder.row(InlineKeyboardButton(text="100 ⭐️", callback_data="donate_100"))
+    builder.row(InlineKeyboardButton(text=_("другое"),callback_data="donate_x"))
+    builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='donate_back'))
+    msg = await callback.message.answer(text=_("Поддержать автора донатом"), reply_markup=builder.adjust(2,2,1).as_markup())
+    await state.set_state(Donate.donate_input)
+
+    # Сохраняем message_id в FSMContext
+    await state.update_data(last_message_id=msg.message_id)
 
 
 @donate_router.callback_query(Donate.donate_input, F.data.startswith("donate_"))

@@ -59,11 +59,11 @@ class AddProduct(StatesGroup):
         }
 
 # команда /admin
-@admin_router.message(Command("admin"))
+@admin_router.message(Command("a"))
 async def cmd_admin(message: Message, bot: Bot):
     if message.from_user.id in bot.admin_list:
         await message.answer(text=('Админка:\n\n'
-                                    '/admin - режим адменистратора\n'
+                                    '/a - режим адменистратора\n'
                                     '/start - перезапустить бота\n'
                                     '/data - состояние FSMContext\n'
                                     '/get_id - посмотреть id диалога\n'
@@ -87,7 +87,7 @@ async def get_users_info(message: Message, session: AsyncSession):
 
     for user in await orm_get_users(session):
         user_status = 'm' if user.status == 'member' else 'k'
-        info = f"<code>{user.user_id: <11}</code> | <code>{user_status}</code> | {user.flag} | {user.locale} | <code>{user.user_name[:11]}</code>"
+        info = f"<code>{user.user_id: <11}</code> | <code>{user_status}</code> | {user.flag} | {user.locale} | @{user.user_name[:11]}"
         cnt_users += 1
 
         # если длина текста больше 4000 символов, то пропускаем добавление новой строки в список

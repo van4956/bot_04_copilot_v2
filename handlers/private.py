@@ -58,9 +58,28 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 
 
 # команда /author
-@private_router.message(Command("author"))
-async def author_cmd(message: Message, workflow_data: dict):
-    await message.answer(_(" ... "), reply_markup=keyboard.del_kb)
+# @private_router.message(Command("author"))
+# async def author_cmd(message: Message, workflow_data: dict):
+@private_router.callback_query(F.data == "author")
+async def author_cmd(callback: CallbackQuery, workflow_data: dict, state: FSMContext):
+    user_id = callback.from_user.id
+    data = await state.get_data()
+    last_message_id = data.get('last_message_id')
+
+    # Если есть предыдущее сообщение, удаляем его
+    if last_message_id:
+        try:
+            await callback.bot.delete_message(chat_id=user_id,
+                                                message_id=last_message_id)
+        except Exception as e:
+            logger.error("Ошибка при удалении last_message_id сообщения: %s", e)
+    else:
+        try:
+            await callback.message.delete()
+        except Exception as e:
+            logger.error("Ошибка при удалении сообщения: %s", e)
+
+    await callback.message.answer(text=" ... ", reply_markup=keyboard.del_kb)
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="Telegram",url="tg://user?id=459148628"))
     builder.row(InlineKeyboardButton(text="Linkedin",url="https://www.linkedin.com/in/ivan-goncharov-8a1982212/"))
@@ -68,24 +87,47 @@ async def author_cmd(message: Message, workflow_data: dict):
     builder.row(InlineKeyboardButton(text="Kaggle",url="https://www.kaggle.com/ivan4956"))
     builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='about_back_to_main'))
     image_from_pc = FSInputFile("common/images/image_about.jpg")
-    await asyncio.sleep(1)
-    await message.answer_photo(image_from_pc,
+    msg = await callback.message.answer_photo(image_from_pc,
                                caption=_('... в мире, где машины стремятся к господству, он выбрал судьбу героя, '
+
                                          'создавая ботов, как первый шаг к спасению человечества через код и умные алгоритмы.'),
                                 reply_markup=builder.adjust(2,2,1,).as_markup())
 
     analytics = workflow_data['analytics']
-    await analytics(user_id=message.from_user.id,
+    await analytics(user_id=callback.from_user.id,
                     category_name="/options",
                     command_name="/help")
 
+    # Сохраняем message_id в FSMContext
+    await state.update_data(last_message_id=msg.message_id)
+
+
 # callback "назад на главную"
 @private_router.callback_query(F.data == 'about_back_to_main')
-async def callback_about(callback: CallbackQuery):
-    await callback.message.delete()
+async def callback_about(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+    data = await state.get_data()
+    last_message_id = data.get('last_message_id')
+
+    # Сбрасываем состояние
+    await state.set_state(None)
+
+    # Если есть предыдущее сообщение, удаляем его
+    if last_message_id:
+        try:
+            await callback.bot.delete_message(chat_id=user_id,
+                                                message_id=last_message_id)
+        except Exception as e:
+            logger.error("Ошибка при удалении last_message_id сообщения: %s", e)
+    else:
+        try:
+            await callback.message.delete()
+        except Exception as e:
+            logger.error("Ошибка при удалении сообщения: %s", e)
+
     await callback.answer(_('Назад на главную ↩️'))
-    await asyncio.sleep(1)
     await callback.message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())
+
 
 # кнопка "Котики"
 @private_router.message(F.text == CATS)
@@ -127,24 +169,22 @@ async def cat_cmd(message: Message, workflow_data: dict):
                     category_name="/service",
                     command_name="/cat")
 
-@private_router.message(Command("stats"))
-async def show_stats(message: Message, session: AsyncSession):
-    # top_players = await get_top_scores(session, 'snake')
+# @private_router.message(Command("stats"))
+# async def show_stats(message: Message, session: AsyncSession):
+#     # top_players = await get_top_scores(session, 'snake')
 
-    # if not top_players:
-    #     await message.answer("Пока нет результатов игр!")
-    #     return
+#     # if not top_players:
+#     #     await message.answer("Пока нет результатов игр!")
+#     #     return
 
-    # text = "🏆 Топ игроков в Snake:\n\n"
-    # for i, game in enumerate(top_players, 1):
-    #     text += f"{i}. {game.user_name:<15}    {game.score:>4}\n"
+#     # text = "🏆 Топ игроков в Snake:\n\n"
+#     # for i, game in enumerate(top_players, 1):
+#     #     text += f"{i}. {game.user_name:<15}    {game.score:>4}\n"
 
-    await message.answer(_("Статистика в разработке..."), reply_markup=keyboard.del_kb)
-    await asyncio.sleep(1)
-    await message.answer(_("На самом деле у программиста лапки 🙈"))
-    await asyncio.sleep(2)
-    await message.answer(_("Telegramm не отдает web_app_data: данные отправляются через sendData из WebApp (JavaScript), но не доходят до бота (Python). Передачу данных обрабатывает Telegram. Где-то тут происходит баг."))
-    await asyncio.sleep(3)
-    await message.answer(_("Если кто-то понял о чем речь, и знает как пофиксить, пожалуйста, напишите в личку."))
-    await asyncio.sleep(1)
-    await message.answer(_("Главная панель"), reply_markup=keyboard.start_keyboard())
+#     await message.answer(_("Статистика в разработке..."), reply_markup=keyboard.del_kb)
+#     await asyncio.sleep(1)
+#     await message.answer(_("На самом деле у программиста лапки 🙈"))
+#     await message.answer(_("Telegramm не отдает web_app_data: данные отправляются через sendData из WebApp (JavaScript), но не доходят до бота (Python). Передачу данных обрабатывает Telegram. Где-то тут происходит баг."))
+#     await message.answer(_("Если кто-то понял о чем речь, и знает как пофиксить, пожалуйста, напишите в личку."))
+#     await asyncio.sleep(1)
+#     await message.answer(_("Главная панель"), reply_markup=keyboard.start_keyboard())
