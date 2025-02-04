@@ -174,23 +174,3 @@ async def cat_cmd(message: Message, workflow_data: dict):
     await analytics(user_id=user_id,
                     category_name="/service",
                     command_name="/cat")
-
-# @private_router.message(Command("stats"))
-# async def show_stats(message: Message, session: AsyncSession):
-#     # top_players = await get_top_scores(session, 'snake')
-
-#     # if not top_players:
-#     #     await message.answer("Пока нет результатов игр!")
-#     #     return
-
-#     # text = "🏆 Топ игроков в Snake:\n\n"
-#     # for i, game in enumerate(top_players, 1):
-#     #     text += f"{i}. {game.user_name:<15}    {game.score:>4}\n"
-
-#     await message.answer(_("Статистика в разработке..."), reply_markup=keyboard.del_kb)
-#     await asyncio.sleep(1)
-#     await message.answer(_("На самом деле у программиста лапки 🙈"))
-#     await message.answer(_("Telegramm не отдает web_app_data: данные отправляются через sendData из WebApp (JavaScript), но не доходят до бота (Python). Передачу данных обрабатывает Telegram. Где-то тут происходит баг."))
-#     await message.answer(_("Если кто-то понял о чем речь, и знает как пофиксить, пожалуйста, напишите в личку."))
-#     await asyncio.sleep(1)
-#     await message.answer(_("Главная панель"), reply_markup=keyboard.start_keyboard())

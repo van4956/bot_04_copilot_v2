@@ -201,61 +201,6 @@ async def terms_cmd(callback: CallbackQuery, state: FSMContext):
     # Сохраняем message_id в FSMContext
     await state.update_data(last_message_id=msg.message_id)
 
-# Хэндлер для показа статуса бота
-# @other_router.callback_query(F.data == "status")
-# async def callback_status(callback: CallbackQuery, state: FSMContext):
-#     """Показывает текущее состояние бота"""
-#     user_id = callback.from_user.id
-#     data = await state.get_data()
-#     last_message_id = data.get('last_message_id')
-
-#     # Если есть предыдущее сообщение, удаляем его
-#     if last_message_id:
-#         try:
-#             await callback.bot.delete_message(chat_id=user_id,
-#                                                 message_id=last_message_id)
-#         except Exception as e:
-#             logger.error("Ошибка при удалении last_message_id сообщения: %s", e)
-#     else:
-#         try:
-#             await callback.message.delete()
-#         except Exception as e:
-#             logger.error("Ошибка при удалении сообщения: %s", e)
-
-#     # Получаем текущий процесс
-#     try:
-#         process = psutil.Process()
-
-#         memory = process.memory_info().rss / 1024 / 1024
-#         cpu = process.cpu_percent(interval=1)
-
-#         # Форматируем uptime в дни, часы, минуты и секунды
-#         uptime = datetime.now() - datetime.fromtimestamp(process.create_time())
-#         days = uptime.days
-#         hours, remainder = divmod(uptime.seconds, 3600)
-#         minutes, seconds = divmod(remainder, 60)
-#         formatted_uptime = f"{days}d {hours:02}:{minutes:02}:{seconds:02}"
-
-#         status = (
-#             f"📊 Status of Bot:\n\n"
-#             f"🔸 <code>RAM:  {memory:.1f}MB</code>\n"
-#             f"🔸 <code>CPU:  {cpu}%</code>\n"
-#             f"🔸 <code>Time: {formatted_uptime}</code>\n"
-
-#         )
-
-#         button_1 = InlineKeyboardButton(text=_("Назад"), callback_data="back_to_info")
-#         button_2 = InlineKeyboardButton(text=_('Назад на главную ↩️'), callback_data='about_back_to_main')
-#         keyboard = InlineKeyboardMarkup(inline_keyboard=[[button_1], [button_2]])
-
-#         msg = await callback.message.answer(status, reply_markup=keyboard)
-
-#         # Сохраняем message_id в FSMContext
-#         await state.update_data(last_message_id=msg.message_id)
-
-#     except Exception as e:
-#         await callback.message.answer(f"Error getting status: {e}")
-
 
 # callback "назад" к настройкам
 @other_router.callback_query(F.data == 'back_to_info')

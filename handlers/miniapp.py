@@ -51,9 +51,10 @@ async def cmd_miniapp(message: types.Message):
 async def cmd_callback_service(callback: CallbackQuery, workflow_data: dict):
     user_id = callback.from_user.id
     builder = InlineKeyboardBuilder()
-    builder.row(InlineKeyboardButton(text="🍕 Калькулятор", web_app=WebAppInfo(url=WEBAPP_URL_PIZZA)))
-    builder.row(InlineKeyboardButton(text="🎲 Рандомайзер", web_app=WebAppInfo(url=WEBAPP_URL_RANDOM)))
+    builder.row(InlineKeyboardButton(text=_("🍕 Калькулятор"), web_app=WebAppInfo(url=WEBAPP_URL_PIZZA)))
+    builder.row(InlineKeyboardButton(text=_("🎲 Рандомайзер"), web_app=WebAppInfo(url=WEBAPP_URL_RANDOM)))
     builder.row(InlineKeyboardButton(text=_("Назад"), callback_data="back_to_mini"))
+
     # builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='mini_back_to_main'))
     markup: InlineKeyboardMarkup = builder.adjust(2,1,1).as_markup() # type: ignore
     await callback.message.edit_reply_markup(reply_markup=markup)
@@ -69,9 +70,10 @@ async def cmd_callback_service(callback: CallbackQuery, workflow_data: dict):
 async def cmd_callback_game(callback: CallbackQuery, workflow_data: dict):
     user_id = callback.from_user.id
     builder = InlineKeyboardBuilder()
-    builder.row(InlineKeyboardButton(text="🕹 Платформа", web_app=WebAppInfo(url=WEBAPP_URL_PLATFORM)))
-    builder.row(InlineKeyboardButton(text="🐍 Змейка", web_app=WebAppInfo(url=WEBAPP_URL_SNAKE)))
+    builder.row(InlineKeyboardButton(text=_("🕹 Платформа"), web_app=WebAppInfo(url=WEBAPP_URL_PLATFORM)))
+    builder.row(InlineKeyboardButton(text=_("🐍 Змейка"), web_app=WebAppInfo(url=WEBAPP_URL_SNAKE)))
     builder.row(InlineKeyboardButton(text=_("Назад"), callback_data="back_to_mini"))
+
     # builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='mini_back_to_main'))
     markup: InlineKeyboardMarkup = builder.adjust(2,1,1).as_markup() # type: ignore
     await callback.message.edit_reply_markup(reply_markup=markup)

@@ -18,8 +18,8 @@ class PlatformGame {
         this.ballRadius = 5;
         this.ballX = this.canvas.width / 2;
         this.ballY = this.canvas.height - 30;
-        this.ballSpeedX = 2;
-        this.ballSpeedY = -2;
+        this.ballSpeedX = 1;
+        this.ballSpeedY = -1;
 
         // Настройки блоков
         this.blockRows = 5;
@@ -90,8 +90,8 @@ class PlatformGame {
         this.paddleX = (this.canvas.width - this.paddleWidth) / 2;
         this.ballX = this.canvas.width / 2;
         this.ballY = this.canvas.height - 30;
-        this.ballSpeedX = 2;
-        this.ballSpeedY = -2;
+        this.ballSpeedX = 1;
+        this.ballSpeedY = -1;
         this.score = 0;
         this.gameOver = false;
         this.isPaused = false;

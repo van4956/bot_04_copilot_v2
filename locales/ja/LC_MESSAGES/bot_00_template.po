@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bot_copilot_v2 0.2.5\n"
 "Report-Msgid-Bugs-To: gontscharowiwan@yandex.ru\n"
-"POT-Creation-Date: 2024-12-03 10:28+0800\n"
+"POT-Creation-Date: 2025-02-04 11:49+0400\n"
 "PO-Revision-Date: 2024-12-01 15:59+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ja\n"
@@ -42,12 +42,14 @@ msgstr "レシピノホン"
 #: handlers/cookbook.py:63 handlers/cookbook.py:101 handlers/cookbook.py:138
 #: handlers/cookbook.py:177 handlers/currency.py:123 handlers/currency.py:145
 #: handlers/currency.py:184 handlers/currency.py:189 handlers/donate.py:46
-#: handlers/llm.py:53 handlers/llm.py:62 handlers/llm.py:151
-#: handlers/llm.py:160 handlers/llm.py:169 handlers/miniapp.py:40
-#: handlers/miniapp.py:89 handlers/miniapp.py:97 handlers/other.py:52
-#: handlers/private.py:69 handlers/private.py:86 handlers/weather.py:184
-#: handlers/weather.py:300 handlers/weather.py:309 handlers/weather.py:333
-#: handlers/weather.py:360 handlers/weather.py:380 handlers/weather.py:395
+#: handlers/donate.py:63 handlers/llm.py:53 handlers/llm.py:62
+#: handlers/llm.py:151 handlers/llm.py:160 handlers/llm.py:169
+#: handlers/miniapp.py:41 handlers/miniapp.py:93 handlers/miniapp.py:101
+#: handlers/other.py:43 handlers/other.py:93 handlers/other.py:196
+#: handlers/other.py:232 handlers/private.py:89 handlers/private.py:134
+#: handlers/weather.py:184 handlers/weather.py:300 handlers/weather.py:309
+#: handlers/weather.py:333 handlers/weather.py:360 handlers/weather.py:380
+#: handlers/weather.py:395
 msgid "Назад на главную ↩️"
 msgstr "メインメニュー ↩️"
 
@@ -63,9 +65,9 @@ msgstr "インラインボタン '>>' ノジッコウエラー"
 msgid "Ошибка при выполнении inline кнопки '<<'"
 msgstr "インラインボタン '<<' ノジッコウエラー"
 
-#: handlers/cookbook.py:179 handlers/donate.py:60 handlers/donate.py:133
-#: handlers/miniapp.py:99 handlers/private.py:44 handlers/private.py:57
-#: handlers/private.py:88 handlers/private.py:150
+#: handlers/cookbook.py:179 handlers/donate.py:80 handlers/donate.py:153
+#: handlers/miniapp.py:103 handlers/private.py:44 handlers/private.py:57
+#: handlers/private.py:135
 msgid "Главная панель"
 msgstr "メインパネル"
 
@@ -171,36 +173,36 @@ msgid ""
 "кнопки"
 msgstr "フヨウナデータヲニュウリョクシマシタ。インラインボタンヲツカッテモクテキカワセヲニュウリョクシテクダサイ"
 
-#: handlers/donate.py:45
+#: handlers/donate.py:45 handlers/donate.py:62
 msgid "другое"
 msgstr "ソノタ"
 
-#: handlers/donate.py:47 handlers/donate.py:57 handlers/donate.py:83
-#: handlers/donate.py:111
+#: handlers/donate.py:47 handlers/donate.py:64 handlers/donate.py:77
+#: handlers/donate.py:103 handlers/donate.py:131
 msgid "Поддержать автора донатом"
 msgstr "サクシャヲドネートデシエンスル"
 
-#: handlers/donate.py:58
+#: handlers/donate.py:78
 msgid "Назад на главную"
 msgstr "メインメニューへモドル"
 
-#: handlers/donate.py:66
+#: handlers/donate.py:86
 msgid "Введите произвольную сумму доната, от 1 до 2500 ⭐️"
 msgstr "1カラ2500マデノドネートキンガクヲニュウリョクシテクダサイ ⭐️"
 
-#: handlers/donate.py:76 handlers/donate.py:104
+#: handlers/donate.py:96 handlers/donate.py:124
 msgid "{amount} XTR"
 msgstr "{amount} XTR"
 
-#: handlers/donate.py:77 handlers/donate.py:105
+#: handlers/donate.py:97 handlers/donate.py:125
 msgid "Отменить"
 msgstr "キャンセル"
 
-#: handlers/donate.py:84 handlers/donate.py:112
+#: handlers/donate.py:104 handlers/donate.py:132
 msgid "На сумму"
 msgstr "ソウギョウガク"
 
-#: handlers/donate.py:122
+#: handlers/donate.py:142
 msgid ""
 "Telegram может принять донат только в диапазоне от 1 до 2500 ⭐️.\n"
 "\n"
@@ -210,11 +212,11 @@ msgstr ""
 "\n"
 "コノハンイカラゼンタイスウヲニュウリョクシテクダサイ。"
 
-#: handlers/donate.py:129
+#: handlers/donate.py:149
 msgid "😢 Донат отменен."
 msgstr "😢 ドネートハキャンセルサレマシタ。"
 
-#: handlers/donate.py:171
+#: handlers/donate.py:191
 msgid ""
 "<b>Спасибо!</b>\n"
 "Ваш донат успешно принят.\n"
@@ -271,67 +273,86 @@ msgstr "ダイアログヲオワラセル"
 msgid "Введите следующий запрос"
 msgstr "ツギノリクエストヲニュウリョクシテクダサイ"
 
-#: handlers/miniapp.py:38 handlers/miniapp.py:87
+#: handlers/miniapp.py:39 handlers/miniapp.py:91
 msgid "Сервисы"
 msgstr "サービス"
 
-#: handlers/miniapp.py:39 handlers/miniapp.py:88
+#: handlers/miniapp.py:40 handlers/miniapp.py:92
 msgid "Игры"
 msgstr "ゲーム"
 
-#: handlers/miniapp.py:44
+#: handlers/miniapp.py:45
 msgid "Фабрика по производству мини-приложений:"
 msgstr "ミニアプリノセイサクジョ："
 
-#: handlers/miniapp.py:55 handlers/miniapp.py:72
+#: handlers/miniapp.py:54
+msgid "🍕 Калькулятор"
+msgstr "🍕 カルキュレーター"
+
+#: handlers/miniapp.py:55
+msgid "🎲 Рандомайзер"
+msgstr "🎲 ランダムジェネレーター"
+
+#: handlers/miniapp.py:56 handlers/miniapp.py:75 handlers/other.py:92
+#: handlers/other.py:195 handlers/private.py:88
 msgid "Назад"
 msgstr "モドル"
 
-#: handlers/other.py:31
-msgid ""
-"Настройки бота:\n"
-"\n"
-"/terms - условия использования\n"
-"/lang - сменить язык бота\n"
-"/stats - статистика игр\n"
-"/author - автор бота\n"
-"/donate - донат автору\n"
-msgstr ""
-"ボットの設定:\n"
-"\n"
-"/terms - 使用条件\n"
-"/lang - ボットの言語を変更\n"
-"/stats - ゲームの統計\n"
-"/author - ボットの作者\n"
-"/donate - ドネート\n"
+#: handlers/miniapp.py:73
+msgid "🕹 Платформа"
+msgstr "🕹 プラットフォーム"
 
-#: handlers/other.py:47
+#: handlers/miniapp.py:74
+msgid "🐍 Змейка"
+msgstr "🐍 スネーク"
+
+#: handlers/other.py:35
+msgid "Информация"
+msgstr "インフォメーション"
+
+#: handlers/other.py:39 handlers/other.py:185 handlers/other.py:228
+msgid "Условия использования"
+msgstr "ユーザーズコンディション"
+
+#: handlers/other.py:40 handlers/other.py:229
+msgid "Сменить язык"
+msgstr "ランゲージチェンジ"
+
+#: handlers/other.py:41 handlers/other.py:230
+msgid "Об авторе"
+msgstr "オートラム"
+
+#: handlers/other.py:42 handlers/other.py:231
+msgid "Поддержать"
+msgstr "ドネート"
+
+#: handlers/other.py:88
 msgid "🇺🇸 Английский"
 msgstr "🇺🇸 エイゴ"
 
-#: handlers/other.py:48
+#: handlers/other.py:89
 msgid "🇷🇺 Русский"
 msgstr "🇷🇺 ロシアゴ"
 
-#: handlers/other.py:49
+#: handlers/other.py:90
 msgid "🇩🇪 Немецкий"
 msgstr "🇩🇪 ドイツゴ"
 
-#: handlers/other.py:51
+#: handlers/other.py:91
 msgid "🇯🇵 Японский"
 msgstr "🇯🇵 ニホンゴ"
 
-#: handlers/other.py:60
+#: handlers/other.py:102
 msgid "Настройки языка"
 msgstr "ゴノセッテイ"
 
-#: handlers/other.py:61
+#: handlers/other.py:104
 msgid "Выберите язык на котором будет работать бот"
 msgstr "ボットヲカラヲニュウリョクシテクダサイゴヲエラビテクダサイ"
 
-#: handlers/other.py:119
+#: handlers/other.py:186
 msgid ""
-"Условия использования:\n"
+"Terms of use @Terminatorvan_bot:\n"
 "\n"
 "1. Этот бот создан для помощи и развлечения. Он не претендует на мировое "
 "господство (пока что).\n"
@@ -353,16 +374,11 @@ msgid ""
 "7. Все донаты добровольные. Бот будет одинаково дружелюбен ко всем "
 "пользователям.\n"
 "\n"
-"8. Мы заботимся о вашей приватности и храним только необходимый минимум "
-"данных.\n"
-"\n"
-"9. В случае сбоев не переживайте - просто подождите немного или "
+"8. В случае сбоев не переживайте - просто подождите немного или "
 "перезапустите бота.\n"
 "\n"
-"10. Развлекайтесь, узнавайте новое и не забывайте - этот бот создан, "
-"чтобы делать ваш день чуточку лучше!"
 msgstr ""
-"使用条件:\n"
+"使用条件 @Terminatorvan_bot:\n"
 "\n"
 "1. このボットは、助けと楽しみのために作られました。世界支配を主張していません（今のところ）。\n"
 "\n"
@@ -378,21 +394,13 @@ msgstr ""
 "\n"
 "7. すべての寄付は任意です。ボットはすべてのユーザーに同様に親切です。\n"
 "\n"
-"8. あなたのプライバシーを気遣い、必要な最小限のデータのみを保存します。\n"
-"\n"
-"9. エラーが発生した場合は、少し待ってください、またはボットを再起動してください。\n"
-"\n"
-"10. 楽しんで、新しいことを学び、忘れないでください - このボットは、あなたの日を少しだけ良くするために作られました！"
+"8. エラーが発生した場合は、少し待ってください、またはボットを再起動してください。\n"
 
 #: handlers/private.py:55
 msgid "Действия отменены"
 msgstr "サクドウガキャンセルサレマシタ"
 
-#: handlers/private.py:63
-msgid " ... "
-msgstr " ... "
-
-#: handlers/private.py:73
+#: handlers/private.py:92
 msgid ""
 "... в мире, где машины стремятся к господству, он выбрал судьбу героя, "
 "создавая ботов, как первый шаг к спасению человечества через код и умные "
@@ -401,36 +409,13 @@ msgstr ""
 "... "
 "マシンガセイハイヲネラウセカイデ、カレハヒーローノウンメイヲエラビ、ボットヲツクルコトヲ、コウドトスマートアルゴリズムデニンゲンヲスクウダイイッポトシテエランダ。"
 
-#: handlers/private.py:106
+#: handlers/private.py:154
 msgid "Локальные изображения не найдены."
 msgstr "ローカルイメージガミツカリマセン"
 
-#: handlers/private.py:118
+#: handlers/private.py:166
 msgid "Здесь должна была быть картинка с котиком :("
 msgstr "ココニハネコノシャシンガアッタハズデス :("
-
-#: handlers/private.py:142
-msgid "Статистика в разработке..."
-msgstr "トウケイハカイハツチュウデス..."
-
-#: handlers/private.py:144
-msgid "На самом деле у программиста лапки 🙈"
-msgstr "ホントウハプログラマーガテヲアゲテマス 🙈"
-
-#: handlers/private.py:146
-msgid ""
-"Telegramm не отдает web_app_data: данные отправляются через sendData из "
-"WebApp (JavaScript), но не доходят до бота (Python). Передачу данных "
-"обрабатывает Telegram. Где-то тут происходит баг."
-msgstr ""
-"テレグラムハweb_app_dataヲオクッテクレマセン: データハWebApp (JavaScript) "
-"カラsendDataヲツカッテソウシンサレマスガ、ボット(Python)ニトドキマセン。データノソウシンハテレグラムガカンリシテマス。ドコカデバグガオキテイマス。"
-
-#: handlers/private.py:148
-msgid ""
-"Если кто-то понял о чем речь, и знает как пофиксить, пожалуйста, напишите"
-" в личку."
-msgstr "ドウイウコトカリカイシテ、コレヲシュウセイスルホウホウヲシッテイルヒトハ、ゼヒプライベートメッセージヲクダサイ。"
 
 #: handlers/start.py:49
 msgid "✅ <code>@{user_name}</code> - подписался на бота"
@@ -523,10 +508,3 @@ msgstr "フヨウナデータヲニュウリョクシマシタ、チイキノナ
 #: handlers/weather.py:372 handlers/weather.py:387
 msgid "Локация получена"
 msgstr "イチガシュトクサレマシタ"
-
-#~ msgid ""
-#~ "Условия использования:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "使用条件:\n"
-#~ "\n"
