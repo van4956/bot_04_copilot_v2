@@ -69,11 +69,11 @@ async def cmd_callback_service(callback: CallbackQuery, workflow_data: dict):
 async def cmd_callback_game(callback: CallbackQuery, workflow_data: dict):
     user_id = callback.from_user.id
     builder = InlineKeyboardBuilder()
-    builder.row(InlineKeyboardButton(text="🐍 Змейка", web_app=WebAppInfo(url=WEBAPP_URL_SNAKE)))
     builder.row(InlineKeyboardButton(text="🕹 Платформа", web_app=WebAppInfo(url=WEBAPP_URL_PLATFORM)))
+    builder.row(InlineKeyboardButton(text="🐍 Змейка", web_app=WebAppInfo(url=WEBAPP_URL_SNAKE)))
     builder.row(InlineKeyboardButton(text=_("Назад"), callback_data="back_to_mini"))
     # builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='mini_back_to_main'))
-    markup: InlineKeyboardMarkup = builder.adjust(1,1,1).as_markup() # type: ignore
+    markup: InlineKeyboardMarkup = builder.adjust(2,1,1).as_markup() # type: ignore
     await callback.message.edit_reply_markup(reply_markup=markup)
 
     # отправляем аналитику
@@ -82,7 +82,7 @@ async def cmd_callback_game(callback: CallbackQuery, workflow_data: dict):
                     category_name="/service",
                     command_name="/webapps")
 
-# callback "назад"
+# callback "назад" к сервисам и играм
 @miniapp_router.callback_query(F.data == 'back_to_mini')
 async def cmd_callback_about(callback: CallbackQuery):
     builder = InlineKeyboardBuilder()

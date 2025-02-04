@@ -85,13 +85,14 @@ async def author_cmd(callback: CallbackQuery, workflow_data: dict, state: FSMCon
     builder.row(InlineKeyboardButton(text="Linkedin",url="https://www.linkedin.com/in/ivan-goncharov-8a1982212/"))
     builder.row(InlineKeyboardButton(text="GitHub", url="https://github.com/van4956"))
     builder.row(InlineKeyboardButton(text="Kaggle",url="https://www.kaggle.com/ivan4956"))
+    builder.row(InlineKeyboardButton(text=_("Назад"), callback_data="back_to_info"))
     builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='about_back_to_main'))
     image_from_pc = FSInputFile("common/images/image_about.jpg")
     msg = await callback.message.answer_photo(image_from_pc,
                                caption=_('... в мире, где машины стремятся к господству, он выбрал судьбу героя, '
 
                                          'создавая ботов, как первый шаг к спасению человечества через код и умные алгоритмы.'),
-                                reply_markup=builder.adjust(2,2,1,).as_markup())
+                                reply_markup=builder.adjust(2,2,1,1,).as_markup())
 
     analytics = workflow_data['analytics']
     await analytics(user_id=callback.from_user.id,
@@ -119,6 +120,11 @@ async def callback_about(callback: CallbackQuery, state: FSMContext):
                                                 message_id=last_message_id)
         except Exception as e:
             logger.error("Ошибка при удалении last_message_id сообщения: %s", e)
+            # если не удалось удалить last_message_id, то пробуем удалить текущее сообщение
+            try:
+                await callback.message.delete()
+            except Exception as ex:
+                logger.error("Ошибка при удалении сообщения: %s", ex)
     else:
         try:
             await callback.message.delete()
