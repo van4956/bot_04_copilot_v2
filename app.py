@@ -40,7 +40,7 @@ from middlewares import counter, db, locale, throttle
 # Режим запуска:
 # docker == 1 - запуск в docker,
 # docker == 0 - запуск локально
-docker = 0
+docker = 1
 
 # Загружаем конфиг в переменную config
 config: Config = load_config()
