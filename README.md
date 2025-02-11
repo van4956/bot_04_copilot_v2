@@ -1,47 +1,47 @@
 # Telegram Bot Copilot v2
 
-*Многофункциональный [Telegram бот](https://t.me/Terminatorvan_bot) для повседневных задач с поддержкой нескольких языков.*
+*Multifunctional [Telegram bot](https://t.me/Terminatorvan_bot) for everyday tasks with multi-language support.*
 
-## Основные функции
+## Main Features
 
-- 🌊 Прогноз погоды
-- 💵 Курсы валют
-- 😺 Отправка случайных фото котиков
-- 🤖 Интеграция с LLM
-- 📖 Кулинарная книга
-- 🍕 Калькулятор пиццы
-- 💝 Система донатов
-- 🎮 Мини-игры
+- 🌊 Weather forecast
+- 💵 Currency exchange rates
+- 😺 Random cat photos
+- 🤖 LLM integration
+- 📖 Cookbook
+- 🍕 Pizza calculator
+- 💝 Donation system
+- 🎮 Mini-games
 
-## Технологии
+## Technologies
 
 - Backend: Python 3.11, aiogram 3.8.0
-- Базы данных: PostgreSQL, Redis
-- Мониторинг: InfluxDB, Grafana
-- Frontend (для мини-приложений): JavaScript, HTML5, CSS3
-- Контейнеризация: Docker
-- Локализация: Babel/gettext
+- Databases: PostgreSQL, Redis
+- Monitoring: InfluxDB, Grafana
+- Frontend (for mini-apps): JavaScript, HTML5, CSS3
+- Containerization: Docker
+- Localization: Babel/gettext
 
-## Установка и запуск
+## Installation and Launch
 
-1. Клонируйте репозиторий
-2. Создайте файл .env на основе .env.example и заполните необходимые переменные окружения
-3. Запустите проект через Docker Compose
+1. Clone the repository
+2. Create .env file based on .env.example and fill in the required environment variables
+3. Launch the project via Docker Compose
 
-## Структура проекта
+## Project Structure
 ```
 bot_04_copilot_v2/
-├── app.py                 # Точка входа
-├── handlers/              # Обработчики команд
-├── middlewares/           # Промежуточные обработчики
-├── database/              # Работа с БД
-├── common/                # Общие компоненты
-├── locales/               # Файлы локализации
-└── docs/                  # Веб-приложения
+├── app.py                 # Entry point
+├── handlers/              # Command handlers
+├── middlewares/          # Middleware processors
+├── database/             # Database operations
+├── common/               # Common components
+├── locales/              # Localization files
+└── docs/                 # Web applications
 ```
 
-## Аналитика
+## Analytics
 
-*Собираем и визуализируем аналитику с помощью InfluxDB и Grafana*
+*Collecting and visualizing analytics using InfluxDB and Grafana*
 
 ![Analytics](common/images/image_anal.jpg)
