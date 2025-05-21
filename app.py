@@ -1,7 +1,9 @@
 import logging
 
 # Настраиваем базовую конфигурацию логирования
-logging.basicConfig(level=logging.INFO, format='  -  [%(asctime)s] #%(levelname)-5s -  %(name)s:%(lineno)d  -  %(message)s')
+# WARNING - самое важное, для прода, для контейнера
+# INFO - подробный, для отладки
+logging.basicConfig(level=logging.WARNING, format='  -  [%(asctime)s] #%(levelname)-5s -  %(name)s:%(lineno)d  -  %(message)s')
 logger = logging.getLogger(__name__)
 
 # Настраиваем логгер для SQLAlchemy
