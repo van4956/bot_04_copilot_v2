@@ -10,7 +10,7 @@ class PlatformGame {
 
         // Настройки платформы
         this.paddleHeight = 10;
-        this.paddleWidth = 150;
+        this.paddleWidth = 120;
         this.paddleX = (this.canvas.width - this.paddleWidth) / 2;
         this.paddleSpeed = 7;
 
@@ -18,8 +18,8 @@ class PlatformGame {
         this.ballRadius = 5;
         this.ballX = this.canvas.width / 2;
         this.ballY = this.canvas.height - 30;
-        this.ballSpeedX = 1;
-        this.ballSpeedY = -1;
+        this.ballSpeedX = 1 * 1.3;
+        this.ballSpeedY = -1 * 1.3;
 
         // Настройки блоков
         this.blockRows = 5;
