@@ -10,7 +10,7 @@ class PlatformGame {
 
         // Настройки платформы
         this.paddleHeight = 10;
-        this.paddleWidth = 60;
+        this.paddleWidth = 150;
         this.paddleX = (this.canvas.width - this.paddleWidth) / 2;
         this.paddleSpeed = 7;
 
@@ -243,10 +243,11 @@ class PlatformGame {
         // Отскок от платформы
         if(this.ballY + this.ballSpeedY > this.canvas.height - this.ballRadius - this.paddleHeight) {
             if(this.ballX > this.paddleX && this.ballX < this.paddleX + this.paddleWidth) {
-                // Изменяем угол отскока в зависимости от места удара
                 let hitPoint = (this.ballX - (this.paddleX + this.paddleWidth/2)) / (this.paddleWidth/2);
-                this.ballSpeedX = hitPoint * 8; // Максимальная скорость по X
-                this.ballSpeedY = -this.ballSpeedY;
+                let angle = hitPoint * (Math.PI / 3); // угол отклонения: -60° ... +60°
+                let speed = Math.sqrt(this.ballSpeedX * this.ballSpeedX + this.ballSpeedY * this.ballSpeedY);
+                this.ballSpeedX = speed * Math.sin(angle);
+                this.ballSpeedY = -Math.abs(speed * Math.cos(angle));
             }
             else if(this.ballY > this.canvas.height) {
                 // Мяч упал - игра окончена

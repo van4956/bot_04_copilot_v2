@@ -34,7 +34,8 @@ BACK_TO_MAIN = __("Назад на главную ↩️")
 
 # Этот хэндлер будет срабатывать на команду "/cookbook"
 # и отправлять пользователю первую страницу книги с кнопками пагинации
-@cookbook_router.message(Command(commands='book'))
+# @cookbook_router.message(Command(commands='book'))
+@cookbook_router.message(F.text == "Книга 📖")
 async def process_cookbook_command(message: Message, state: FSMContext, session: AsyncSession, workflow_data: dict):
     # photo = FSInputFile("common/images/image_cook.jpg")
     await message.answer(text=_("Книга рецептов"),

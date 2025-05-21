@@ -40,7 +40,7 @@ from middlewares import counter, db, locale, throttle
 # Режим запуска:
 # docker == 1 - запуск в docker,
 # docker == 0 - запуск локально
-docker = 0
+docker = 1
 
 # Загружаем конфиг в переменную config
 config: Config = load_config()
@@ -148,7 +148,7 @@ dp.include_router(private.private_router)
 dp.include_router(weather.weather_router)
 dp.include_router(currency.currency_router)
 dp.include_router(cookbook.cookbook_router)
-dp.include_router(llm.llm_router)
+# dp.include_router(llm.llm_router)
 dp.include_router(miniapp.miniapp_router)
 dp.include_router(donate.donate_router)
 dp.include_router(group.group_router)

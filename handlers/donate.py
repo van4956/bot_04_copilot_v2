@@ -100,7 +100,7 @@ async def cmd_donate_input(callback: CallbackQuery, state: FSMContext):
         # Формируем инвойс для оплаты
         prices = [LabeledPrice(label="XTR", amount=amount)]
         timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        await callback.message.answer_invoice(title=_("Поддержать автора донатом"),
+        msg = await callback.message.answer_invoice(title=_("Поддержать автора донатом"),
                                                 description=_("На сумму"),
                                                 prices=prices,
                                                 provider_token="",
@@ -108,6 +108,9 @@ async def cmd_donate_input(callback: CallbackQuery, state: FSMContext):
                                                 currency="XTR",
                                                 reply_markup=kb.as_markup()
                                             )
+        # Сохраняем message_id в FSMContext
+        await state.update_data(last_message_id=msg.message_id)
+
         await state.set_state(Donate.donate_send)
 
 
@@ -128,7 +131,7 @@ async def cmd_donate_input_x(message: Message,  state: FSMContext):
         # Формируем инвойс для оплаты
         prices = [LabeledPrice(label="XTR", amount=amount)]
         timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        await message.answer_invoice(title=_("Поддержать автора донатом"),
+        msg = await message.answer_invoice(title=_("Поддержать автора донатом"),
                                     description=_("На сумму"),
                                     prices=prices,
                                     provider_token="",
@@ -136,6 +139,9 @@ async def cmd_donate_input_x(message: Message,  state: FSMContext):
                                     currency="XTR",
                                     reply_markup=kb.as_markup()
                                     )
+        # Сохраняем message_id в FSMContext
+        await state.update_data(last_message_id=msg.message_id)
+
         await state.set_state(Donate.donate_send)
 
     else:
@@ -182,10 +188,21 @@ async def on_successfull_payment(message: Message, state: FSMContext, workflow_d
     user_id = message.from_user.id
 
     data = await state.get_data()
-    donate_info = data.get('donate_info', {})
+    donate_info = data.get('donate_info') or {}
     donate_info[t_id] = invoice_payload
-    print('donate_info: ', donate_info)
+    # print('donate_info: ', donate_info)
     await state.update_data(donate_info=donate_info)
+
+    last_message_id = data.get('last_message_id')
+
+    # Если есть предыдущее сообщение, удаляем его
+    if last_message_id:
+        try:
+            await message.bot.delete_message(chat_id=user_id,
+                                message_id=last_message_id)
+        except Exception as e:
+            logger.error("Ошибка при удалении last_message_id сообщения: %s", e)
+
 
     await message.answer(
         text=_("<b>Спасибо!</b>\n"
@@ -208,3 +225,5 @@ async def on_successfull_payment(message: Message, state: FSMContext, workflow_d
     await analytics(user_id=user_id,
                     category_name="/income",
                     command_name="/donate")
+
+    await message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())

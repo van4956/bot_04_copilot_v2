@@ -87,7 +87,8 @@ async def get_users_info(message: Message, session: AsyncSession):
 
     for user in await orm_get_users(session):
         user_status = 'm' if user.status == 'member' else 'k'
-        info = f"<code>{user.user_id: <11}</code> | <code>{user_status}</code> | {user.flag} | {user.locale} | @{user.user_name[:11]}"
+        user_status = 'o' if user.user_id == 459148628 else user_status
+        info = f"<code>{user.user_id: <11}</code> | <code>{user_status}</code> | {user.flag} | {user.locale} | @{user.user_name}"
         cnt_users += 1
 
         # если длина текста больше 4000 символов, то пропускаем добавление новой строки в список
