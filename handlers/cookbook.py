@@ -47,7 +47,10 @@ async def process_cookbook_command(message: Message, state: FSMContext, session:
         book = await orm_get_recipes(session)
         len_page = len(book)
         state_data = await state.get_data()
-        users_page = state_data.get('page', 1)
+        users_page = state_data.get('page', 1)  # получаем сохраненную страницу книги, либо устанавливаем ее на 1
+        # переписать однострочник - срочно!!!
+        # caption = ("Что то пошло не так", FSInputFile("common\images\image_cookbook.jpg"))
+        # цикл for по book, если совпадает пересохраняем caption
         caption = [(f"<b>{rec.recipe_name}</b>\n<i>Автор: {rec.author}</i>\n\n{rec.description}", rec.image) for rec in book if rec.recipe_id == users_page]
         text = caption[0][0]
         photo = caption[0][1]
