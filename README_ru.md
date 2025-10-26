@@ -1,6 +1,6 @@
 # Telegram Bot Copilot v2
 
-*Многофункциональный [Telegram бот](https://t.me/Terminatorvan_bot) для повседневных задач с поддержкой нескольких языков.*
+*Многофункциональный [Telegram бот](https://t.me/Terminatorvan_bot) для повседневных задач с поддержкой двух языков.*
 
 ## Основные функции
 
@@ -16,11 +16,10 @@
 ## Технологии
 
 - Backend: Python 3.11, aiogram 3.8.0
-- Базы данных: PostgreSQL, Redis
-- Мониторинг: InfluxDB, Grafana
+- Базы данных: PostgreSQL
 - Frontend (для мини-приложений): JavaScript, HTML5, CSS3
 - Контейнеризация: Docker
-- Локализация: Babel/gettext
+- Локализация: Babel/gettext (RU/EN)
 
 ## Установка и запуск
 
@@ -40,8 +39,7 @@ bot_04_copilot_v2/
 └── docs/                  # Веб-приложения
 ```
 
-## Аналитика
+## Версии
 
-*Собираем и визуализируем аналитику с помощью InfluxDB и Grafana*
-
-![Analytics](common/images/image_anal.jpg)
+- **main** - упрощенная версия (PostgreSQL, 2 языка)
+- **full-featured** - полная версия (PostgreSQL, Redis, InfluxDB, Grafana, 4 языка)

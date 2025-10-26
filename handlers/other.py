@@ -76,12 +76,6 @@ async def process_help_command(message: Message, workflow_data: dict, state: FSM
     # Сохраняем message_id в FSMContext
     await state.update_data(last_message_id=msg.message_id)
 
-    # Анализ использования команды
-    analytics = workflow_data['analytics']
-    await analytics(user_id=message.from_user.id,
-                    category_name="/options",
-                    command_name="/info")
-
 
 # Клавиатура выбора языка
 def get_keyboard():
@@ -148,11 +142,6 @@ async def update_locale_cmd(callback: CallbackQuery, session: AsyncSession, stat
         await callback.answer("選択された: 🇯🇵 日本語")  # Отправляем всплывашку
         await callback.message.answer("現在の言語 \n\n 🇯🇵 日本語",   # Отправляем новое сообщение
                                       reply_markup=keyboard.get_keyboard("テンキ 🌊", "カワセ 💵", "ネコ 🐱", "エルエルエム 🤖", sizes=(2, 2, ), placeholder='⬇️'))
-
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/options",
-                    command_name="/language")
 
 
 # секретный хендлер, покажет содержимое data пользователя
@@ -264,9 +253,3 @@ async def cmd_callback_about(callback: CallbackQuery, state: FSMContext, workflo
 
     # Сохраняем message_id в FSMContext
     await state.update_data(last_message_id=msg.message_id)
-
-    # Анализ использования команды
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/options",
-                    command_name="/info")

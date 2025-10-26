@@ -182,13 +182,8 @@ async def water_cmd(message: Message, workflow_data: dict):
     user_id = message.from_user.id
     await message.answer(_("Выберите период прогноза"),
                          reply_markup=keyboard.get_keyboard(_("Текущий ⏺"), _("На 3 дня ⏩"), _("Назад на главную ↩️"),
-                                                                 sizes=(2, 1,),
-                                                                 placeholder='⬇️'))
-
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/service",
-                    command_name="/weather")
+                                                                sizes=(2, 1,),
+                                                                placeholder='⬇️'))
 
 
 # Функция получения погоды через OpenWeatherMap

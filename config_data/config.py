@@ -33,43 +33,12 @@ class DataBase:
     db_post: str
 
 @dataclass
-class Redis:
-    """
-    Класс для хранения информации о Redis
-    """
-    host: str
-    port: int
-
-@dataclass
-class InfluxDB:
-    """
-    Класс для хранения информации о InfluxDB
-    """
-    admin: str
-    password: str
-    url: str
-    token: str
-    bucket: str
-    org: str
-
-@dataclass
-class Grafana:
-    """
-    Класс для хранения информации о Grafana
-    """
-    admin: str
-    password: str
-
-@dataclass
 class Config:
     """
     Основной класс конфигурации всего приложения
     """
     tg_bot: TgBot
     db: DataBase
-    influx: InfluxDB
-    redis: Redis
-    grafana: Grafana
 
 # Функция загрузки конфигурации из файла окружения .env
 def load_config(path: str | None = None) -> Config:
@@ -91,14 +60,4 @@ def load_config(path: str | None = None) -> Config:
                                api_currency=env('API_CURRENCY'),
                                api_weather=env('API_WEATHER')),
                   db=DataBase(db_post=env('DB_POST'),
-                              db_lite=env('DB_LITE')),
-                 redis=Redis(host=env('REDIS_HOST'),
-                             port=env('REDIS_PORT')),
-                  influx=InfluxDB(admin=env('INFLUXDB_ADMIN_USER'),
-                                  password=env('INFLUXDB_ADMIN_PASSWORD'),
-                                  url=env('INFLUXDB_URL'),
-                                  token=env('INFLUXDB_TOKEN'),
-                                  bucket=env('INFLUXDB_BUCKET'),
-                                  org=env('INFLUXDB_ORG')),
-                  grafana=Grafana(admin=env('GF_SECURITY_ADMIN_USER'),
-                                  password=env('GF_SECURITY_ADMIN_PASSWORD')))
+                              db_lite=env('DB_LITE')))

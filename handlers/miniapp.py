@@ -59,12 +59,6 @@ async def cmd_callback_service(callback: CallbackQuery, workflow_data: dict):
     markup: InlineKeyboardMarkup = builder.adjust(2,1,1).as_markup() # type: ignore
     await callback.message.edit_reply_markup(reply_markup=markup)
 
-    # отправляем аналитику
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/service",
-                    command_name="/webapps")
-
 # callback "Игры"
 @miniapp_router.callback_query(F.data == 'game_miniapp')
 async def cmd_callback_game(callback: CallbackQuery, workflow_data: dict):
@@ -77,12 +71,6 @@ async def cmd_callback_game(callback: CallbackQuery, workflow_data: dict):
     # builder.row(InlineKeyboardButton(text=_("Назад на главную ↩️"), callback_data='mini_back_to_main'))
     markup: InlineKeyboardMarkup = builder.adjust(2,1,1).as_markup() # type: ignore
     await callback.message.edit_reply_markup(reply_markup=markup)
-
-    # отправляем аналитику
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/service",
-                    command_name="/webapps")
 
 # callback "назад" к сервисам и играм
 @miniapp_router.callback_query(F.data == 'back_to_mini')
@@ -110,14 +98,10 @@ async def handle_web_app_data(message: Message, session: AsyncSession, workflow_
     try:
         data = json.loads(message.web_app_data.data)
         logger.info("Parsed data: %s", data)
-        analytics = workflow_data['analytics']
         score=data.get('score', 0)
 
         if data.get('action') == 'game_start' and data.get('game') == 'snake':
             logger.info("Starting snake game for user %s", message.from_user.id)
-            await analytics(user_id=message.from_user.id,
-                            category_name="/game",
-                            command_name="/snake")
 
         if data.get('action') == 'game_end' and data.get('game') == 'snake':
             logger.info("Ending snake game for user %s with score %s", message.from_user.id, data.get('score', 0))

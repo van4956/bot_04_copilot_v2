@@ -21,15 +21,10 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import Update
 from aiogram.fsm.strategy import FSMStrategy
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import ConstI18nMiddleware, I18n, SimpleI18nMiddleware, FSMI18nMiddleware
-from redis.asyncio.client import Redis
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from influxdb_client import InfluxDBClient, Point # type: ignore
-from influxdb_client.client.write_api import SYNCHRONOUS
-from influxdb_client.rest import ApiException
 
 from config_data.config import Config, load_config
 
@@ -47,46 +42,9 @@ docker = 1
 # Загружаем конфиг в переменную config
 config: Config = load_config()
 
-# Инициализируем функцию для сбора аналитики, взаимодействуем с InfluxDB и Grafana
-async def analytics(user_id: int, command_name: str, category_name: str):
-    """Функция для сбора аналитики, взаимодействуем с InfluxDB и Grafana"""
-    if docker == 1:
-        try:
-            # Настройка клиента для подключения к InfluxDB
-            client = InfluxDBClient(url=config.influx.url, token=config.influx.token, org=config.influx.org)
-            write_api = client.write_api(write_options=SYNCHRONOUS)
-            current_time = datetime.now(timezone.utc)
-
-            # Создаем Point для отправки в InfluxDB с временной меткой
-            point = (
-                    Point("bot_command_usage")
-                    .tag("category", category_name)
-                    .tag("command", command_name)
-                    .tag("user_id", user_id)
-                    .tag("ping", "ping")
-                    .time(current_time)
-                    .field("value", 1)
-                    )
-
-            # Записываем point в InfluxDB
-            write_api.write(bucket=config.influx.bucket, org=config.influx.org, record=point)
-
-        except (ConnectionError, TimeoutError, ApiException) as e:
-            logging.error("InfluxDB write error: %s", e)
-        finally:
-            client.close()
-    else: # если docker == 0
-        pass
-
-
 # Инициализируем объект хранилища
-if docker == 1: # данные хранятся на отдельном сервере Redis
-    storage = RedisStorage(
-        redis=Redis(
-            host=config.redis.host,
-            port=config.redis.port))
-else: # данные хранятся в оперативной памяти, при перезапуске всё стирается (для тестов и разработки)
-    storage = MemoryStorage()
+# данные хранятся в оперативной памяти, при перезапуске всё стирается
+storage = MemoryStorage()
 
 # формируем рабочий токен бота если docker == 1, иначе используем тестовый токен
 if docker == 1:
@@ -128,8 +86,7 @@ session_maker = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_c
 some_var_1 = 1
 some_var_2 = 'Some text'
 dp.workflow_data.update({'my_int_var': some_var_1,
-                         'my_text_var': some_var_2,
-                         'analytics': analytics}) # функция для сбора аналитики
+                         'my_text_var': some_var_2})
 
 # Подключаем мидлвари
 dp.update.outer_middleware(throttle.ThrottleMiddleware())  # тротлинг чрезмерно частых действий пользователей

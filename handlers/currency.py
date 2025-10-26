@@ -100,11 +100,6 @@ async def process_reopen(message: Message, state: FSMContext, workflow_data: dic
                          reply_markup=keyboard.markup_num())
     await state.set_state(Currency.amount)
 
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/service",
-                    command_name="/currency")
-
 @currency_router.callback_query(Currency.amount, F.data.startswith("num_"))
 async def process_amout(callback: CallbackQuery, state: FSMContext):
     state_data = await state.get_data()

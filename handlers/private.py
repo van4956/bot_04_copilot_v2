@@ -94,11 +94,6 @@ async def author_cmd(callback: CallbackQuery, workflow_data: dict, state: FSMCon
                                          'создавая ботов, как первый шаг к спасению человечества через код и умные алгоритмы.'),
                                 reply_markup=builder.adjust(2,2,1,1,).as_markup())
 
-    analytics = workflow_data['analytics']
-    await analytics(user_id=callback.from_user.id,
-                    category_name="/options",
-                    command_name="/help")
-
     # Сохраняем message_id в FSMContext
     await state.update_data(last_message_id=msg.message_id)
 
@@ -169,8 +164,3 @@ async def cat_cmd(message: Message, workflow_data: dict):
         logger.error("Error: %s", str(e))
         text_error = f'Error:\n{str(e)}'
         await message.answer(text_error)
-
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/service",
-                    command_name="/cat")

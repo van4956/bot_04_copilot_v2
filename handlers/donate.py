@@ -221,9 +221,4 @@ async def on_successfull_payment(message: Message, state: FSMContext, workflow_d
     await state.set_state(None)
     await state.update_data(donate_amount=None, donate_info=None)
 
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/income",
-                    command_name="/donate")
-
     await message.answer(_('Главная панель'), reply_markup=keyboard.start_keyboard())

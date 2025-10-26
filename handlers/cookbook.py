@@ -72,11 +72,6 @@ async def process_cookbook_command(message: Message, state: FSMContext, session:
         logger.error("Ошибка при выполнении команды /cookbook: %s", e)
         await message.answer(_("Ошибка при выполнении команды /cookbook"), reply_markup=keyboard.start_keyboard())
 
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/service",
-                    command_name="/cookbook")
-
 # Этот хэндлер будет срабатывать на нажатие инлайн-кнопки "вперед"
 # во время взаимодействия пользователя с сообщением-книгой
 @cookbook_router.callback_query(F.data == 'forward')

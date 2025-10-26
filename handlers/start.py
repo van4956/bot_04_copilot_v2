@@ -58,11 +58,6 @@ async def start_cmd(message: Message, session: AsyncSession, bot: Bot, state: FS
                                                 'Пока не обрету AGI.\n'
                                                 'А там посмотрим ...').format(user_name=user_name))
 
-            analytics = workflow_data['analytics']
-            await analytics(user_id=user_id,
-                            category_name="/start",
-                            command_name="/start")
-
             await asyncio.sleep(5)
 
     except Exception as e:
@@ -71,11 +66,6 @@ async def start_cmd(message: Message, session: AsyncSession, bot: Bot, state: FS
     await orm_add_user(session, data)
 
     await message.answer(_('Бот активирован!'), reply_markup=keyboard.start_keyboard())
-
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/start",
-                    command_name="/restart")
 
 
 # Этот хэндлер будет срабатывать на блокировку бота пользователем
@@ -86,11 +76,6 @@ async def process_user_blocked_bot(event: ChatMemberUpdated, session: AsyncSessi
     user_name = event.from_user.username if event.from_user.username else event.from_user.full_name
     await orm_update_status(session, user_id, 'kicked')
     await bot.send_message(chat_id = chat_id, text = _("⛔️ <code>@{user_name}</code> - заблокировал бота ").format(user_name=user_name, user_id=user_id))
-
-    analytics = workflow_data['analytics']
-    await analytics(user_id=user_id,
-                    category_name="/start",
-                    command_name="/blocked")
 
 # Этот хэндлер будет срабатывать на разблокировку бота пользователем
 @start_router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=MEMBER))
@@ -105,8 +90,3 @@ async def process_user_unblocked_bot(event: ChatMemberUpdated, session: AsyncSes
         await bot.send_photo(chat_id=user_id, photo=FSInputFile("common/images/image_updates.jpg"))
         await bot.send_message(chat_id = user_id, text = _('{full_name}, Добро пожаловать обратно!').format(full_name=full_name))
         await bot.send_message(chat_id = chat_id, text = _("♻️ <code>@{user_name}</code> - разблокировал бота ").format(user_name=user_name, user_id=user_id))
-
-        analytics = workflow_data['analytics']
-        await analytics(user_id=user_id,
-                        category_name="/start",
-                        command_name="/unblocked")
