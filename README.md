@@ -7,7 +7,6 @@
 - 🌊 Weather forecast
 - 💵 Currency exchange rates
 - 😺 Random cat photos
-- 🤖 LLM integration
 - 📖 Cookbook
 - 🍕 Pizza calculator
 - 💝 Donation system
@@ -39,6 +38,13 @@ bot_04_copilot_v2/
 ├── locales/              # Localization files
 └── docs/                 # Web applications
 ```
+
+
+## Project Branches
+
+- **main** - simplified version (PostgreSQL, 2 languages)
+- **full-featured** - full version (PostgreSQL, Redis, InfluxDB, Grafana, 4 languages)
+
 
 ## Analytics
 

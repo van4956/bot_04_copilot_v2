@@ -79,23 +79,6 @@ class LocaleFromDBMiddleware(BaseMiddleware):
             if not data.get("workflow_data"):
                 data["workflow_data"] = self.workflow_data
 
-                # Получаем функцию analytics из workflow_data
-                analytics = self.workflow_data.get("analytics")
-
-                # Получаем ID пользователя
-                user_id = await get_user_id(event)
-                user_id=user_id if user_id else 0000000000000
-                # ic(user_id)
-
-                if analytics:
-                    # Отправляем пинг по всем апдейтам в InfluxDB
-                    # Если событие от пользователя, используем user_id
-                    # для неопознанных используем ID 0000000000000
-                    await analytics(user_id=user_id,
-                                    category_name="middleware",
-                                    command_name="ping")
-                    # logger.info("Отправлен пинг в InfluxDB =========================")
-
             # Находим локаль в FSM
             fsm_context = data.get("state")
             fsm_data = await fsm_context.get_data()

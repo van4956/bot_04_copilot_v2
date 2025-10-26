@@ -36,7 +36,7 @@ BACK_TO_MAIN = __("Назад на главную ↩️")
 # и отправлять пользователю первую страницу книги с кнопками пагинации
 # @cookbook_router.message(Command(commands='book'))
 @cookbook_router.message(F.text == "Книга 📖")
-async def process_cookbook_command(message: Message, state: FSMContext, session: AsyncSession, workflow_data: dict):
+async def process_cookbook_command(message: Message, state: FSMContext, session: AsyncSession):
     # photo = FSInputFile("common/images/image_cook.jpg")
     await message.answer(text=_("Книга рецептов"),
                          reply_markup=keyboard.del_kb)

@@ -60,7 +60,7 @@ class AddProduct(StatesGroup):
 
 # команда /admin
 @admin_router.message(Command("a"))
-async def cmd_admin(message: Message, bot: Bot):
+async def cmd_admin(message: Message, bot: Bot, workflow_data: dict):
     if message.from_user.id in bot.admin_list:
         await message.answer(text=('Админка:\n\n'
                                     '/a - режим адменистратора\n'
@@ -74,13 +74,13 @@ async def cmd_admin(message: Message, bot: Bot):
 
 # Here is some example !ping command ...
 @admin_router.message(IsAdminListFilter(is_admin=True), Command(commands=["ping"]),)
-async def cmd_ping_bot(message: Message, counter):
+async def cmd_ping_bot(message: Message, counter, workflow_data: dict):
     await message.reply(f"ping-{counter}")
 
 
 # команда /users, показывает полную информацию всех зарегистрированных пользователей
 @admin_router.message(or_f(Command("users"), F.text == "Информация о пользователях"))
-async def get_users_info(message: Message, session: AsyncSession):
+async def get_users_info(message: Message, session: AsyncSession, workflow_data: dict):
     all_info = ['Информация зарегистрированных пользователей:\n']
     cnt_users = 0
     len_text = len(all_info)
@@ -105,7 +105,7 @@ async def get_users_info(message: Message, session: AsyncSession):
 
 
 @admin_router.message(F.text == "Ассортимент Книги")
-async def assortment_cookbook(message: Message, session: AsyncSession):
+async def assortment_cookbook(message: Message, session: AsyncSession, workflow_data: dict):
     for recipe in await orm_get_recipes(session):
         caption = f"<b>{recipe.recipe_name}</b>\n<i>Автор: {recipe.author}</i>\n\n{recipe.description}\n"
         # Обрезаем подпись, если она превышает 1024 символа
@@ -126,7 +126,7 @@ async def assortment_cookbook(message: Message, session: AsyncSession):
     await message.answer("ОК, вот весь список рецептов ⏫", reply_markup=ADMIN_KB)
 
 @admin_router.callback_query(F.data.startswith('delete_'))
-async def delete_recipe_callback(callback: CallbackQuery, session: AsyncSession):
+async def delete_recipe_callback(callback: CallbackQuery, session: AsyncSession, workflow_data: dict):
     recipe_id = callback.data.split("_")[-1]
     await orm_delete_recipe(session, int(recipe_id))
     await callback.answer("Рецепт удален") # метод answer обязателен; строка по желанию (выведет всплывашку)
@@ -138,7 +138,7 @@ async def delete_recipe_callback(callback: CallbackQuery, session: AsyncSession)
 
 # отлавливаем пустое состояние, если data начинается на change_
 @admin_router.callback_query(StateFilter(None), F.data.startswith("change_"))
-async def change_product_callback(callback: CallbackQuery, state: FSMContext, session: AsyncSession):
+async def change_product_callback(callback: CallbackQuery, state: FSMContext, session: AsyncSession, workflow_data: dict):
     recipe_id = callback.data.split("_")[-1] # определяем id продукта
     product_for_change = await orm_get_recipe(session, int(recipe_id)) # получаем данные продукта
     # ic(product_for_change)
@@ -150,7 +150,7 @@ async def change_product_callback(callback: CallbackQuery, state: FSMContext, se
 
 # ловим кнопку "Добавить рецепт", проверяем чтобы состояние было пустым
 @admin_router.message(StateFilter(None), F.text == "Добавить рецепт")
-async def add_product(message: Message, state: FSMContext):
+async def add_product(message: Message, state: FSMContext, workflow_data: dict):
     await message.answer("Введите название рецепта", # отправляем сообщение
                          reply_markup=ReplyKeyboardRemove() # удаляем клавиатуру
                          )
@@ -161,7 +161,7 @@ async def add_product(message: Message, state: FSMContext):
 # после того как встали в состояние номер 1
 @admin_router.message(StateFilter("*"), Command("отмена")) # ловим любое состояние пользователя, если введена команда "отмена", либо текст "отмена"
 @admin_router.message(StateFilter("*"), or_f(F.text.casefold() == "отмена", F.text == "."))
-async def cancel_handler(message: Message, state: FSMContext) -> None:
+async def cancel_handler(message: Message, state: FSMContext, workflow_data: dict) -> None:
     current_state = await state.get_state() # получаем текущее состояние
     if current_state is None: # если состояния пустое, то ни чего не делаем
         return
@@ -175,7 +175,7 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 # вернутся на шаг назад (на прошлое состояние)
 @admin_router.message(StateFilter("*"), Command("назад"))
 @admin_router.message(StateFilter("*"), F.text.casefold() == "назад")
-async def back_handler(message: Message, state: FSMContext) -> None:
+async def back_handler(message: Message, state: FSMContext, workflow_data: dict) -> None:
     current_state = await state.get_state() # получаем текущее состояние
 
     if current_state == AddProduct.recipe_name:
@@ -194,7 +194,7 @@ async def back_handler(message: Message, state: FSMContext) -> None:
 
 # ловим состояние ожидания name, и наличие вводимого текста, либо две точки
 @admin_router.message(AddProduct.recipe_name, or_f(F.text, F.text == '..'))
-async def add_name(message: Message, state: FSMContext):
+async def add_name(message: Message, state: FSMContext, workflow_data: dict):
     if message.text == '..':
         await state.update_data(recipe_name=AddProduct.product_for_change.recipe_name)
     else:
@@ -209,12 +209,12 @@ async def add_name(message: Message, state: FSMContext):
 
 # хендлер для отлова некорректных ввода для состояния name
 @admin_router.message(AddProduct.recipe_name)
-async def add_name2(message: Message):
+async def add_name2(message: Message, workflow_data: dict):
     await message.answer("Вы ввели не допустимые данные, введите название рецепта")
 
 # ловим состояние ожидания author, и, если поступает текст, или точка
 @admin_router.message(AddProduct.author, or_f(F.text, F.text == '..'))
-async def add_author(message: Message, state: FSMContext):
+async def add_author(message: Message, state: FSMContext, workflow_data: dict):
     if message.text == '..':
         await state.update_data(author=AddProduct.product_for_change.author)
     else:
@@ -224,12 +224,12 @@ async def add_author(message: Message, state: FSMContext):
 
 # хендлер для отлова некорректных ввода для состояния author
 @admin_router.message(AddProduct.author)
-async def add_author2(message: Message):
+async def add_author2(message: Message, workflow_data: dict):
     await message.answer("Вы ввели не допустимые данные, введите имя автора рецепта")
 
 # ловим стостяние ожидание description, и если поступает текст, или точка
 @admin_router.message(AddProduct.description, or_f(F.text, F.text == '..'))
-async def add_description(message: Message, state: FSMContext):
+async def add_description(message: Message, state: FSMContext, workflow_data: dict):
     if message.text == '..':
         await state.update_data(description=AddProduct.product_for_change.description)
     else:
@@ -239,13 +239,13 @@ async def add_description(message: Message, state: FSMContext):
 
 # хендлер для отлова некорректного ввода состояния description
 @admin_router.message(AddProduct.description)
-async def add_description2(message: Message):
+async def add_description2(message: Message, workflow_data: dict):
     await message.answer("Вы ввели не допустимые данные, введите описание рецепта")
 
 
 # ловим стостяние ожидание price, и если поступает текст, либо точка
 @admin_router.message(AddProduct.price, or_f(F.text, F.text == '..'))
-async def add_price(message: Message, state: FSMContext):
+async def add_price(message: Message, state: FSMContext, workflow_data: dict):
     if message.text == '..':
         await state.update_data(price=AddProduct.product_for_change.price)
     else:
@@ -261,13 +261,13 @@ async def add_price(message: Message, state: FSMContext):
 
 # хендлер для отлова некорректных ввода для состояния price
 @admin_router.message(AddProduct.price)
-async def add_price2(message: Message):
+async def add_price2(message: Message, workflow_data: dict):
     await message.answer("Вы ввели не допустимые данные, введите количество приготовлений")
 
 
 # ловим данные для состояние image и потом выходим из состояний
 @admin_router.message(AddProduct.image, or_f(F.photo, F.text == '..'))
-async def add_image(message: Message, state: FSMContext, session: AsyncSession):
+async def add_image(message: Message, state: FSMContext, session: AsyncSession, workflow_data: dict):
     if message.text == '..':
         await state.update_data(image=AddProduct.product_for_change.image)
     else:
@@ -293,5 +293,5 @@ async def add_image(message: Message, state: FSMContext, session: AsyncSession):
     AddProduct.product_for_change = None
 
 @admin_router.message(AddProduct.image)
-async def add_image2(message: Message):
+async def add_image2(message: Message, workflow_data: dict):
     await message.answer("Отправьте фото блюда")
